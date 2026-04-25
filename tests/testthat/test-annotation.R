@@ -28,13 +28,13 @@ test_that("annotate_doi_list_europmc returns data frame with doi column for know
 
 # ── CrossRef ──────────────────────────────────────────────────────────────────
 
-test_that("annotate_doi_to_bibtex_cross_ref returns a list", {
+test_that("annotate_doi_to_bibtex_cross_ref returns character bibtex string", {
   skip_on_cran()
   result <- tryCatch(
     annotate_doi_to_bibtex_cross_ref("10.1038/nature12373"),
-    error = function(e) list()
+    error = function(e) character(0)
   )
-  expect_type(result, "list")
+  expect_type(result, "character")
 })
 
 # ── Google Books ──────────────────────────────────────────────────────────────

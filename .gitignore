@@ -14,7 +14,6 @@ src/*.so
 src/*.dll
 
 # devtools / roxygen
-man/
 DESCRIPTION.orig
 NAMESPACE.orig
 

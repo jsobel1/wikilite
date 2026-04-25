@@ -113,7 +113,7 @@
 #' @noRd
 .build_cocite_data <- function(doi_df, min_shared_dois = 1L) {
 
-  art_dois  <- split(unique(doi_df$citation_fetched), doi_df$art)
+  art_dois  <- lapply(split(doi_df$citation_fetched, doi_df$art), unique)
   art_names <- names(art_dois)
   n_arts    <- length(art_names)
 
