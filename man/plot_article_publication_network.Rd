@@ -2,7 +2,7 @@
 % Please edit documentation in R/interactive_viz.R
 \name{plot_article_publication_network}
 \alias{plot_article_publication_network}
-\title{Build an interactive article–publication bipartite network}
+\title{Build an interactive article-publication bipartite network}
 \usage{
 plot_article_publication_network(
   articles,
@@ -15,7 +15,7 @@ plot_article_publication_network(
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string — upper date limit in ISO 8601 format
+\item{date_an}{Character string. Upper date limit in ISO 8601 format
 (default: \code{"2024-01-01T00:00:00Z"}).}
 
 \item{top_n_dois}{Maximum number of publication nodes to display (default:

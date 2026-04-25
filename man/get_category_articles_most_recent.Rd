@@ -4,10 +4,13 @@
 \alias{get_category_articles_most_recent}
 \title{Retrieve the most recent revision for multiple Wikipedia articles}
 \usage{
-get_category_articles_most_recent(list_art)
+get_category_articles_most_recent(list_art, date_an = NULL)
 }
 \arguments{
 \item{list_art}{Character vector of English Wikipedia article titles.}
+
+\item{date_an}{Reserved for future use; currently ignored.  Pass \code{NULL}
+(default).}
 }
 \value{
 A combined data frame of most recent revisions, or \code{NULL} if

@@ -13,7 +13,7 @@ plot_interactive_timeline(
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string — upper date limit for revision queries in
+\item{date_an}{Character string. Upper date limit for revision queries in
 ISO 8601 format (default: \code{"2024-01-01T00:00:00Z"}).}
 
 \item{color_by}{One of \code{"sciscore"} (colour bars by SciScore, default),

@@ -29,3 +29,4 @@ tests/testthat/*.log
 # OS
 .DS_Store
 Thumbs.db
+*.pdf

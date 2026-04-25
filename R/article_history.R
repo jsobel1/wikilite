@@ -254,6 +254,8 @@ get_category_articles_creation <- function(list_art) {
 #' \code{list_art} and row-binds the results.
 #'
 #' @param list_art Character vector of English Wikipedia article titles.
+#' @param date_an Reserved for future use; currently ignored.  Pass \code{NULL}
+#'   (default).
 #' @return A combined data frame of most recent revisions, or \code{NULL} if
 #'   all requests fail.
 #' @export
@@ -263,7 +265,7 @@ get_category_articles_creation <- function(list_art) {
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
 #' }
-get_category_articles_most_recent <- function(list_art) {
+get_category_articles_most_recent <- function(list_art, date_an = NULL) {
   if (length(list_art) == 0L) return(NULL)
   dfn_art <- NULL
   for (art in seq_along(list_art)) {
@@ -719,17 +721,25 @@ plot_navi_timeline <- function(article_initial_table_sel, article_info_table) {
 #' }
 page_view_plot <- function(article_name, ymax = NA,
                            start = "2020010100", end = "2020050100") {
-  page_view      <- data.frame(
-    WikipediR::article_pageviews(
-      project = "en.wikipedia",
-      article = article_name,
-      start   = start,
-      end     = end
-    )
+  start_date <- as.Date(as.POSIXlt(start, format = "%Y%m%d%H", tz = "GMT"))
+  end_date   <- as.Date(as.POSIXlt(end,   format = "%Y%m%d%H", tz = "GMT"))
+
+  art_enc <- utils::URLencode(gsub(" ", "_", article_name), reserved = TRUE)
+  url <- paste0(
+    "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/",
+    "en.wikipedia/all-access/all-agents/", art_enc, "/daily/", start, "/", end
   )
-  page_view$date <- lubridate::ymd(page_view$date)
-  start_date     <- as.Date(as.POSIXlt(start, format = "%Y%m%d%H", tz = "GMT"))
-  end_date       <- as.Date(as.POSIXlt(end,   format = "%Y%m%d%H", tz = "GMT"))
+  resp <- tryCatch(
+    httr::GET(url, httr::user_agent("wikilite R package")),
+    error = function(e) NULL
+  )
+  if (is.null(resp) || httr::status_code(resp) != 200L) {
+    message("No pageview data returned for: ", article_name)
+    return(invisible(NULL))
+  }
+  parsed    <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+  page_view <- as.data.frame(parsed$items)
+  page_view$date <- as.Date(substr(page_view$timestamp, 1L, 8L), format = "%Y%m%d")
 
   p <- ggplot2::ggplot(page_view, ggplot2::aes(date, views)) +
     ggplot2::geom_area(fill = "darkgreen") +

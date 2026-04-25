@@ -49,8 +49,8 @@ patterns.  Access via \code{pkg.env$doi_regexp},
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/jsobel1/WikiCitationHistoRy}
-  \item Report bugs at \url{https://github.com/jsobel1/WikiCitationHistoRy/issues}
+  \item \url{https://github.com/jsobel1/wikilite}
+  \item Report bugs at \url{https://github.com/jsobel1/wikilite/issues}
 }
 
 }

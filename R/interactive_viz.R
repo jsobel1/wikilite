@@ -1,8 +1,8 @@
 # Interactive timelines and networks for Wikipedia article sets
 
-# ── Internal data-builders (testable without network) ─────────────────────────
+# -- Internal data-builders (testable without network) -------------------------
 
-#' Build nodes and edges for an article–publication bipartite network
+#' Build nodes and edges for an article-publication bipartite network
 #'
 #' @param doi_df Data frame from \code{get_regex_citations_in_wiki_table} with
 #'   columns \code{art} and \code{citation_fetched}.
@@ -50,7 +50,7 @@
     valid <- !is.na(idx)
     if (any(valid)) {
       pub_labels[valid] <- paste0(
-        substr(epmc_meta$title[idx[valid]], 1L, 35L), "…"
+        substr(epmc_meta$title[idx[valid]], 1L, 35L), "..."
       )
       pub_tooltip_extra[valid] <- paste0(
         "<br><i>", epmc_meta$journalTitle[idx[valid]], "</i>",
@@ -133,7 +133,7 @@
           value = length(shared),
           title = paste0(
             "<b>", length(shared), " shared DOI(s)</b><br>", top5,
-            if (length(shared) > 5L) paste0("<br>… and ",
+            if (length(shared) > 5L) paste0("<br>... and ",
                                             length(shared) - 5L, " more") else ""
           ),
           stringsAsFactors = FALSE
@@ -249,7 +249,7 @@
 }
 
 
-# ── JS helper: open node URL on click ─────────────────────────────────────────
+# -- JS helper: open node URL on click -----------------------------------------
 
 .vis_click_url_js <- paste0(
   "function(properties) {",
@@ -261,7 +261,7 @@
 )
 
 
-# ── Exported visualisation functions ──────────────────────────────────────────
+# -- Exported visualisation functions ------------------------------------------
 
 #' Build an interactive Gantt-style timeline for a list of Wikipedia articles
 #'
@@ -272,7 +272,7 @@
 #' and current byte size, and a clickable link to the Wikipedia page.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string — upper date limit for revision queries in
+#' @param date_an Character string. Upper date limit for revision queries in
 #'   ISO 8601 format (default: \code{"2024-01-01T00:00:00Z"}).
 #' @param color_by One of \code{"sciscore"} (colour bars by SciScore, default),
 #'   \code{"size"} (colour by current article size), or \code{"none"}
@@ -291,7 +291,7 @@ plot_interactive_timeline <- function(articles,
   color_by <- match.arg(color_by)
 
   initial <- get_category_articles_creation(articles)
-  recent  <- get_category_articles_most_recent(articles, date_an)
+  recent  <- get_category_articles_most_recent(articles)
 
   if (is.null(initial) || nrow(initial) == 0L) {
     stop("Could not retrieve article history. Check article titles and network access.")
@@ -422,7 +422,7 @@ plot_interactive_timeline <- function(articles,
 }
 
 
-#' Build an interactive article–publication bipartite network
+#' Build an interactive article-publication bipartite network
 #'
 #' Fetches the most recent wikitext for each article, extracts all DOIs, and
 #' renders a \pkg{visNetwork} bipartite graph in which:
@@ -437,7 +437,7 @@ plot_interactive_timeline <- function(articles,
 #' Clicking an article node opens its Wikipedia page.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string — upper date limit in ISO 8601 format
+#' @param date_an Character string. Upper date limit in ISO 8601 format
 #'   (default: \code{"2024-01-01T00:00:00Z"}).
 #' @param top_n_dois Maximum number of publication nodes to display (default:
 #'   50).  The most widely cited DOIs are retained.
@@ -462,7 +462,7 @@ plot_article_publication_network <- function(articles,
                                               top_n_dois     = 50L,
                                               min_wiki_count = 2L,
                                               annotate       = FALSE) {
-  recent <- get_category_articles_most_recent(articles, date_an)
+  recent <- get_category_articles_most_recent(articles)
   if (is.null(recent) || nrow(recent) == 0L) {
     stop("Could not retrieve article data. Check article titles and network access.")
   }
@@ -494,7 +494,7 @@ plot_article_publication_network <- function(articles,
     net$nodes, net$edges,
     height = "700px",
     width  = "100%",
-    main   = list(text = "Article–Publication Network",
+    main   = list(text = "Article-Publication Network",
                   style = "font-size:18px;font-weight:bold;text-align:center;")
   ) |>
     visNetwork::visGroups(
@@ -548,7 +548,7 @@ plot_article_publication_network <- function(articles,
 #' Wikipedia article in a new tab.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string — upper date limit in ISO 8601 format
+#' @param date_an Character string. Upper date limit in ISO 8601 format
 #'   (default: \code{"2024-01-01T00:00:00Z"}).
 #' @param min_shared_dois Minimum number of shared DOIs required to draw an
 #'   edge (default: 1).  Increase this to focus on the most strongly connected
@@ -566,7 +566,7 @@ plot_article_publication_network <- function(articles,
 plot_article_cocitation_network <- function(articles,
                                              date_an         = "2024-01-01T00:00:00Z",
                                              min_shared_dois = 1L) {
-  recent <- get_category_articles_most_recent(articles, date_an)
+  recent <- get_category_articles_most_recent(articles)
   if (is.null(recent) || nrow(recent) == 0L) {
     stop("Could not retrieve article data. Check article titles and network access.")
   }
@@ -622,7 +622,7 @@ plot_article_cocitation_network <- function(articles,
 }
 
 
-#' Build an interactive article–article wikilink network
+#' Build an interactive article-article wikilink network
 #'
 #' Extracts \code{[[...]]}-style wikilinks from the wikitext of each article
 #' and renders a directed \pkg{visNetwork} graph.  Nodes represent Wikipedia
@@ -638,7 +638,7 @@ plot_article_cocitation_network <- function(articles,
 #' opens the corresponding Wikipedia article in a new browser tab.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string — upper date limit in ISO 8601 format
+#' @param date_an Character string. Upper date limit in ISO 8601 format
 #'   (default: \code{"2024-01-01T00:00:00Z"}).
 #' @param only_internal Logical.  If \code{TRUE} (default), only wikilinks
 #'   pointing to another article in \code{articles} are shown.
@@ -663,7 +663,7 @@ plot_article_wikilink_network <- function(articles,
                                            date_an       = "2024-01-01T00:00:00Z",
                                            only_internal = TRUE,
                                            top_n_links   = 80L) {
-  recent <- get_category_articles_most_recent(articles, date_an)
+  recent <- get_category_articles_most_recent(articles)
   if (is.null(recent) || nrow(recent) == 0L) {
     stop("Could not retrieve article data. Check article titles and network access.")
   }

@@ -52,5 +52,10 @@ utils::globalVariables(c(
   "nb_reverts", "sum_nb_reverts", "tags",
   "n_articles", "color_val", "created",
   "updated", "size_first", "size_last",
-  "first_editor", "y_pos", "wiki_url"
+  "first_editor", "y_pos", "wiki_url",
+  "views"
 ))
+
+#' @importFrom stats reorder
+#' @importFrom utils write.table
+NULL

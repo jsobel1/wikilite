@@ -115,6 +115,10 @@ annotate_doi_to_bibtex_cross_ref <- function(doi_list) {
 #' annotate_doi_list_altmetrics(list(dois[1:3]))
 #' }
 annotate_doi_list_altmetrics <- function(doi_list) {
+  if (!requireNamespace("rAltmetric", quietly = TRUE)) {
+    stop("Package 'rAltmetric' is required. Install it with: ",
+         "remotes::install_github('ropensci/rAltmetric')", call. = FALSE)
+  }
   alm <- function(x) {
     tryCatch(
       rAltmetric::altmetric_data(rAltmetric::altmetrics(doi = x)),
@@ -205,6 +209,10 @@ annotate_isbn_openlib <- function(isbn_nb) {
 #' annotate_isbn_list_altmetrics(list(c("9780156031356")))
 #' }
 annotate_isbn_list_altmetrics <- function(isbn_list) {
+  if (!requireNamespace("rAltmetric", quietly = TRUE)) {
+    stop("Package 'rAltmetric' is required. Install it with: ",
+         "remotes::install_github('ropensci/rAltmetric')", call. = FALSE)
+  }
   alm <- function(x) {
     tryCatch(
       rAltmetric::altmetric_data(rAltmetric::altmetrics(isbn = x)),

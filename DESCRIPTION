@@ -11,13 +11,13 @@ Description: A toolkit for mining Wikipedia article revision history and
     citations via the public MediaWiki API. Retrieves full revision
     histories and structured metadata, extracts and counts citations
     (DOIs, ISBNs, PMIDs, URLs, and Citation Style 1 templates), annotates
-    DOIs through 'europepmc', 'rcrossref', and 'rAltmetric', computes
-    scientific-source quality metrics (SciScore), identifies revert-based
-    edit trends across all Wikipedia articles, and provides visualisations
-    including timelines, edit histories, and citation-type distributions.
+    DOIs through 'europepmc' and 'rcrossref' (optionally 'rAltmetric'),
+    computes scientific-source quality metrics (SciScore), identifies
+    revert-based edit trends across all Wikipedia articles, and provides
+    visualisations including interactive timelines and citation networks.
 License: GPL-3
-URL: https://github.com/jsobel1/WikiCitationHistoRy
-BugReports: https://github.com/jsobel1/WikiCitationHistoRy/issues
+URL: https://github.com/jsobel1/wikilite
+BugReports: https://github.com/jsobel1/wikilite/issues
 Encoding: UTF-8
 Depends:
     R (>= 4.1.0)
@@ -28,11 +28,9 @@ Imports:
     ggrepel,
     httr,
     jsonlite,
-    lubridate,
     openxlsx,
     plotly,
     purrr,
-    rAltmetric,
     rcrossref,
     reshape2,
     stringr,
@@ -40,9 +38,8 @@ Imports:
     visNetwork,
     WikipediR
 Suggests:
-    covr,
-    httptest2,
     knitr,
+    rAltmetric,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr

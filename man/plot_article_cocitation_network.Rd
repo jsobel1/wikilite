@@ -13,7 +13,7 @@ plot_article_cocitation_network(
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string — upper date limit in ISO 8601 format
+\item{date_an}{Character string. Upper date limit in ISO 8601 format
 (default: \code{"2024-01-01T00:00:00Z"}).}
 
 \item{min_shared_dois}{Minimum number of shared DOIs required to draw an

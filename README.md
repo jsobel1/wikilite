@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/wikilite)](https://CRAN.R-project.org/package=wikilite)
-[![R-CMD-check](https://github.com/jsobel1/WikiCitationHistoRy/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jsobel1/WikiCitationHistoRy/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yaml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
@@ -692,7 +692,7 @@ The **parsed citation data frame** (from `get_parsed_citations()`) adds:
 
 ## Contributing
 
-Bug reports and feature requests are welcome at the [issue tracker](https://github.com/jsobel1/WikiCitationHistoRy/issues).
+Bug reports and feature requests are welcome at the [issue tracker](https://github.com/jsobel1/wikilite/issues).
 
 For pull requests:
 
@@ -710,18 +710,19 @@ If you use **wikilite** in published research, please cite:
 
 ```bibtex
 @misc{sobel2024wikilite,
-  author = {Sobel, Jonathan},
+  author = {Sobel, Jonathan Aryeh},
   title  = {{wikilite}: Retrieve, Parse, and Analyse Wikipedia Article History and Citations},
   year   = {2024},
   note   = {R package version 0.1.0},
-  url    = {https://github.com/jsobel1/WikiCitationHistoRy}
+  url    = {https://github.com/jsobel1/wikilite}
 }
 ```
 
-This package builds on the methods described in:
+This package implements and extends the methods described in:
 
-> Sobel J. (2021). *Citation needed? Wikipedia and the COVID-19 pandemic.*
-> bioRxiv. <https://doi.org/10.1101/2021.03.01.433379>
+> Benjakob O, Aviram R, Sobel JA. (2022). *Citation needed? Wikipedia bibliometrics
+> during the first wave of the COVID-19 pandemic.* GigaScience, 11, giab095.
+> <https://academic.oup.com/gigascience/article/11/2022/giab095/6505121>
 
 ---
 
