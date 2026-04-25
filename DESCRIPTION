@@ -1,0 +1,58 @@
+Package: wikilite
+Title: Retrieve, Parse, and Analyse Wikipedia Article History and Citations
+Version: 0.1.0
+Authors@R:
+    person(given = "Jonathan",
+           family = "Sobel",
+           role = c("aut", "cre"),
+           email = "jsobel83@gmail.com",
+           comment = c(ORCID = "0000-0002-5111-4070"))
+Description: A toolkit for mining Wikipedia article revision history and
+    citations via the public MediaWiki API. Retrieves full revision
+    histories and structured metadata, extracts and counts citations
+    (DOIs, ISBNs, PMIDs, URLs, and Citation Style 1 templates), annotates
+    DOIs through 'europepmc', 'rcrossref', and 'rAltmetric', computes
+    scientific-source quality metrics (SciScore), identifies revert-based
+    edit trends across all Wikipedia articles, and provides visualisations
+    including timelines, edit histories, and citation-type distributions.
+License: GPL-3
+URL: https://github.com/jsobel1/WikiCitationHistoRy
+BugReports: https://github.com/jsobel1/WikiCitationHistoRy/issues
+Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
+Imports:
+    dplyr (>= 1.0.0),
+    europepmc,
+    ggplot2 (>= 3.3.0),
+    ggrepel,
+    httr,
+    jsonlite,
+    lubridate,
+    openxlsx,
+    plotly,
+    purrr,
+    rAltmetric,
+    rcrossref,
+    reshape2,
+    stringr,
+    textclean,
+    visNetwork,
+    WikipediR
+Suggests:
+    covr,
+    httptest2,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
+Collate:
+    'wikilite-package.R'
+    'citation_parsing.R'
+    'article_history.R'
+    'annotation.R'
+    'export.R'
+    'wiki_trends.R'
+    'interactive_viz.R'

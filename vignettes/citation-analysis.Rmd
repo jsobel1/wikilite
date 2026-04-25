@@ -1,0 +1,194 @@
+---
+title: "Citation Analysis with wikilite"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Citation Analysis with wikilite}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  eval     = FALSE
+)
+```
+
+## Introduction
+
+This vignette demonstrates how to extract, count, parse, and visualise
+citations from Wikipedia articles using **wikilite**.  We will work with a
+small set of articles about sleep science to illustrate each step.
+
+## Fetch article data
+
+```{r fetch}
+library(wikilite)
+
+articles <- c("Zeitgeber",
+              "Advanced sleep phase disorder",
+              "Sleep deprivation",
+              "Circadian rhythm")
+
+# Most recent revision of each article
+recent <- get_category_articles_most_recent(articles)
+```
+
+## Count citations using built-in patterns
+
+The package stores all built-in regular expressions in the `pkg.env`
+environment.  You can inspect them:
+
+```{r regexp-list}
+names(pkg.env$regexp_list)
+```
+
+Apply a single pattern:
+
+```{r single-pattern}
+doi_regexp <- pkg.env$doi_regexp
+dois <- get_regex_citations_in_wiki_table(recent, doi_regexp)
+head(dois)
+```
+
+Apply every pattern at once and receive a named list:
+
+```{r all-patterns}
+all_results <- extract_citations_regexp(recent)
+
+# Each element is a data frame with art, revid, citation_fetched
+sapply(all_results, nrow)
+```
+
+## Count individual elements per article
+
+```{r per-article-counts}
+results <- lapply(seq_len(nrow(recent)), function(i) {
+  text <- recent$`*`[i]
+  data.frame(
+    art          = recent$art[i],
+    n_doi        = get_doi_count(text),
+    n_isbn       = get_ISBN_count(text),
+    n_url        = get_urlCount(text),
+    n_ref        = get_refCount(text),
+    n_hyperlinks = get_hyperlinkCount(text),
+    sci_score    = get_sci_score(text),
+    sci_score2   = get_sci_score2(text)
+  )
+})
+
+count_table <- do.call(rbind, results)
+count_table
+```
+
+## Parse Citation Style 1 templates
+
+`parse_article_ALL_citations()` splits every CS1 template into a tidy long
+data frame where each row is one field:
+
+```{r parse-one}
+# For a single article
+zeitgeber_recent <- recent[recent$art == "Zeitgeber", ]
+parsed_one <- parse_article_ALL_citations(zeitgeber_recent$`*`)
+head(parsed_one)
+```
+
+Parse all articles at once:
+
+```{r parse-all}
+parsed <- get_parsed_citations(recent)
+# Columns: art, revid, type, id_cite, variable, value
+head(parsed)
+```
+
+## Summarise citation types
+
+```{r cite-type}
+cite_types <- get_citation_type(recent)
+head(cite_types)
+
+# Distribution of journal / web / news / book citations
+plot_distribution_source_type(cite_types)
+```
+
+## Top sources
+
+```{r top-sources}
+# Top 20 journal titles across all articles
+plot_top_source(parsed, "journal")
+
+# Top 20 publishers
+plot_top_source(parsed, "publisher")
+
+# Generate charts for multiple fields at once
+get_pdfs_top20source(parsed,
+  source_types_list = c("journal", "publisher", "author"))
+```
+
+## SciScore in depth
+
+**SciScore** measures the proportion of CS1 citations that use the
+`cite journal` template — a proxy for how scientifically sourced an article
+is.
+
+```{r sciscore-loop}
+scores <- sapply(seq_len(nrow(recent)), function(i) {
+  get_sci_score(recent$`*`[i])
+})
+names(scores) <- recent$art
+sort(scores, decreasing = TRUE)
+```
+
+**SciScore2** divides the count of DOIs by the total number of `<ref>` tags.
+A value near 1 suggests that almost every reference cites a publication with
+a DOI.
+
+```{r sciscore2-loop}
+scores2 <- sapply(seq_len(nrow(recent)), function(i) {
+  get_sci_score2(recent$`*`[i])
+})
+names(scores2) <- recent$art
+scores2
+```
+
+## Identify the most-cited scientific papers
+
+`get_top_cited_wiki_papers()` finds the 40 most frequently cited DOIs across
+all supplied articles, annotates them via EuropePMC and CrossRef, and adds
+per-article citation counts.
+
+```{r top-cited}
+doi_df <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+top_papers <- get_top_cited_wiki_papers(doi_df)
+head(top_papers[, c("title", "journalTitle", "pubYear",
+                    "wiki_count", "cited_in_wiki_art")])
+```
+
+## Explore article revision history
+
+For longitudinal analysis, retrieve the full revision history:
+
+```{r history}
+history <- get_article_full_history_table("Zeitgeber",
+                                          date_an = "2022-01-01T00:00:00Z")
+
+# Extract DOIs from every revision and track when they first appeared
+doi_history <- get_regex_citations_in_wiki_table(history, pkg.env$doi_regexp)
+
+# How many unique DOIs appear by revision?
+length(unique(doi_history$citation_fetched))
+```
+
+## Export results
+
+```{r export}
+# Save the parsed citation table to Excel
+openxlsx::write.xlsx(parsed, "sleep_articles_parsed_citations.xlsx")
+
+# Export the full doi count table
+openxlsx::write.xlsx(count_table, "sleep_articles_counts.xlsx")
+
+# Export all regex matches to separate xlsx files
+export_extracted_citations_xlsx(recent, "sleep_articles")
+```

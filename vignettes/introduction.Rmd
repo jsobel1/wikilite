@@ -1,0 +1,140 @@
+---
+title: "Introduction to wikilite"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to wikilite}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  eval     = FALSE
+)
+```
+
+## Overview
+
+**wikilite** is an R toolkit for mining Wikipedia article revision history and
+citations.  It connects to the public MediaWiki API to retrieve structured data
+frames that are ready for downstream analysis, annotation, and visualisation.
+
+Key capabilities:
+
+| Area | Key functions |
+|------|---------------|
+| History retrieval | `get_article_full_history_table()`, `get_article_most_recent_table()` |
+| Category navigation | `get_pagename_in_cat()`, `get_subcat_with_depth()` |
+| Citation counting | `get_doi_count()`, `get_refCount()`, `get_ISBN_count()` |
+| Citation parsing | `parse_article_ALL_citations()`, `get_parsed_citations()` |
+| Quality metrics | `get_sci_score()`, `get_sci_score2()` |
+| Annotation | `annotate_doi_list_europmc()`, `annotate_doi_list_cross_ref()` |
+| Revert trends | `get_revert_counts()` |
+| Visualisation | `plot_article_creation_per_year()`, `page_edit_plot()` |
+
+## Installation
+
+```{r install}
+# CRAN (once available)
+install.packages("wikilite")
+
+# Development version from GitHub
+# install.packages("remotes")
+remotes::install_github("jsobel1/WikiCitationHistoRy")
+```
+
+## Quick-start: a single article
+
+```{r single-article}
+library(wikilite)
+
+# Most recent revision of the Zeitgeber article
+recent <- get_article_most_recent_table("Zeitgeber")
+
+# The data frame has columns: art, revid, user, timestamp, size, comment, *
+# The "*" column contains the full raw wikitext.
+names(recent)
+```
+
+Count citations directly from the wikitext:
+
+```{r counts}
+text <- recent$`*`
+
+get_doi_count(text)        # number of DOIs
+get_refCount(text)         # number of <ref>...</ref> blocks
+get_ISBN_count(text)       # number of ISBNs
+get_hyperlinkCount(text)   # number of [[...]] links
+get_sci_score(text)        # fraction of citations that are journal citations
+```
+
+## Multiple articles via a category
+
+```{r category}
+# List all articles in a Wikipedia category
+sleep_articles <- get_pagename_in_cat("Circadian rhythm")
+head(sleep_articles)
+
+# Fetch the most recent revision for each article
+sleep_recent <- get_category_articles_most_recent(sleep_articles)
+```
+
+## Extract DOIs
+
+```{r doi-extract}
+doi_regexp <- pkg.env$doi_regexp   # "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
+
+dois <- get_regex_citations_in_wiki_table(sleep_recent, doi_regexp)
+head(dois)
+```
+
+## Visualise article creation over time
+
+```{r viz-creation}
+initial <- get_category_articles_creation(sleep_articles)
+
+# Cumulative count (default)
+plot_article_creation_per_year(initial, name_title = "Circadian rhythm articles")
+
+# Annual counts
+plot_article_creation_per_year(initial, name_title = "Annual creation",
+                               Cumsum = FALSE)
+```
+
+## Static article timeline
+
+```{r viz-timeline}
+plot_static_timeline(initial)
+```
+
+## Page-view and edit-activity plots
+
+```{r viz-activity}
+# Daily page views
+page_view_plot("Zeitgeber", start = "2020010100", end = "2021010100")
+
+# Weekly edits
+page_edit_plot("Zeitgeber", start = "2020010100", end = "2021010100")
+```
+
+## Export to Excel and BibTeX
+
+```{r export}
+# Revision table → Excel
+write_wiki_history_to_xlsx(recent, "zeitgeber")
+
+# All regex matches → one xlsx file per pattern
+export_extracted_citations_xlsx(sleep_recent, "sleep_articles")
+
+# DOIs → BibTeX
+export_doi_to_bib(unique(dois$citation_fetched)[1:10], "references.bib")
+```
+
+## Next steps
+
+* **Citation Analysis** vignette — deep dive into CS1 template parsing,
+  SciScore, and top-cited paper identification.
+* **Annotation Workflow** vignette — enrich extracted DOIs and ISBNs with
+  metadata from EuropePMC, CrossRef, Altmetric, Google Books, and Open Library.

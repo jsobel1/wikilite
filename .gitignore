@@ -1,0 +1,32 @@
+# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Package build artifacts
+/doc/
+/Meta/
+/inst/doc/
+src/*.o
+src/*.so
+src/*.dll
+
+# devtools / roxygen
+man/
+DESCRIPTION.orig
+NAMESPACE.orig
+
+# Vignette cache
+vignettes/*.html
+vignettes/*.pdf
+vignettes/cache/
+vignettes/figure/
+
+# Tests
+tests/testthat/*.log
+
+# OS
+.DS_Store
+Thumbs.db
