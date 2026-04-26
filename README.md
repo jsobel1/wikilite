@@ -672,7 +672,6 @@ The **parsed citation data frame** (from `get_parsed_citations()`) adds:
 | `lubridate` | Date handling for page-view data |
 | `openxlsx` | Excel export (no Java required) |
 | `purrr` | Functional programming for Altmetric annotation |
-| `rAltmetric` | Altmetric API |
 | `rcrossref` | CrossRef API |
 | `reshape2` | Long-to-wide reshaping for CrossRef results |
 | `stringr` | Regular expression matching |
@@ -683,6 +682,7 @@ The **parsed citation data frame** (from `get_parsed_citations()`) adds:
 
 | Package | Purpose |
 |---------|---------|
+| `rAltmetric` | Altmetric attention scores (install from [r-universe](https://ropensci.r-universe.dev/rAltmetric)) |
 | `testthat` ≥ 3.0.0 | Running the test suite |
 | `knitr` / `rmarkdown` | Building vignettes |
 | `httptest2` | Offline HTTP fixture testing |
@@ -730,4 +730,4 @@ This package implements and extends the methods described in:
 
 GPL-3 © Jonathan Sobel
 
-See the [LICENSE](LICENSE) file for full details.
+See the [GPL-3 license](https://www.gnu.org/licenses/gpl-3.0) for full details.

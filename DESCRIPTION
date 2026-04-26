@@ -42,6 +42,7 @@ Suggests:
     rAltmetric,
     rmarkdown,
     testthat (>= 3.0.0)
+Additional_repositories: https://ropensci.r-universe.dev
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
