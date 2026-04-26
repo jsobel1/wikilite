@@ -46,14 +46,22 @@
 
 ## Suppress R CMD check NOTEs for bare column names used in dplyr/ggplot2 NSE
 utils::globalVariables(c(
+  # article history / category tables
   "art", "tsc", "first", "count", "date",
   "ts", "revid", "variable", "value",
-  "cite_type", "Freq", "citation_fetched",
-  "nb_reverts", "sum_nb_reverts", "tags",
-  "n_articles", "color_val", "created",
+  # citation parsing
+  "cite_type", "Freq", "citation_fetched", "doi",
+  "firstPublicationDate",
+  # edit trends
+  "nb_reverts", "sum_nb_reverts", "tags", "cnt",
+  # interactive visualisation
+  "n_articles", "n_dois", "color_val", "created",
   "updated", "size_first", "size_last",
-  "first_editor", "y_pos", "wiki_url",
-  "views"
+  "first_editor", "y_pos", "wiki_url", "views",
+  # analysis / latency visualisation
+  "year", "edit_type", "size",
+  "latency_days", "is_preprint", "is_preprint_f",
+  "group", "pub_date", "wiki_date"
 ))
 
 #' @importFrom stats reorder

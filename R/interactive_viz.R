@@ -286,12 +286,15 @@
 #' plot_interactive_timeline(articles)
 #' }
 plot_interactive_timeline <- function(articles,
-                                       date_an  = "2024-01-01T00:00:00Z",
+                                       date_an  = NULL,
+                                       lang     = "en",
                                        color_by = c("sciscore", "size", "none")) {
+  if (is.null(date_an))
+    date_an <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
   color_by <- match.arg(color_by)
 
-  initial <- get_category_articles_creation(articles)
-  recent  <- get_category_articles_most_recent(articles)
+  initial <- get_category_articles_creation(articles, lang = lang)
+  recent  <- get_category_articles_most_recent(articles, lang = lang)
 
   if (is.null(initial) || nrow(initial) == 0L) {
     stop("Could not retrieve article history. Check article titles and network access.")
@@ -458,11 +461,14 @@ plot_interactive_timeline <- function(articles,
 #' plot_article_publication_network(articles, annotate = TRUE)
 #' }
 plot_article_publication_network <- function(articles,
-                                              date_an        = "2024-01-01T00:00:00Z",
+                                              date_an        = NULL,
+                                              lang           = "en",
                                               top_n_dois     = 50L,
                                               min_wiki_count = 2L,
                                               annotate       = FALSE) {
-  recent <- get_category_articles_most_recent(articles)
+  if (is.null(date_an))
+    date_an <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  recent <- get_category_articles_most_recent(articles, lang = lang)
   if (is.null(recent) || nrow(recent) == 0L) {
     stop("Could not retrieve article data. Check article titles and network access.")
   }
@@ -564,9 +570,12 @@ plot_article_publication_network <- function(articles,
 #' plot_article_cocitation_network(articles, min_shared_dois = 2)
 #' }
 plot_article_cocitation_network <- function(articles,
-                                             date_an         = "2024-01-01T00:00:00Z",
+                                             date_an         = NULL,
+                                             lang            = "en",
                                              min_shared_dois = 1L) {
-  recent <- get_category_articles_most_recent(articles)
+  if (is.null(date_an))
+    date_an <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  recent <- get_category_articles_most_recent(articles, lang = lang)
   if (is.null(recent) || nrow(recent) == 0L) {
     stop("Could not retrieve article data. Check article titles and network access.")
   }
@@ -660,10 +669,13 @@ plot_article_cocitation_network <- function(articles,
 #'                               top_n_links   = 40)
 #' }
 plot_article_wikilink_network <- function(articles,
-                                           date_an       = "2024-01-01T00:00:00Z",
+                                           date_an       = NULL,
+                                           lang          = "en",
                                            only_internal = TRUE,
                                            top_n_links   = 80L) {
-  recent <- get_category_articles_most_recent(articles)
+  if (is.null(date_an))
+    date_an <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  recent <- get_category_articles_most_recent(articles, lang = lang)
   if (is.null(recent) || nrow(recent) == 0L) {
     stop("Could not retrieve article data. Check article titles and network access.")
   }

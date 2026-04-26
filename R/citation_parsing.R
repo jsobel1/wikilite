@@ -210,16 +210,19 @@ parse_article_ALL_citations <- function(art_text) {
     function(x) unlist(strsplit(x, "\\|"))[-1]
   )
 
+  raw_vec   <- unlist(get_cite_subfield)
+  split_at  <- regexpr("=", raw_vec)
+  kv        <- data.frame(
+    variable = trimws(substr(raw_vec, 1L, split_at - 1L)),
+    value    = substr(raw_vec, split_at + 1L, nchar(raw_vec)),
+    stringsAsFactors = FALSE
+  )
   data.frame(
     type    = rep(as.character(unlist(cite_types)),
                   vapply(get_cite_subfield, length, integer(1L))),
     id_cite = rep(seq_along(get_cite),
                   vapply(get_cite_subfield, length, integer(1L))),
-    reshape2::colsplit(
-      string  = unlist(get_cite_subfield),
-      pattern = "=",
-      names   = c("variable", "value")
-    )
+    kv
   ) |>
     dplyr::mutate(variable = gsub(" ", "", variable))
 }
@@ -405,19 +408,18 @@ get_source_type_counts <- function(art_text) {
 #' parsed <- get_parsed_citations(recent)
 #' }
 get_parsed_citations <- function(article_most_recent_table) {
-  df_cite_clean <- NULL
-
-  for (i in seq_len(nrow(article_most_recent_table))) {
+  rows <- lapply(seq_len(nrow(article_most_recent_table)), function(i) {
     message("Parsing citations: ", article_most_recent_table$art[i])
     dfctmp <- tryCatch(
       parse_article_ALL_citations(article_most_recent_table$`*`[i]),
       error = function(e) NULL
     )
-    if (is.null(dfctmp) || nrow(dfctmp) < 1L) next
-    dfctmp$revid  <- article_most_recent_table$revid[i]
-    df_cite_clean <- rbind(df_cite_clean, dfctmp)
-  }
-
+    if (is.null(dfctmp) || nrow(dfctmp) < 1L) return(NULL)
+    dfctmp$revid <- article_most_recent_table$revid[i]
+    dfctmp
+  })
+  df_cite_clean <- dplyr::bind_rows(Filter(Negate(is.null), rows))
+  if (nrow(df_cite_clean) == 0L) return(df_cite_clean)
   dplyr::select(article_most_recent_table, art, revid) |>
     dplyr::right_join(df_cite_clean, by = "revid")
 }
@@ -436,19 +438,18 @@ get_parsed_citations <- function(article_most_recent_table) {
 #' get_citation_type(recent)
 #' }
 get_citation_type <- function(article_most_recent_table) {
-  df_cite_type_clean <- NULL
-
-  for (i in seq_len(nrow(article_most_recent_table))) {
+  rows <- lapply(seq_len(nrow(article_most_recent_table)), function(i) {
     message("Counting citation types: ", article_most_recent_table$art[i])
     dfctmp <- tryCatch(
       get_source_type_counts(article_most_recent_table$`*`[i]),
       error = function(e) NULL
     )
-    if (is.null(dfctmp) || !is.data.frame(dfctmp) || nrow(dfctmp) < 1L) next
-    dfctmp$revid       <- article_most_recent_table$revid[i]
-    df_cite_type_clean <- rbind(df_cite_type_clean, dfctmp)
-  }
-
+    if (is.null(dfctmp) || !is.data.frame(dfctmp) || nrow(dfctmp) < 1L) return(NULL)
+    dfctmp$revid <- article_most_recent_table$revid[i]
+    dfctmp
+  })
+  df_cite_type_clean <- dplyr::bind_rows(Filter(Negate(is.null), rows))
+  if (nrow(df_cite_type_clean) == 0L) return(df_cite_type_clean)
   dplyr::select(article_most_recent_table, art, revid) |>
     dplyr::right_join(df_cite_type_clean, by = "revid")
 }

@@ -22,8 +22,13 @@
 #' annotate_doi_list_europmc(dois[1:3])
 #' }
 annotate_doi_list_europmc <- function(doi_list) {
-  annotated_doi_df <- NULL
-  for (i in seq_along(doi_list)) {
+  required_cols <- c(
+    "id", "source", "pmid", "pmcid", "doi", "title",
+    "authorString", "journalTitle", "pubYear", "pubType",
+    "isOpenAccess", "citedByCount", "firstPublicationDate"
+  )
+
+  rows <- lapply(seq_along(doi_list), function(i) {
     message("Querying EuropePMC for DOI ", i, "/", length(doi_list),
             ": ", doi_list[i])
     load <- tryCatch(
@@ -36,25 +41,23 @@ annotate_doi_list_europmc <- function(doi_list) {
         error = function(e) NULL
       )
     }
-    if (is.null(load) || nrow(load) == 0L) next
-    if (nrow(load) == 1L) {
-      required_cols <- c(
-        "id", "source", "pmid", "pmcid", "doi", "title",
-        "authorString", "journalTitle", "pubYear", "pubType",
-        "isOpenAccess", "citedByCount", "firstPublicationDate"
-      )
-      for (col in required_cols) {
-        if (!col %in% names(load)) load[[col]] <- NA
-      }
-      load <- tryCatch(
-        dplyr::select(load, dplyr::all_of(required_cols)),
-        error = function(e) NULL
-      )
-      if (is.null(load)) next
-      annotated_doi_df <- rbind(annotated_doi_df, load)
+    if (is.null(load) || nrow(load) == 0L) return(NULL)
+
+    # Select the row whose DOI exactly matches; fall back to the first hit
+    exact <- load[!is.na(load$doi) & tolower(load$doi) == tolower(doi_list[i]), ]
+    if (nrow(exact) == 0L) exact <- load[1L, , drop = FALSE]
+    load <- exact[1L, , drop = FALSE]
+
+    for (col in required_cols) {
+      if (!col %in% names(load)) load[[col]] <- NA
     }
-  }
-  data.frame(annotated_doi_df)
+    tryCatch(
+      dplyr::select(load, dplyr::all_of(required_cols)),
+      error = function(e) NULL
+    )
+  })
+
+  data.frame(dplyr::bind_rows(Filter(Negate(is.null), rows)))
 }
 
 
@@ -71,15 +74,15 @@ annotate_doi_list_europmc <- function(doi_list) {
 #' annotate_doi_list_cross_ref(c("10.1038/nature12373"))
 #' }
 annotate_doi_list_cross_ref <- function(doi_list) {
-  doi_bib <- rcrossref::cr_cn(dois = doi_list, "bibentry", .progress = "text")
-  non_empty <- doi_bib[lengths(doi_bib) > 0]
-  doi_bib_df <- reshape2::dcast(
-    reshape2::melt(non_empty),
-    L1 ~ L2
-  )
+  doi_bib    <- rcrossref::cr_cn(dois = doi_list, "bibentry", .progress = "text")
+  non_empty  <- doi_bib[lengths(doi_bib) > 0]
+  doi_bib_df <- do.call(rbind, lapply(seq_along(non_empty), function(i) {
+    x <- as.data.frame(non_empty[[i]], stringsAsFactors = FALSE)
+    x$L1 <- names(non_empty)[i]
+    x
+  }))
   citation_countdf <- rcrossref::cr_citation_count(doi = doi_bib_df$doi)
-  doi_bib_df <- dplyr::left_join(doi_bib_df, citation_countdf, by = "doi")
-  doi_bib_df
+  dplyr::left_join(doi_bib_df, citation_countdf, by = "doi")
 }
 
 
@@ -153,12 +156,10 @@ annotate_doi_list_altmetrics <- function(doi_list) {
 #' }
 annotate_isbn_google <- function(isbn_nb) {
   isbn_nb <- gsub("[-[:space:]]", "", isbn_nb)
-  cmd <- paste0("https://www.googleapis.com/books/v1/volumes?q=isbn:", isbn_nb)
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
+  url     <- paste0("https://www.googleapis.com/books/v1/volumes?q=isbn:", isbn_nb)
+  body    <- tryCatch(.wiki_api_get(url), error = function(e) NULL)
+  if (is.null(body)) return(NULL)
+  parsed  <- jsonlite::fromJSON(body, simplifyVector = TRUE)
   tryCatch({
     if (parsed$totalItems != 0L) {
       output_df <- parsed$items$volumeInfo[,
@@ -187,14 +188,12 @@ annotate_isbn_google <- function(isbn_nb) {
 #' }
 annotate_isbn_openlib <- function(isbn_nb) {
   isbn_nb <- gsub("[-[:space:]]", "", isbn_nb)
-  cmd <- paste0(
+  url     <- paste0(
     "https://openlibrary.org/api/books?bibkeys=ISBN", isbn_nb, "&format=json"
   )
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
+  body   <- tryCatch(.wiki_api_get(url), error = function(e) NULL)
+  if (is.null(body)) return(NULL)
+  parsed <- jsonlite::fromJSON(body, simplifyVector = TRUE)
   tryCatch(as.data.frame(parsed), error = function(e) NULL)
 }
 

@@ -1,6 +1,14 @@
 # Retrieve article content, history/revisions, and metadata
 
-# ── Internal helper ────────────────────────────────────────────────────────────
+# ── Internal helpers ────────────────────────────────────────────────────────────
+
+#' @noRd
+.wiki_api_get <- function(url) {
+  httr2::request(url) |>
+    httr2::req_retry(max_tries = 3, backoff = ~ 2^.x) |>
+    httr2::req_perform() |>
+    httr2::resp_body_string()
+}
 
 #' Build a tidy revision data frame from a parsed MediaWiki JSON response
 #'
@@ -24,13 +32,17 @@
 
 #' Retrieve the full revision history of a Wikipedia article
 #'
-#' Queries the English Wikipedia MediaWiki API and returns a data frame where
+#' Queries the Wikipedia MediaWiki API and returns a data frame where
 #' each row is one revision of the given article, ordered chronologically.
 #'
-#' @param article_name Character string giving the English Wikipedia article
-#'   title (e.g. \code{"Zeitgeber"}).
+#' @param article_name Character string giving the Wikipedia article title
+#'   (e.g. \code{"Zeitgeber"}).
 #' @param date_an Character string — upper date limit for revisions in ISO 8601
-#'   format (default: \code{"2020-05-01T00:00:00Z"}).
+#'   format.  Default: current UTC time.
+#' @param lang Two-letter language code for the Wikipedia edition to query
+#'   (default: \code{"en"} for English).
+#' @param use_cache Logical.  When \code{TRUE} (default), results are cached to
+#'   disk and reused on repeated calls with the same arguments.
 #' @return A data frame with columns \code{art}, \code{revid},
 #'   \code{parentid}, \code{user}, \code{userid}, \code{timestamp},
 #'   \code{size}, \code{comment}, and \code{*} (raw wikitext).
@@ -38,56 +50,61 @@
 #' @examples
 #' \dontrun{
 #' zeitgeber_history <- get_article_full_history_table("Zeitgeber")
+#' french_history    <- get_article_full_history_table("COVID-19", lang = "fr")
 #' }
-get_article_full_history_table <- function(
-    article_name,
-    date_an = "2020-05-01T00:00:00Z") {
+get_article_full_history_table <- function(article_name,
+                                            date_an   = NULL,
+                                            lang      = "en",
+                                            use_cache = TRUE) {
+  if (is.null(date_an))
+    date_an <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
 
-  what <- "ids|timestamp|comment|user|userid|size|content"
+  if (use_cache) {
+    key    <- .cache_key(article_name, date_an, lang, "full")
+    cached <- .cache_get(key)
+    if (!is.null(cached)) return(cached)
+  }
+
+  what           <- "ids|timestamp|comment|user|userid|size|content"
   article_name_c <- utils::URLencode(article_name, reserved = TRUE)
-  output_table <- NULL
+  base           <- paste0("https://", lang, ".wikipedia.org/w/api.php")
+  output_table   <- NULL
 
   cmd <- paste0(
-    "https://en.wikipedia.org/w/api.php?action=query&titles=", article_name_c,
+    base, "?action=query&titles=", article_name_c,
     "&prop=revisions&rvprop=", what,
     "&rvstart=01012001&rvdir=newer&rvend=", date_an,
     "&format=json&rvlimit=max"
   )
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
+  parsed       <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
   output_table <- .parse_revisions(parsed, article_name)
 
   while (length(parsed$continue$rvcontinue) == 1L) {
     rvc <- parsed$continue$rvcontinue
     cmd <- paste0(
-      "https://en.wikipedia.org/w/api.php?action=query&titles=", article_name_c,
+      base, "?action=query&titles=", article_name_c,
       "&prop=revisions&rvprop=", what,
       "&rvstart=01012001&rvdir=newer&rvend=", date_an,
       "&format=json&rvlimit=max&rvcontinue=", rvc
     )
-    resp   <- httr::GET(cmd)
-    parsed <- jsonlite::fromJSON(
-      httr::content(resp, "text", encoding = "UTF-8"),
-      simplifyVector = TRUE
-    )
-    batch <- .parse_revisions(parsed, article_name)
+    parsed <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
+    batch  <- .parse_revisions(parsed, article_name)
     if (is.null(batch)) break
-    output_table <- tryCatch(
-      rbind(output_table, batch),
-      error = function(e) output_table
-    )
+    output_table <- tryCatch(rbind(output_table, batch),
+                             error = function(e) output_table)
   }
+
+  if (use_cache && !is.null(output_table))
+    .cache_set(key, output_table)
+
   output_table
 }
 
 
 #' Retrieve the first revision of a Wikipedia article
 #'
-#' @param article_name Character string giving the English Wikipedia article
-#'   title.
+#' @param article_name Character string giving the Wikipedia article title.
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A single-row data frame with the same columns as
 #'   \code{\link{get_article_full_history_table}}.
 #' @export
@@ -95,20 +112,17 @@ get_article_full_history_table <- function(
 #' \dontrun{
 #' get_article_initial_table("Zeitgeber")
 #' }
-get_article_initial_table <- function(article_name) {
-  what <- "ids|timestamp|comment|user|userid|size|content"
+get_article_initial_table <- function(article_name, lang = "en") {
+  what           <- "ids|timestamp|comment|user|userid|size|content"
   article_name_c <- utils::URLencode(article_name, reserved = TRUE)
+  base           <- paste0("https://", lang, ".wikipedia.org/w/api.php")
 
   cmd <- paste0(
-    "https://en.wikipedia.org/w/api.php?action=query&titles=", article_name_c,
+    base, "?action=query&titles=", article_name_c,
     "&prop=revisions&rvprop=", what,
     "&rvstart=01012001&rvdir=newer&format=json&rvlimit=1"
   )
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
+  parsed <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
   .parse_revisions(parsed, article_name)
 }
 
@@ -118,10 +132,10 @@ get_article_initial_table <- function(article_name) {
 #' Returns a named vector containing the page ID, title, and byte length of
 #' the current revision of the article.
 #'
-#' @param article_name Character string giving the English Wikipedia article
-#'   title.
-#' @param date_an Character string — reference date in ISO 8601 format
-#'   (default: \code{"2020-05-01T00:00:00Z"}).
+#' @param article_name Character string giving the Wikipedia article title.
+#' @param date_an Character string — reference date in ISO 8601 format.
+#'   Default: current UTC time.
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A named character vector with at least \code{pageid}, \code{title},
 #'   and \code{length} elements.
 #' @export
@@ -130,20 +144,21 @@ get_article_initial_table <- function(article_name) {
 #' get_article_info_table("Zeitgeber")
 #' }
 get_article_info_table <- function(article_name,
-                                   date_an = "2020-05-01T00:00:00Z") {
-  what <- "pageid|title|length"
+                                   date_an = NULL,
+                                   lang    = "en") {
+  if (is.null(date_an))
+    date_an <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+
+  what           <- "pageid|title|length"
   article_name_c <- utils::URLencode(article_name, reserved = TRUE)
+  base           <- paste0("https://", lang, ".wikipedia.org/w/api.php")
 
   cmd <- paste0(
-    "https://en.wikipedia.org/w/api.php?action=query&titles=", article_name_c,
+    base, "?action=query&titles=", article_name_c,
     "&prop=info&inprop=", what,
     "&rvstart=", date_an, "&rvdir=older&format=json"
   )
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
+  parsed   <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
   page_key <- names(parsed$query$pages)[1]
   unlist(parsed$query$pages[[page_key]])
 }
@@ -151,33 +166,49 @@ get_article_info_table <- function(article_name,
 
 #' Retrieve the most recent revision of a Wikipedia article
 #'
-#' @param article_name Character string giving the English Wikipedia article
-#'   title.
-#' @param date_an Character string — upper date limit in ISO 8601 format
-#'   (default: \code{"2020-05-01T00:00:00Z"}).
+#' @param article_name Character string giving the Wikipedia article title.
+#' @param date_an Character string — upper date limit in ISO 8601 format.
+#'   Default: current UTC time.
+#' @param lang Two-letter language code (default: \code{"en"}).
+#' @param use_cache Logical.  When \code{TRUE} (default), results are cached
+#'   to disk.
 #' @return A single-row data frame with the same columns as
 #'   \code{\link{get_article_full_history_table}}.
 #' @export
 #' @examples
 #' \dontrun{
 #' get_article_most_recent_table("Zeitgeber")
+#' get_article_most_recent_table("COVID-19", lang = "fr")
 #' }
 get_article_most_recent_table <- function(article_name,
-                                          date_an = "2020-05-01T00:00:00Z") {
-  what <- "ids|timestamp|comment|user|userid|size|content"
+                                          date_an   = NULL,
+                                          lang      = "en",
+                                          use_cache = TRUE) {
+  if (is.null(date_an))
+    date_an <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+
+  if (use_cache) {
+    key    <- .cache_key(article_name, date_an, lang, "recent")
+    cached <- .cache_get(key)
+    if (!is.null(cached)) return(cached)
+  }
+
+  what           <- "ids|timestamp|comment|user|userid|size|content"
   article_name_c <- utils::URLencode(article_name, reserved = TRUE)
+  base           <- paste0("https://", lang, ".wikipedia.org/w/api.php")
 
   cmd <- paste0(
-    "https://en.wikipedia.org/w/api.php?action=query&titles=", article_name_c,
+    base, "?action=query&titles=", article_name_c,
     "&prop=revisions&rvprop=", what,
     "&rvstart=", date_an, "&rvdir=older&format=json&rvlimit=1"
   )
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
-  .parse_revisions(parsed, article_name)
+  parsed <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
+  result <- .parse_revisions(parsed, article_name)
+
+  if (use_cache && !is.null(result))
+    .cache_set(key, result)
+
+  result
 }
 
 
@@ -188,10 +219,11 @@ get_article_most_recent_table <- function(article_name,
 #' Calls \code{\link{get_article_full_history_table}} for each element of
 #' \code{list_art} and row-binds the results.
 #'
-#' @param list_art Character vector of English Wikipedia article titles.
-#' @return A combined data frame with the same columns as
-#'   \code{\link{get_article_full_history_table}}, or \code{NULL} if all
-#'   requests fail.
+#' @param list_art Character vector of Wikipedia article titles.
+#' @param lang Two-letter language code (default: \code{"en"}).
+#' @param workers Integer.  Number of parallel workers when \pkg{furrr} is
+#'   installed (default: \code{1L} — sequential).
+#' @return A combined data frame, or \code{NULL} if all requests fail.
 #' @export
 #' @examples
 #' \dontrun{
@@ -199,20 +231,26 @@ get_article_most_recent_table <- function(article_name,
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
 #' }
-get_category_articles_history <- function(list_art) {
+get_category_articles_history <- function(list_art, lang = "en", workers = 1L) {
   if (length(list_art) == 0L) return(NULL)
-  dfn_art <- NULL
-  for (art in seq_along(list_art)) {
-    message("Fetching history: ", list_art[art])
-    dfn_load <- tryCatch(
-      get_article_full_history_table(list_art[art]),
-      error = function(e) NULL
-    )
-    if (!is.null(dfn_load) && length(dfn_load) > 1L) {
-      dfn_art <- rbind(dfn_art, dfn_load)
-    }
+
+  fetch_one <- function(art) {
+    message("Fetching history: ", art)
+    tryCatch(get_article_full_history_table(art, lang = lang),
+             error = function(e) NULL)
   }
-  dfn_art
+
+  if (workers > 1L && requireNamespace("furrr", quietly = TRUE) &&
+      requireNamespace("future", quietly = TRUE)) {
+    future::plan(future::multisession, workers = workers)
+    on.exit(future::plan(future::sequential), add = TRUE)
+    results <- furrr::future_map(list_art, fetch_one,
+                                  .options = furrr::furrr_options(seed = TRUE))
+  } else {
+    results <- lapply(list_art, fetch_one)
+  }
+
+  dplyr::bind_rows(Filter(Negate(is.null), results))
 }
 
 
@@ -221,7 +259,8 @@ get_category_articles_history <- function(list_art) {
 #' Calls \code{\link{get_article_initial_table}} for each element of
 #' \code{list_art} and row-binds the results.
 #'
-#' @param list_art Character vector of English Wikipedia article titles.
+#' @param list_art Character vector of Wikipedia article titles.
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A combined data frame of first revisions, or \code{NULL} if all
 #'   requests fail.
 #' @export
@@ -231,20 +270,14 @@ get_category_articles_history <- function(list_art) {
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
 #' }
-get_category_articles_creation <- function(list_art) {
+get_category_articles_creation <- function(list_art, lang = "en") {
   if (length(list_art) == 0L) return(NULL)
-  dfn_art <- NULL
-  for (art in seq_along(list_art)) {
-    message("Fetching creation: ", list_art[art])
-    dfn_load <- tryCatch(
-      get_article_initial_table(list_art[art]),
-      error = function(e) NULL
-    )
-    if (!is.null(dfn_load) && length(dfn_load) > 1L) {
-      dfn_art <- rbind(dfn_art, dfn_load)
-    }
-  }
-  dfn_art
+  results <- lapply(list_art, function(art) {
+    message("Fetching creation: ", art)
+    tryCatch(get_article_initial_table(art, lang = lang),
+             error = function(e) NULL)
+  })
+  dplyr::bind_rows(Filter(Negate(is.null), results))
 }
 
 
@@ -253,9 +286,10 @@ get_category_articles_creation <- function(list_art) {
 #' Calls \code{\link{get_article_most_recent_table}} for each element of
 #' \code{list_art} and row-binds the results.
 #'
-#' @param list_art Character vector of English Wikipedia article titles.
-#' @param date_an Reserved for future use; currently ignored.  Pass \code{NULL}
-#'   (default).
+#' @param list_art Character vector of Wikipedia article titles.
+#' @param date_an Character string — upper date limit in ISO 8601 format.
+#'   Default: current UTC time.
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A combined data frame of most recent revisions, or \code{NULL} if
 #'   all requests fail.
 #' @export
@@ -265,20 +299,16 @@ get_category_articles_creation <- function(list_art) {
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
 #' }
-get_category_articles_most_recent <- function(list_art, date_an = NULL) {
+get_category_articles_most_recent <- function(list_art,
+                                              date_an = NULL,
+                                              lang    = "en") {
   if (length(list_art) == 0L) return(NULL)
-  dfn_art <- NULL
-  for (art in seq_along(list_art)) {
-    message("Fetching most recent: ", list_art[art])
-    dfn_load <- tryCatch(
-      get_article_most_recent_table(list_art[art]),
-      error = function(e) NULL
-    )
-    if (!is.null(dfn_load) && length(dfn_load) > 1L) {
-      dfn_art <- rbind(dfn_art, dfn_load)
-    }
-  }
-  dfn_art
+  results <- lapply(list_art, function(art) {
+    message("Fetching most recent: ", art)
+    tryCatch(get_article_most_recent_table(art, date_an = date_an, lang = lang),
+             error = function(e) NULL)
+  })
+  dplyr::bind_rows(Filter(Negate(is.null), results))
 }
 
 
@@ -289,18 +319,18 @@ get_category_articles_most_recent <- function(list_art, date_an = NULL) {
 #'
 #' @param category Character string — Wikipedia category name
 #'   (e.g. \code{"Circadian rhythm"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return Character vector of article titles, or \code{NULL} on error.
 #' @export
 #' @examples
 #' \dontrun{
 #' get_pagename_in_cat("Circadian rhythm")
-#' # Multiple categories:
-#' unique(unlist(sapply(c("Circadian rhythm", "Sleep"), get_pagename_in_cat)))
+#' get_pagename_in_cat("Rythme_circadien", lang = "fr")
 #' }
-get_pagename_in_cat <- function(category) {
+get_pagename_in_cat <- function(category, lang = "en") {
   tryCatch({
     cats2 <- WikipediR::pages_in_category(
-      "en", "wikipedia",
+      lang, "wikipedia",
       categories = category,
       limit = 500
     )
@@ -324,7 +354,8 @@ get_pagename_in_cat <- function(category) {
 #' \code{\link{get_article_full_history_table}} for every title in
 #' \code{all_art} and returns the four tables as a named list.
 #'
-#' @param all_art Character vector of English Wikipedia article titles.
+#' @param all_art Character vector of Wikipedia article titles.
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A named list with elements \code{article_initial_table},
 #'   \code{article_most_recent_table}, \code{article_info_table}, and
 #'   \code{article_full_history_table}.
@@ -335,7 +366,7 @@ get_pagename_in_cat <- function(category) {
 #'   c("Zeitgeber", "Sleep deprivation")
 #' )
 #' }
-get_tables_initial_most_recent_full_info <- function(all_art) {
+get_tables_initial_most_recent_full_info <- function(all_art, lang = "en") {
   article_initial_table      <- NULL
   article_most_recent_table  <- NULL
   article_info_table         <- NULL
@@ -346,19 +377,19 @@ get_tables_initial_most_recent_full_info <- function(all_art) {
     tryCatch({
       article_initial_table <- rbind(
         article_initial_table,
-        get_article_initial_table(all_art[i])
+        get_article_initial_table(all_art[i], lang = lang)
       )
       article_most_recent_table <- rbind(
         article_most_recent_table,
-        get_article_most_recent_table(all_art[i])
+        get_article_most_recent_table(all_art[i], lang = lang)
       )
       article_info_table <- rbind(
         article_info_table,
-        get_article_info_table(all_art[i])
+        get_article_info_table(all_art[i], lang = lang)
       )
       article_full_history_table <- rbind(
         article_full_history_table,
-        get_article_full_history_table(all_art[i])
+        get_article_full_history_table(all_art[i], lang = lang)
       )
     }, error = function(e) {
       message("  Error for ", all_art[i], ": ", conditionMessage(e))
@@ -379,8 +410,9 @@ get_tables_initial_most_recent_full_info <- function(all_art) {
 #'
 #' @param catname Character string — category name, with or without the
 #'   \code{"Category:"} prefix.
-#' @param replecement Character used to replace spaces in the category name
+#' @param replacement Character used to replace spaces in the category name
 #'   for the API query (default: \code{"_"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A data frame of subcategory metadata with an additional column
 #'   \code{parent_cat}.
 #' @export
@@ -388,38 +420,31 @@ get_tables_initial_most_recent_full_info <- function(all_art) {
 #' \dontrun{
 #' get_subcat_table("Category:Biology")
 #' }
-get_subcat_table <- function(catname, replecement = "_") {
+get_subcat_table <- function(catname, replacement = "_", lang = "en") {
   cat_table <- NULL
-  catname <- gsub("^Category:", "", catname)
-  catname <- gsub(" ", replecement, catname)
+  catname   <- gsub("^Category:", "", catname)
+  catname   <- gsub(" ", replacement, catname)
+  base      <- paste0("https://", lang, ".wikipedia.org/w/api.php")
 
   cmd <- paste0(
-    "https://en.wikipedia.org/w/api.php?action=query&list=categorymembers",
+    base, "?action=query&list=categorymembers",
     "&cmtitle=Category:", catname,
     "&cmlimit=500&cmprop=ids|title|type|timestamp",
     "&format=json&cmtype=subcat"
   )
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
+  parsed    <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
   cat_table <- rbind(cat_table, parsed$query$categorymembers)
 
   tryCatch({
     while (length(parsed$continue$cmcontinue) == 1L) {
       rvc <- parsed$continue$cmcontinue
       cmd <- paste0(
-        "https://en.wikipedia.org/w/api.php?action=query&list=categorymembers",
+        base, "?action=query&list=categorymembers",
         "&cmtitle=Category:", catname,
         "&cmlimit=500&cmprop=ids|title|type|timestamp",
         "&format=json&cmtype=subcat&cmcontinue=", rvc
       )
-      resp   <- httr::GET(cmd)
-      parsed <- jsonlite::fromJSON(
-        httr::content(resp, "text", encoding = "UTF-8"),
-        simplifyVector = TRUE
-      )
+      parsed    <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
       cat_table <- rbind(cat_table, parsed$query$categorymembers)
     }
   }, error = function(e) NULL)
@@ -433,7 +458,8 @@ get_subcat_table <- function(catname, replecement = "_") {
 #'
 #' @param catname Character string — category name, with or without the
 #'   \code{"Category:"} prefix.
-#' @param replecement Character used to replace spaces (default: \code{"_"}).
+#' @param replacement Character used to replace spaces (default: \code{"_"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A data frame of page metadata with an additional column
 #'   \code{parent_cat}.
 #' @export
@@ -441,38 +467,31 @@ get_subcat_table <- function(catname, replecement = "_") {
 #' \dontrun{
 #' get_pages_in_cat_table("Category:Biology")
 #' }
-get_pages_in_cat_table <- function(catname, replecement = "_") {
+get_pages_in_cat_table <- function(catname, replacement = "_", lang = "en") {
   cat_table <- NULL
-  catname <- gsub("^Category:", "", catname)
-  catname <- gsub(" ", replecement, catname)
+  catname   <- gsub("^Category:", "", catname)
+  catname   <- gsub(" ", replacement, catname)
+  base      <- paste0("https://", lang, ".wikipedia.org/w/api.php")
 
   cmd <- paste0(
-    "https://en.wikipedia.org/w/api.php?action=query&list=categorymembers",
+    base, "?action=query&list=categorymembers",
     "&cmtitle=Category:", catname,
     "&cmlimit=500&cmprop=ids|title|type|timestamp",
     "&format=json&cmtype=page"
   )
-  resp   <- httr::GET(cmd)
-  parsed <- jsonlite::fromJSON(
-    httr::content(resp, "text", encoding = "UTF-8"),
-    simplifyVector = TRUE
-  )
+  parsed    <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
   cat_table <- rbind(cat_table, parsed$query$categorymembers)
 
   tryCatch({
     while (length(parsed$continue$cmcontinue) == 1L) {
       rvc <- parsed$continue$cmcontinue
       cmd <- paste0(
-        "https://en.wikipedia.org/w/api.php?action=query&list=categorymembers",
+        base, "?action=query&list=categorymembers",
         "&cmtitle=Category:", catname,
         "&cmlimit=500&cmprop=ids|title|type|timestamp",
         "&format=json&cmtype=page&cmcontinue=", rvc
       )
-      resp   <- httr::GET(cmd)
-      parsed <- jsonlite::fromJSON(
-        httr::content(resp, "text", encoding = "UTF-8"),
-        simplifyVector = TRUE
-      )
+      parsed    <- jsonlite::fromJSON(.wiki_api_get(cmd), simplifyVector = TRUE)
       cat_table <- rbind(cat_table, parsed$query$categorymembers)
     }
   }, error = function(e) NULL)
@@ -485,48 +504,38 @@ get_pages_in_cat_table <- function(catname, replecement = "_") {
 #' Retrieve subcategories for multiple Wikipedia categories
 #'
 #' @param catlist Character vector of category names.
-#' @param replecement Character used to replace spaces (default: \code{"_"}).
+#' @param replacement Character used to replace spaces (default: \code{"_"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A combined data frame of subcategory metadata.
 #' @export
 #' @examples
 #' \dontrun{
 #' get_subcat_multiple(c("Category:Biology", "Category:Medicine"))
 #' }
-get_subcat_multiple <- function(catlist, replecement = "_") {
-  cat_table_list <- NULL
-  for (i in seq_along(catlist)) {
-    tryCatch({
-      cat_table_list <- rbind(
-        cat_table_list,
-        get_subcat_table(catlist[i], replecement)
-      )
-    }, error = function(e) NULL)
-  }
-  cat_table_list
+get_subcat_multiple <- function(catlist, replacement = "_", lang = "en") {
+  dplyr::bind_rows(lapply(catlist, function(cat) {
+    tryCatch(get_subcat_table(cat, replacement, lang = lang),
+             error = function(e) NULL)
+  }))
 }
 
 
 #' Retrieve pages for multiple Wikipedia categories
 #'
 #' @param catlist Character vector of category names.
-#' @param replecement Character used to replace spaces (default: \code{"_"}).
+#' @param replacement Character used to replace spaces (default: \code{"_"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A combined data frame of page metadata.
 #' @export
 #' @examples
 #' \dontrun{
 #' get_page_in_cat_multiple(c("Category:Biology", "Category:Medicine"))
 #' }
-get_page_in_cat_multiple <- function(catlist, replecement = "_") {
-  cat_table_list <- NULL
-  for (i in seq_along(catlist)) {
-    tryCatch({
-      cat_table_list <- rbind(
-        cat_table_list,
-        get_pages_in_cat_table(catlist[i], replecement)
-      )
-    }, error = function(e) NULL)
-  }
-  cat_table_list
+get_page_in_cat_multiple <- function(catlist, replacement = "_", lang = "en") {
+  dplyr::bind_rows(lapply(catlist, function(cat) {
+    tryCatch(get_pages_in_cat_table(cat, replacement, lang = lang),
+             error = function(e) NULL)
+  }))
 }
 
 
@@ -534,7 +543,8 @@ get_page_in_cat_multiple <- function(catlist, replecement = "_") {
 #'
 #' @param catname Character string — root category name.
 #' @param depth Integer — number of levels to descend.
-#' @param replecement Character used to replace spaces (default: \code{"_"}).
+#' @param replacement Character used to replace spaces (default: \code{"_"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A data frame of all unique subcategories up to \code{depth} levels
 #'   below \code{catname}.
 #' @export
@@ -542,16 +552,61 @@ get_page_in_cat_multiple <- function(catlist, replecement = "_") {
 #' \dontrun{
 #' get_subcat_with_depth("Category:Biology", depth = 2)
 #' }
-get_subcat_with_depth <- function(catname, depth, replecement = "_") {
-  table_out <- get_subcat_table(catname)
+get_subcat_with_depth <- function(catname, depth, replacement = "_", lang = "en") {
+  table_out <- get_subcat_table(catname, lang = lang)
   while (depth > 0L) {
-    table_out <- rbind(
+    table_out <- dplyr::bind_rows(
       table_out,
-      get_subcat_multiple(table_out$title, replecement)
+      get_subcat_multiple(table_out$title, replacement, lang = lang)
     )
     depth <- depth - 1L
   }
   unique(table_out)
+}
+
+
+# ── Time-series probing ────────────────────────────────────────────────────────
+
+#' Probe a Wikipedia article at multiple time points
+#'
+#' For each timestamp in \code{dates_to_probe}, fetches the article snapshot
+#' and computes the requested quality metrics.  This implements the monthly
+#' probing approach used in COVID-19 citation analysis.
+#'
+#' @param article_name Character string — Wikipedia article title.
+#' @param dates_to_probe Character vector of ISO 8601 timestamps
+#'   (e.g. \code{"2021-01-01T00:00:00Z"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
+#' @param metrics Character vector of metrics to compute.  Any subset of
+#'   \code{c("sci_score", "doi_count", "ref_count", "size")}.
+#' @return A data frame with one row per successfully fetched date and columns
+#'   \code{date}, \code{art}, and one column per requested metric.
+#' @export
+#' @examples
+#' \dontrun{
+#' dates <- paste0(2018:2023, "-01-01T00:00:00Z")
+#' probe_article_over_time("Zeitgeber", dates)
+#' }
+probe_article_over_time <- function(article_name,
+                                     dates_to_probe,
+                                     lang    = "en",
+                                     metrics = c("sci_score", "doi_count",
+                                                 "ref_count", "size")) {
+  results <- lapply(dates_to_probe, function(d) {
+    snap <- tryCatch(
+      get_article_most_recent_table(article_name, date_an = d, lang = lang),
+      error = function(e) NULL
+    )
+    if (is.null(snap) || nrow(snap) == 0L) return(NULL)
+    txt <- snap$`*`
+    row <- list(date = d, art = article_name)
+    if ("sci_score" %in% metrics) row$sci_score  <- get_sci_score(txt)
+    if ("doi_count" %in% metrics) row$doi_count  <- get_doi_count(txt)
+    if ("ref_count" %in% metrics) row$ref_count  <- get_refCount(txt)
+    if ("size"      %in% metrics) row$size       <- nchar(txt)
+    as.data.frame(row, stringsAsFactors = FALSE)
+  })
+  dplyr::bind_rows(Filter(Negate(is.null), results))
 }
 
 
@@ -730,14 +785,18 @@ page_view_plot <- function(article_name, ymax = NA,
     "en.wikipedia/all-access/all-agents/", art_enc, "/daily/", start, "/", end
   )
   resp <- tryCatch(
-    httr::GET(url, httr::user_agent("wikilite R package")),
+    httr2::request(url) |>
+      httr2::req_user_agent("wikilite R package") |>
+      httr2::req_retry(max_tries = 3, backoff = ~ 2^.x) |>
+      httr2::req_error(is_error = function(resp) FALSE) |>
+      httr2::req_perform(),
     error = function(e) NULL
   )
-  if (is.null(resp) || httr::status_code(resp) != 200L) {
+  if (is.null(resp) || httr2::resp_status(resp) != 200L) {
     message("No pageview data returned for: ", article_name)
     return(invisible(NULL))
   }
-  parsed    <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+  parsed    <- jsonlite::fromJSON(httr2::resp_body_string(resp))
   page_view <- as.data.frame(parsed$items)
   page_view$date <- as.Date(substr(page_view$timestamp, 1L, 8L), format = "%Y%m%d")
 
@@ -758,12 +817,13 @@ page_view_plot <- function(article_name, ymax = NA,
 #' Retrieves the full revision history and plots the number of edits per week
 #' as an area chart.
 #'
-#' @param article_name Character string — English Wikipedia article title.
+#' @param article_name Character string — Wikipedia article title.
 #' @param ymax Optional numeric upper limit for the y-axis.
 #' @param start Start date in \code{"YYYYMMDDHH"} format
 #'   (default: \code{"2020010100"}).
 #' @param end End date in \code{"YYYYMMDDHH"} format
 #'   (default: \code{"2020050100"}).
+#' @param lang Two-letter language code (default: \code{"en"}).
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
@@ -771,13 +831,14 @@ page_view_plot <- function(article_name, ymax = NA,
 #' page_edit_plot("Zeitgeber", start = "2019010100", end = "2021010100")
 #' }
 page_edit_plot <- function(article_name, ymax = NA,
-                           start = "2020010100", end = "2020050100") {
-  history     <- get_article_full_history_table(article_name)
-  history$ts  <- as.Date(
+                           start = "2020010100", end = "2020050100",
+                           lang  = "en") {
+  history    <- get_article_full_history_table(article_name, lang = lang)
+  history$ts <- as.Date(
     sapply(history$timestamp, function(x) unlist(strsplit(x, "T"))[1])
   )
-  start_date  <- as.Date(as.POSIXlt(start, format = "%Y%m%d%H", tz = "GMT"))
-  end_date    <- as.Date(as.POSIXlt(end,   format = "%Y%m%d%H", tz = "GMT"))
+  start_date <- as.Date(as.POSIXlt(start, format = "%Y%m%d%H", tz = "GMT"))
+  end_date   <- as.Date(as.POSIXlt(end,   format = "%Y%m%d%H", tz = "GMT"))
 
   df_edits <- dplyr::select(history, ts) |>
     dplyr::filter(ts > start_date & ts < end_date)

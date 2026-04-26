@@ -4,14 +4,18 @@
 #'
 #' Writes a Wikipedia revision table (as returned by
 #' \code{\link{get_article_full_history_table}} or similar functions) to an
-#' Excel file in the current working directory.
+#' Excel file.
 #'
 #' @param wiki_hist A data frame of Wikipedia revisions with at least the
 #'   columns \code{art}, \code{revid}, \code{parentid}, \code{user},
 #'   \code{userid}, \code{timestamp}, \code{size}, \code{comment}, and
 #'   \code{*} (raw wikitext).
-#' @param file_name Character string used as a prefix for the output file name.
-#'   The file will be saved as \code{<file_name>_wiki_table.xlsx}.
+#' @param file_name Full path prefix for the output file.  The file will be
+#'   saved as \code{<file_name>_wiki_table.xlsx}.  If only a base name is
+#'   given (no directory), the file is written to the current working
+#'   directory (see \code{getwd()}).
+#' @param dir Optional directory path.  When non-\code{NULL}, \code{file_name}
+#'   is interpreted as a base name and the file is written inside \code{dir}.
 #' @return Invisibly returns \code{NULL}. Called for its side effect of writing
 #'   a file.
 #' @export
@@ -19,8 +23,12 @@
 #' \dontrun{
 #' tmpwikitable <- get_article_initial_table("Zeitgeber")
 #' write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber")
+#'
+#' # Write to a specific directory
+#' write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber", dir = tempdir())
 #' }
-write_wiki_history_to_xlsx <- function(wiki_hist, file_name) {
+write_wiki_history_to_xlsx <- function(wiki_hist, file_name, dir = NULL) {
+  if (!is.null(dir)) file_name <- file.path(dir, basename(file_name))
   wiki_hist[is.na(wiki_hist)] <- "-"
   df <- data.frame(
     art       = wiki_hist$art,
@@ -43,11 +51,14 @@ write_wiki_history_to_xlsx <- function(wiki_hist, file_name) {
 #'
 #' Applies every regular expression in \code{\link{pkg.env}}\code{$regexp_list}
 #' to \code{article_most_recent_table} and saves the results as individual
-#' \code{.xlsx} files in the working directory.
+#' \code{.xlsx} files.
 #'
 #' @param article_most_recent_table A Wikipedia revision data frame (e.g. from
 #'   \code{\link{get_category_articles_most_recent}}).
-#' @param name_file_prefix Character prefix used for all output file names.
+#' @param name_file_prefix Full path prefix used for all output file names.
+#'   Each file is named \code{<name_file_prefix>_<regexp>_extracted_citations.xlsx}.
+#'   If only a base name is given (no directory), files are written to the
+#'   current working directory (see \code{getwd()}).
 #' @return Invisibly returns \code{NULL}. Called for its side effect of writing
 #'   files.
 #' @export
@@ -87,7 +98,9 @@ export_extracted_citations_xlsx <- function(article_most_recent_table,
 #' to a BibTeX file.
 #'
 #' @param doi_list Character vector of DOIs.
-#' @param file_name Output file name (default: \code{"file.bib"}).
+#' @param file_name Full path for the output \code{.bib} file.  If only a
+#'   base name is given (no directory), the file is written to the current
+#'   working directory (see \code{getwd()}).  Default: \code{"file.bib"}.
 #' @return Invisibly returns \code{NULL}. Called for its side effect of writing
 #'   a file.
 #' @export

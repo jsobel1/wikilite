@@ -22,22 +22,25 @@ Encoding: UTF-8
 Depends:
     R (>= 4.1.0)
 Imports:
+    digest,
     dplyr (>= 1.0.0),
     europepmc,
     ggplot2 (>= 3.3.0),
     ggrepel,
-    httr,
+    httr2 (>= 1.0.0),
     jsonlite,
     openxlsx,
     plotly,
     purrr,
     rcrossref,
-    reshape2,
     stringr,
     textclean,
+    tools,
     visNetwork,
     WikipediR
 Suggests:
+    future,
+    furrr,
     knitr,
     rAltmetric,
     rmarkdown,
@@ -49,8 +52,10 @@ Config/testthat/edition: 3
 Collate:
     'wikilite-package.R'
     'citation_parsing.R'
+    'cache.R'
     'article_history.R'
     'annotation.R'
     'export.R'
     'wiki_trends.R'
     'interactive_viz.R'
+    'analysis_viz.R'
