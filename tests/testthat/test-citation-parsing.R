@@ -194,3 +194,121 @@ test_that("get_parsed_citations returns data frame with type/variable/value", {
     expect_true(all(c("art", "type", "variable", "value") %in% names(result)))
   }
 })
+
+# ── 8. classify_cite_type ─────────────────────────────────────────────────────
+
+test_that("classify_cite_type maps journal / article → Journal", {
+  expect_equal(classify_cite_type("journal"), "Journal")
+  expect_equal(classify_cite_type("article"), "Journal")
+})
+
+test_that("classify_cite_type maps preprint types → Preprint", {
+  expect_equal(classify_cite_type("arxiv"),   "Preprint")
+  expect_equal(classify_cite_type("ssrn"),    "Preprint")
+  expect_equal(classify_cite_type("biorxiv"), "Preprint")
+})
+
+test_that("classify_cite_type maps book variants → Book", {
+  expect_equal(classify_cite_type("book"),         "Book")
+  expect_equal(classify_cite_type("encyclopaedia"), "Book")
+  expect_equal(classify_cite_type("encyclopedia"),  "Book")
+  expect_equal(classify_cite_type("encyclop"),      "Book")
+})
+
+test_that("classify_cite_type maps web → Web", {
+  expect_equal(classify_cite_type("web"), "Web")
+})
+
+test_that("classify_cite_type maps news / magazine / newspaper → News/Magazine", {
+  expect_equal(classify_cite_type("news"),      "News/Magazine")
+  expect_equal(classify_cite_type("magazine"),  "News/Magazine")
+  expect_equal(classify_cite_type("newspaper"), "News/Magazine")
+})
+
+test_that("classify_cite_type maps thesis → Thesis", {
+  expect_equal(classify_cite_type("thesis"), "Thesis")
+})
+
+test_that("classify_cite_type maps conference → Conference", {
+  expect_equal(classify_cite_type("conference"), "Conference")
+})
+
+test_that("classify_cite_type maps report types → Report", {
+  expect_equal(classify_cite_type("report"),       "Report")
+  expect_equal(classify_cite_type("press release"), "Report")
+  expect_equal(classify_cite_type("pressrelease"),  "Report")
+})
+
+test_that("classify_cite_type maps multimedia types → Multimedia", {
+  expect_equal(classify_cite_type("av media"), "Multimedia")
+  expect_equal(classify_cite_type("avmedia"),  "Multimedia")
+  expect_equal(classify_cite_type("episode"),  "Multimedia")
+  expect_equal(classify_cite_type("podcast"),  "Multimedia")
+  expect_equal(classify_cite_type("video"),    "Multimedia")
+})
+
+test_that("classify_cite_type maps legal types → Legal/Patent", {
+  expect_equal(classify_cite_type("patent"), "Legal/Patent")
+  expect_equal(classify_cite_type("court"),  "Legal/Patent")
+})
+
+test_that("classify_cite_type maps social media → Social Media", {
+  expect_equal(classify_cite_type("tweet"),  "Social Media")
+  expect_equal(classify_cite_type("reddit"), "Social Media")
+})
+
+test_that("classify_cite_type returns Other for unknown types", {
+  expect_equal(classify_cite_type("unknown_type_xyz"), "Other")
+  expect_equal(classify_cite_type(""),                 "Other")
+})
+
+test_that("classify_cite_type is case-insensitive", {
+  expect_equal(classify_cite_type("JOURNAL"),    "Journal")
+  expect_equal(classify_cite_type("ArXiV"),      "Preprint")
+  expect_equal(classify_cite_type("Book"),       "Book")
+  expect_equal(classify_cite_type("WEB"),        "Web")
+  expect_equal(classify_cite_type("Conference"), "Conference")
+})
+
+test_that("classify_cite_type trims leading/trailing whitespace", {
+  expect_equal(classify_cite_type("  journal  "), "Journal")
+  expect_equal(classify_cite_type("\tweb\n"),     "Web")
+})
+
+# ── 9. parse_cite_type: new template coverage ─────────────────────────────────
+
+test_that("parse_cite_type handles {{cite thesis}}", {
+  expect_equal(parse_cite_type("{{cite thesis | author = Smith }}"), "thesis")
+})
+
+test_that("parse_cite_type handles {{cite conference}}", {
+  expect_equal(parse_cite_type("{{cite conference | title = Proc }}"), "conference")
+})
+
+test_that("parse_cite_type handles {{cite report}}", {
+  expect_equal(parse_cite_type("{{cite report | title = Report }}"), "report")
+})
+
+test_that("parse_cite_type handles {{cite news}}", {
+  expect_equal(parse_cite_type("{{cite news | title = Article }}"), "news")
+})
+
+test_that("parse_cite_type handles {{cite magazine}}", {
+  expect_equal(parse_cite_type("{{cite magazine | title = Mag }}"), "magazine")
+})
+
+test_that("parse_cite_type handles {{cite arxiv}}", {
+  expect_equal(parse_cite_type("{{cite arxiv | eprint = 2101.00001 }}"), "arxiv")
+})
+
+test_that("parse_cite_type handles {{Cite book}} (capital C)", {
+  expect_equal(parse_cite_type("{{Cite book | title = My Book }}"), "book")
+})
+
+test_that("parse_cite_type returns non-cite token for sfn/harvnb (classify_cite_type maps them to Other)", {
+  r_sfn    <- parse_cite_type("{{sfn | Smith | 2020 }}")
+  r_harvnb <- parse_cite_type("{{harvnb | Jones | 2018 }}")
+  # Not a recognised cite type
+  expect_equal(classify_cite_type(r_sfn),    "Other")
+  expect_equal(classify_cite_type(r_harvnb), "Other")
+})

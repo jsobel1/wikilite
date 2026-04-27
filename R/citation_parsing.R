@@ -35,15 +35,24 @@ pkg.env$isbn_regexp <- "(?<=(isbn|ISBN)\\s?[=:]?\\s?)[-0-9X ]{13,20}"
 
 pkg.env$url_regexp <- "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
 
-pkg.env$tweet_regexp         <- "\\{\\{cite tweet.*?\\}\\}"
-pkg.env$news_regexp          <- "\\{\\{cite news.*?\\}\\}"
-pkg.env$journal_regexp       <- "\\{\\{cite journal.*?\\}\\}"
-pkg.env$web_regexp           <- "\\{\\{cite web.*?\\}\\}"
-pkg.env$article_regexp       <- "\\{\\{cite article.*?\\}\\}"
-pkg.env$report_regexp        <- "\\{\\{cite report.*?\\}\\}"
-pkg.env$court_regexp         <- "\\{\\{cite court.*?\\}\\}"
-pkg.env$press_release_regexp <- "\\{\\{cite press release.*?\\}\\}"
-pkg.env$book_regexp          <- "\\{\\{cite book .*?\\}\\}"
+pkg.env$tweet_regexp         <- "\\{\\{[cC]ite tweet.*?\\}\\}"
+pkg.env$news_regexp          <- "\\{\\{[cC]ite news.*?\\}\\}"
+pkg.env$journal_regexp       <- "\\{\\{[cC]ite journal.*?\\}\\}"
+pkg.env$web_regexp           <- "\\{\\{[cC]ite web.*?\\}\\}"
+pkg.env$article_regexp       <- "\\{\\{[cC]ite article.*?\\}\\}"
+pkg.env$magazine_regexp      <- "\\{\\{[cC]ite magazine.*?\\}\\}"
+pkg.env$report_regexp        <- "\\{\\{[cC]ite report.*?\\}\\}"
+pkg.env$press_release_regexp <- "\\{\\{[cC]ite press release.*?\\}\\}"
+pkg.env$court_regexp         <- "\\{\\{[cC]ite court.*?\\}\\}"
+pkg.env$patent_regexp        <- "\\{\\{[cC]ite patent.*?\\}\\}"
+pkg.env$conference_regexp    <- "\\{\\{[cC]ite conference.*?\\}\\}"
+pkg.env$thesis_regexp        <- "\\{\\{[cC]ite thesis.*?\\}\\}"
+pkg.env$arxiv_regexp         <- "\\{\\{[cC]ite arXiv.*?\\}\\}"
+pkg.env$encyclopedia_regexp  <- "\\{\\{[cC]ite encyclop.*?\\}\\}"
+pkg.env$av_media_regexp      <- "\\{\\{[cC]ite AV media.*?\\}\\}"
+pkg.env$episode_regexp       <- "\\{\\{[cC]ite episode.*?\\}\\}"
+pkg.env$podcast_regexp       <- "\\{\\{[cC]ite podcast.*?\\}\\}"
+pkg.env$book_regexp          <- "\\{\\{[cC]ite book.*?\\}\\}"
 pkg.env$pmid_regexp          <- "(?<=(pmid|PMID)\\s?[=:]\\s?)\\d{5,9}"
 pkg.env$ref_in_text_regexp   <- "<ref>\\{\\{.*?\\}\\}</ref>"
 pkg.env$ref_regexp           <- "<ref.*?</ref>"
@@ -56,15 +65,24 @@ pkg.env$regexp_list <- c(
   isbn_regexp          = "(?<=(isbn|ISBN)\\s?[=:]?\\s?)[-0-9X ]{13,17}",
   url_regexp           = "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
   wikihyperlink_regexp = "\\[\\[.*?\\]\\]",
-  tweet_regexp         = "\\{\\{cite tweet.*?\\}\\}",
-  news_regexp          = "\\{\\{cite news.*?\\}\\}",
-  journal_regexp       = "\\{\\{cite journal.*?\\}\\}",
-  web_regexp           = "\\{\\{cite web.*?\\}\\}",
-  article_regexp       = "\\{\\{cite article.*?\\}\\}",
-  report_regexp        = "\\{\\{cite report.*?\\}\\}",
-  court_regexp         = "\\{\\{cite court.*?\\}\\}",
-  press_release_regexp = "\\{\\{cite press release.*?\\}\\}",
-  book_regexp          = "\\{\\{cite book .*?\\}\\}",
+  tweet_regexp         = "\\{\\{[cC]ite tweet.*?\\}\\}",
+  news_regexp          = "\\{\\{[cC]ite news.*?\\}\\}",
+  magazine_regexp      = "\\{\\{[cC]ite magazine.*?\\}\\}",
+  journal_regexp       = "\\{\\{[cC]ite journal.*?\\}\\}",
+  web_regexp           = "\\{\\{[cC]ite web.*?\\}\\}",
+  article_regexp       = "\\{\\{[cC]ite article.*?\\}\\}",
+  report_regexp        = "\\{\\{[cC]ite report.*?\\}\\}",
+  press_release_regexp = "\\{\\{[cC]ite press release.*?\\}\\}",
+  court_regexp         = "\\{\\{[cC]ite court.*?\\}\\}",
+  patent_regexp        = "\\{\\{[cC]ite patent.*?\\}\\}",
+  conference_regexp    = "\\{\\{[cC]ite conference.*?\\}\\}",
+  thesis_regexp        = "\\{\\{[cC]ite thesis.*?\\}\\}",
+  arxiv_regexp         = "\\{\\{[cC]ite arXiv.*?\\}\\}",
+  encyclopedia_regexp  = "\\{\\{[cC]ite encyclop.*?\\}\\}",
+  av_media_regexp      = "\\{\\{[cC]ite AV media.*?\\}\\}",
+  episode_regexp       = "\\{\\{[cC]ite episode.*?\\}\\}",
+  podcast_regexp       = "\\{\\{[cC]ite podcast.*?\\}\\}",
+  book_regexp          = "\\{\\{[cC]ite book.*?\\}\\}",
   pmid_regexp          = "(?<=(pmid|PMID)\\s?[=:]\\s?)\\d{5,9}",
   ref_in_text_regexp   = "<ref>\\{\\{.*?\\}\\}</ref>",
   ref_regexp           = "<ref.*?</ref>",
@@ -128,6 +146,40 @@ parse_cite_type <- function(citation) {
   get_cite_type <- unlist(strsplit(get_cite, "\\|"))[1]
   get_cite_type <- gsub("\\s", "", get_cite_type)
   tolower(get_cite_type)
+}
+
+
+#' Map a raw CS1 type keyword to a display category
+#'
+#' Converts the keyword returned by \code{\link{parse_cite_type}} (e.g.
+#' \code{"journal"}, \code{"arxiv"}) to a human-readable display category
+#' aligned with the Wikipedia Citation Style 1/2 template taxonomy.
+#'
+#' @param raw_type Character string — the lowercase keyword produced by
+#'   \code{parse_cite_type()}.
+#' @return One of \code{"Journal"}, \code{"Book"}, \code{"Web"},
+#'   \code{"News/Magazine"}, \code{"Preprint"}, \code{"Thesis"},
+#'   \code{"Conference"}, \code{"Report"}, \code{"Multimedia"},
+#'   \code{"Legal/Patent"}, \code{"Social Media"}, or \code{"Other"}.
+#' @export
+#' @examples
+#' classify_cite_type("journal")   # "Journal"
+#' classify_cite_type("arxiv")     # "Preprint"
+#' classify_cite_type("book")      # "Book"
+classify_cite_type <- function(raw_type) {
+  t <- tolower(trimws(as.character(raw_type)))
+  if (t %in% c("journal", "article"))                          return("Journal")
+  if (t %in% c("arxiv", "ssrn", "biorxiv"))                   return("Preprint")
+  if (t == "thesis")                                           return("Thesis")
+  if (t == "conference")                                       return("Conference")
+  if (t %in% c("report", "press release", "pressrelease"))    return("Report")
+  if (t %in% c("av media", "avmedia", "episode", "podcast", "video")) return("Multimedia")
+  if (t %in% c("patent", "court"))                            return("Legal/Patent")
+  if (t %in% c("tweet", "reddit"))                            return("Social Media")
+  if (t %in% c("book", "encyclopaedia", "encyclopedia", "encyclop")) return("Book")
+  if (t %in% c("news", "magazine", "newspaper"))              return("News/Magazine")
+  if (t == "web")                                             return("Web")
+  "Other"
 }
 
 

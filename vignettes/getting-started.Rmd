@@ -1,0 +1,190 @@
+---
+title: "Getting Started with wikilite"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with wikilite}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  eval     = FALSE
+)
+```
+
+## 1. Installation
+
+```{r install}
+# CRAN (once available):
+install.packages("wikilite")
+
+# Development version from GitHub:
+remotes::install_github("jsobel1/wikilite")
+```
+
+## 2. Single-article workflow
+
+The basic workflow fetches the most recent revision of an article and
+computes quality metrics.
+
+```{r single-article}
+library(wikilite)
+
+# Fetch the most recent revision of Zeitgeber
+art <- get_article_most_recent_table("Zeitgeber")
+
+# SciScore: proportion of journal citations (0–1)
+get_sci_score(art$`*`)
+
+# SciScore2: DOI-to-ref ratio
+get_sci_score2(art$`*`)
+
+# Raw counts
+get_doi_count(art$`*`)
+get_refCount(art$`*`)
+```
+
+Results are cached to disk by default — subsequent calls with the same
+arguments return instantly.
+
+## 3. Category workflow
+
+```{r category}
+# Get all article titles in a Wikipedia category
+articles <- get_pagename_in_cat("Circadian rhythm")
+
+# Fetch most recent revisions for all articles
+recent <- get_category_articles_most_recent(articles)
+
+# Or fetch in parallel with 4 workers (requires furrr + future)
+history <- get_category_articles_history(articles, workers = 4L)
+```
+
+## 4. Multilingual support
+
+All API functions accept a `lang` parameter:
+
+```{r multilingual}
+# French Wikipedia
+fr_art <- get_article_most_recent_table("COVID-19", lang = "fr")
+
+# German Wikipedia category
+de_articles <- get_pagename_in_cat("Chronobiologie", lang = "de")
+```
+
+## 5. Citation extraction and parsing
+
+```{r citations}
+art <- get_article_most_recent_table("Zeitgeber")
+
+# Extract all DOIs
+doi_df <- get_regex_citations_in_wiki_table(art, pkg.env$doi_regexp)
+
+# Parse all CS1 templates into a tidy data frame
+parsed <- get_parsed_citations(art)
+head(parsed)
+
+# Citation type breakdown
+ct <- get_citation_type(art)
+plot_distribution_source_type(ct)
+```
+
+## 6. Interactive visualisations
+
+```{r viz}
+articles <- c("Zeitgeber", "Circadian rhythm", "Sleep deprivation",
+              "Advanced sleep phase disorder")
+
+# Gantt-style timeline
+plot_interactive_timeline(articles)
+
+# Article–publication bipartite network
+plot_article_publication_network(articles, min_wiki_count = 2)
+
+# Co-citation network
+plot_article_cocitation_network(articles, min_shared_dois = 3)
+
+# Wikilink network
+plot_article_wikilink_network(articles)
+```
+
+## 7. Annotation (EuropePMC, CrossRef)
+
+```{r annotation}
+# Annotate DOIs with EuropePMC metadata
+doi_list <- unique(doi_df$citation_fetched)
+epmc_df  <- annotate_doi_list_europmc(doi_list[1:10])
+
+# BibTeX export via CrossRef
+export_doi_to_bib(doi_list[1:5], file_name = "my_refs.bib")
+
+# Top cited papers
+top <- get_top_cited_wiki_papers(doi_df)
+```
+
+## 8. Edit trend analysis
+
+```{r trends}
+# Count revert-tagged edits for a one-hour window
+reverts <- get_revert_counts("20181212010000", "20181212000000")
+head(reverts)
+
+# Count ALL edits instead
+all_edits <- get_revert_counts("20181212010000", "20181212000000",
+                                rev_eds = FALSE)
+```
+
+## 9. Latency analysis (new in v0.1.0)
+
+```{r latency}
+# Compute citation latency: days from paper publication to Wikipedia insertion
+latency_df <- compute_citation_latency(doi_df, epmc_df)
+
+# Plot the distribution, stratified by preprint vs. journal
+plot_latency_distribution(latency_df, stratify_by = "is_preprint")
+
+# Segment plot of individual DOI latencies
+get_segment_history_doi_plot(latency_df, "Zeitgeber")
+
+# Dot plot showing insertion timing
+get_dotplot_history(latency_df, "Zeitgeber")
+```
+
+## 10. Time-series probing (new in v0.1.0)
+
+`probe_article_over_time()` fetches article snapshots at multiple dates
+and computes quality metrics at each point — useful for longitudinal analysis.
+
+```{r probing}
+dates <- paste0(2018:2024, "-01-01T00:00:00Z")
+probe_df <- probe_article_over_time(
+  "Zeitgeber",
+  dates_to_probe = dates,
+  metrics        = c("sci_score", "doi_count", "ref_count")
+)
+probe_df
+```
+
+## 11. Cache management
+
+```{r cache}
+# See where the cache lives
+wiki_cache_dir()
+
+# Clear all cached responses (forces fresh API calls)
+wiki_clear_cache()
+```
+
+## 12. Exporting results
+
+```{r export}
+# Write revision table to Excel
+write_wiki_history_to_xlsx(art, "zeitgeber",
+                            dir = tempdir())
+
+# Export all regex matches to separate Excel files
+export_extracted_citations_xlsx(recent, "circadian_articles")
+```
