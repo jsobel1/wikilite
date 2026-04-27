@@ -709,10 +709,10 @@ For pull requests:
 If you use **wikilite** in published research, please cite:
 
 ```bibtex
-@misc{sobel2024wikilite,
+@misc{sobel2026wikilite,
   author = {Sobel, Jonathan Aryeh},
   title  = {{wikilite}: Retrieve, Parse, and Analyse Wikipedia Article History and Citations},
-  year   = {2024},
+  year   = {2026},
   note   = {R package version 0.1.0},
   url    = {https://github.com/jsobel1/wikilite}
 }
