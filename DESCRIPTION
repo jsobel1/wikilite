@@ -16,7 +16,8 @@ Description: A toolkit for mining Wikipedia article revision history and
     revert-based edit trends across all Wikipedia articles, and provides
     visualisations including interactive timelines and citation networks.
 License: GPL-3
-URL: https://github.com/jsobel1/wikilite
+URL: https://github.com/jsobel1/wikilite,
+    https://github.com/jsobel1/wikiliteApp
 BugReports: https://github.com/jsobel1/wikilite/issues
 Encoding: UTF-8
 Depends:

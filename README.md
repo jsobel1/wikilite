@@ -726,6 +726,15 @@ This package implements and extends the methods described in:
 
 ---
 
+## Related tools
+
+| Tool | Description |
+|------|-------------|
+| [**wikiliteApp**](https://github.com/jsobel1/wikiliteApp) | Interactive Shiny application for history-flow analysis, authorship, stability, vandalism, and multi-article networks — powered by this package |
+| [**wikicitation-mcp**](https://github.com/jsobel1/wikicitation-mcp) | MCP server exposing wikilite tools to Claude and other LLM assistants |
+
+---
+
 ## License
 
 GPL-3 © Jonathan Sobel
