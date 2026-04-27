@@ -189,6 +189,7 @@ reference:
     desc: Package-level environment holding compiled regular expressions.
     contents:
       - pkg.env
+      - wikilite-package
 
 news:
   releases:
