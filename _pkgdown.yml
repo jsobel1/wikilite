@@ -1,0 +1,196 @@
+url: https://jsobel1.github.io/wikilite
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#2c6fad"
+    base_font: {google: "Source Sans Pro"}
+    heading_font: {google: "Source Sans Pro"}
+    code_font: {google: "JetBrains Mono"}
+
+home:
+  title: "wikilite — Wikipedia History & Citation Mining"
+  description: >
+    An R toolkit for mining Wikipedia article revision history and citations
+    via the public MediaWiki API. Retrieve full edit histories, extract and
+    annotate citations, compute SciScore, and visualise citation networks.
+  links:
+    - text: Companion Shiny app
+      href: https://github.com/jsobel1/wikiliteApp
+    - text: MCP server for Claude
+      href: https://github.com/jsobel1/wikicitation-mcp
+    - text: Report a bug
+      href: https://github.com/jsobel1/wikilite/issues
+
+navbar:
+  structure:
+    left: [intro, articles, reference, news]
+    right: [github]
+  components:
+    intro:
+      text: Get started
+      href: articles/getting-started.html
+    articles:
+      text: Articles
+      menu:
+        - text: "── Core workflows ──"
+        - text: Introduction & overview
+          href: articles/introduction.html
+        - text: Getting started
+          href: articles/getting-started.html
+        - text: Citation analysis
+          href: articles/citation-analysis.html
+        - text: Annotation workflow (EuropePMC, CrossRef)
+          href: articles/annotation-workflow.html
+        - text: "── Visualisation ──"
+        - text: Multi-article networks & latency
+          href: articles/multi-article-networks.html
+        - text: "── Interactive app ──"
+        - text: Shiny app guide
+          href: articles/shiny-app-guide.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/jsobel1/wikilite
+      aria-label: GitHub
+
+reference:
+  - title: "Cache"
+    desc: Control the on-disk article cache.
+    contents:
+      - wiki_cache_dir
+      - wiki_clear_cache
+
+  - title: "Retrieve article history"
+    desc: >
+      Download revision histories and metadata from the MediaWiki API.
+      All functions accept an optional `date_an` timestamp and `lang` edition.
+    contents:
+      - get_article_full_history_table
+      - get_article_initial_table
+      - get_article_most_recent_table
+      - get_article_info_table
+      - get_tables_initial_most_recent_full_info
+      - get_category_articles_creation
+      - get_category_articles_history
+      - get_category_articles_most_recent
+
+  - title: "Navigate categories"
+    desc: Browse the Wikipedia category tree.
+    contents:
+      - get_pages_in_cat_table
+      - get_pagename_in_cat
+      - get_page_in_cat_multiple
+      - get_subcat_table
+      - get_subcat_multiple
+      - get_subcat_with_depth
+
+  - title: "Count citations"
+    desc: >
+      Fast regex-based counters. Each function takes a raw wikitext string
+      and returns an integer.
+    contents:
+      - get_doi_count
+      - get_refCount
+      - get_hyperlinkCount
+      - get_urlCount
+      - get_ISBN_count
+      - get_anyCount
+
+  - title: "Extract & parse citations"
+    desc: Extract and classify Citation Style 1 (CS1) templates and hyperlinks.
+    contents:
+      - extract_citations
+      - extract_citations_regexp
+      - extract_wikihypelinks
+      - replace_wikihypelinks
+      - get_regex_citations_in_wiki_table
+      - parse_article_ALL_citations
+      - parse_cite_type
+      - classify_cite_type
+      - get_parsed_citations
+      - get_citation_type
+      - get_source_type_counts
+
+  - title: "Quality metrics"
+    desc: >
+      SciScore measures the fraction of citations that are peer-reviewed
+      journal articles.
+    contents:
+      - get_sci_score
+      - get_sci_score2
+      - get_top_cited_wiki_papers
+      - get_pdfs_top20source
+
+  - title: "Annotate DOIs"
+    desc: >
+      Enrich a list of DOIs with bibliographic metadata from external
+      databases (EuropePMC, CrossRef, Altmetric).
+    contents:
+      - annotate_doi_list_europmc
+      - annotate_doi_list_cross_ref
+      - annotate_doi_list_altmetrics
+      - annotate_doi_to_bibtex_cross_ref
+
+  - title: "Annotate ISBNs"
+    desc: Look up book metadata from Google Books, Open Library, and Altmetric.
+    contents:
+      - annotate_isbn_google
+      - annotate_isbn_openlib
+      - annotate_isbn_list_altmetrics
+
+  - title: "Citation latency"
+    desc: >
+      Measure how long after publication a paper first appears in Wikipedia,
+      and visualise the distribution.
+    contents:
+      - compute_citation_latency
+      - plot_latency_distribution
+      - get_segment_history_doi_plot
+      - get_dotplot_history
+
+  - title: "Visualise history"
+    desc: ggplot2 charts for edit activity, page-view trends, and source composition.
+    contents:
+      - plot_article_creation_per_year
+      - plot_distribution_source_type
+      - plot_top_source
+      - page_edit_plot
+      - page_view_plot
+      - get_edits_vs_time_plot
+      - get_size_vs_time_plot
+
+  - title: "Interactive timelines & networks"
+    desc: >
+      plotly timelines and three visNetwork graph types for multi-article
+      comparison.
+    contents:
+      - plot_interactive_timeline
+      - plot_navi_timeline
+      - plot_static_timeline
+      - plot_article_cocitation_network
+      - plot_article_publication_network
+      - plot_article_wikilink_network
+
+  - title: "Edit trends"
+    desc: Detect revert-tagged edits and identify disputed articles.
+    contents:
+      - get_revert_counts
+      - get_closest_date
+
+  - title: "Export"
+    desc: Write results to Excel or BibTeX files.
+    contents:
+      - export_doi_to_bib
+      - export_extracted_citations_xlsx
+      - write_wiki_history_to_xlsx
+
+  - title: "Internals"
+    desc: Package-level environment holding compiled regular expressions.
+    contents:
+      - pkg.env
+
+news:
+  releases:
+    - text: "wikilite 0.1.0"
+      href: news/index.html#wikilite-010
