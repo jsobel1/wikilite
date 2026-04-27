@@ -62,7 +62,7 @@ install.packages("wikilite")
 
 # Development version from GitHub
 # install.packages("remotes")
-remotes::install_github("jsobel1/WikiCitationHistoRy")
+remotes::install_github("jsobel1/wikilite")
 ```
 
 **System requirements:** R ≥ 4.1.0 (for the native pipe operator `|>`). No Java or compiled-code dependencies.
