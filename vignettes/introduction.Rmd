@@ -8,10 +8,16 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+on_ci <- identical(Sys.getenv("NOT_CRAN"), "true")
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment  = "#>",
-  eval     = FALSE
+  collapse  = TRUE,
+  comment   = "#>",
+  eval      = on_ci,
+  cache     = on_ci,
+  cache.path = "cache/introduction-",
+  message   = FALSE,
+  warning   = FALSE,
+  error     = TRUE
 )
 ```
 
@@ -36,13 +42,12 @@ Key capabilities:
 
 ## Installation
 
-```{r install}
+```{r install, eval = FALSE}
 # CRAN (once available)
 install.packages("wikilite")
 
 # Development version from GitHub
-# install.packages("remotes")
-remotes::install_github("jsobel1/WikiCitationHistoRy")
+remotes::install_github("jsobel1/wikilite")
 ```
 
 ## Quick-start: a single article

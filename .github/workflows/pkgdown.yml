@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      NOT_CRAN: "true"
     permissions:
       contents: write
 
@@ -32,6 +33,16 @@ jobs:
         with:
           extra-packages: any::pkgdown, local::.
           needs: website
+
+      # Cache knitr chunk output across runs — keyed on the vignette content.
+      # Delete the cache manually if you need to force a full re-run.
+      - name: Cache knitr chunk output
+        uses: actions/cache@v4
+        with:
+          path: vignettes/cache
+          key: knitr-${{ runner.os }}-${{ hashFiles('vignettes/**/*.Rmd') }}
+          restore-keys: |
+            knitr-${{ runner.os }}-
 
       - name: Build pkgdown site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)

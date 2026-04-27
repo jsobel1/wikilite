@@ -8,10 +8,16 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+on_ci <- identical(Sys.getenv("NOT_CRAN"), "true")
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment  = "#>",
-  eval     = FALSE
+  collapse   = TRUE,
+  comment    = "#>",
+  eval       = on_ci,
+  cache      = on_ci,
+  cache.path = "cache/multi-article-networks-",
+  message    = FALSE,
+  warning    = FALSE,
+  error      = TRUE
 )
 ```
 

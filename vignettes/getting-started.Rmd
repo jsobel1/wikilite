@@ -8,16 +8,22 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+on_ci <- identical(Sys.getenv("NOT_CRAN"), "true")
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment  = "#>",
-  eval     = FALSE
+  collapse   = TRUE,
+  comment    = "#>",
+  eval       = on_ci,
+  cache      = on_ci,
+  cache.path = "cache/getting-started-",
+  message    = FALSE,
+  warning    = FALSE,
+  error      = TRUE
 )
 ```
 
 ## 1. Installation
 
-```{r install}
+```{r install, eval = FALSE}
 # CRAN (once available):
 install.packages("wikilite")
 
@@ -153,18 +159,25 @@ get_segment_history_doi_plot(latency_df, "Zeitgeber")
 get_dotplot_history(latency_df, "Zeitgeber")
 ```
 
-## 10. Time-series probing (new in v0.1.0)
+## 10. Time-series probing
 
-`probe_article_over_time()` fetches article snapshots at multiple dates
-and computes quality metrics at each point — useful for longitudinal analysis.
+Fetch snapshots of an article at several historical dates by looping over
+`get_article_most_recent_table()` with different `date_an` arguments, then
+apply quality metrics to each snapshot.
 
 ```{r probing}
-dates <- paste0(2018:2024, "-01-01T00:00:00Z")
-probe_df <- probe_article_over_time(
-  "Zeitgeber",
-  dates_to_probe = dates,
-  metrics        = c("sci_score", "doi_count", "ref_count")
-)
+dates <- paste0(2019:2024, "-01-01T00:00:00Z")
+
+probe_df <- do.call(rbind, lapply(dates, function(d) {
+  snap <- get_article_most_recent_table("Zeitgeber", date_an = d)
+  data.frame(
+    date      = as.Date(d),
+    sci_score = get_sci_score(snap$`*`),
+    doi_count = get_doi_count(snap$`*`),
+    ref_count = get_refCount(snap$`*`)
+  )
+}))
+
 probe_df
 ```
 
