@@ -79,8 +79,7 @@ results <- lapply(seq_len(nrow(recent)), function(i) {
     n_url        = get_urlCount(text),
     n_ref        = get_refCount(text),
     n_hyperlinks = get_hyperlinkCount(text),
-    sci_score    = get_sci_score(text),
-    sci_score2   = get_sci_score2(text)
+    sci_score    = get_sci_score(text)
   )
 })
 
@@ -144,18 +143,6 @@ scores <- sapply(seq_len(nrow(recent)), function(i) {
 })
 names(scores) <- recent$art
 sort(scores, decreasing = TRUE)
-```
-
-**SciScore2** divides the count of DOIs by the total number of `<ref>` tags.
-A value near 1 suggests that almost every reference cites a publication with
-a DOI.
-
-```{r sciscore2-loop}
-scores2 <- sapply(seq_len(nrow(recent)), function(i) {
-  get_sci_score2(recent$`*`[i])
-})
-names(scores2) <- recent$art
-scores2
 ```
 
 ## Identify the most-cited scientific papers

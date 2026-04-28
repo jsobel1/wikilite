@@ -118,7 +118,6 @@ reference:
       journal articles.
     contents:
       - get_sci_score
-      - get_sci_score2
       - get_top_cited_wiki_papers
       - get_pdfs_top20source
 

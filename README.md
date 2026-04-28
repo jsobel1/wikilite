@@ -259,13 +259,11 @@ clean_text <- replace_wikihypelinks(recent$`*`)
 | Metric | Formula | Range | Interpretation |
 |--------|---------|-------|---------------|
 | `get_sci_score()` | (journal citations) / (all CS1 citations) | 0 – 1 | 1 = all citations are to peer-reviewed journals |
-| `get_sci_score2()` | DOI count / `<ref>` tag count | 0 – ∞ | ≈ 1 = most references include a DOI |
 
 ```r
 text <- recent$`*`
 
 get_sci_score(text)   #> 0.76
-get_sci_score2(text)  #> 0.68
 
 # Compare across multiple articles
 scores <- vapply(seq_len(nrow(recent_all)),
@@ -543,7 +541,6 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 | Function | Description |
 |----------|-------------|
 | `get_sci_score()` | Proportion of journal citations (0–1) |
-| `get_sci_score2()` | DOI-to-ref-tag ratio |
 
 ### DOI annotation
 

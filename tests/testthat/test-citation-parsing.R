@@ -125,20 +125,6 @@ test_that("get_sci_score returns 0 for text with no citations", {
   expect_equal(get_sci_score("No citations at all."), 0)
 })
 
-test_that("get_sci_score2 returns NA for text with no refs", {
-  expect_true(is.na(get_sci_score2("No refs here.")))
-})
-
-test_that("get_sci_score2 returns numeric for text with refs and DOIs", {
-  text <- paste(
-    "10.1038/nature12373",
-    "<ref>one</ref>",
-    sep = "\n"
-  )
-  result <- get_sci_score2(text)
-  expect_true(is.numeric(result))
-})
-
 # ── 6. get_source_type_counts ─────────────────────────────────────────────────
 
 test_that("get_source_type_counts returns data frame or NA", {

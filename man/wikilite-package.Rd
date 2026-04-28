@@ -26,7 +26,7 @@ citations via the public MediaWiki API.  Core capabilities:
     (\code{\link{get_doi_count}}, \code{\link{get_refCount}}, …) provide
     fast scalar summaries.}
   \item{Quality metrics}{\code{\link{get_sci_score}} (proportion of
-    journal citations) and \code{\link{get_sci_score2}} (DOI-to-ref ratio).}
+    journal citations).}
   \item{Annotation}{\code{\link{annotate_doi_list_europmc}},
     \code{\link{annotate_doi_list_cross_ref}},
     \code{\link{annotate_doi_list_altmetrics}},

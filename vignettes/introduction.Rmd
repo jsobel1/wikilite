@@ -35,7 +35,7 @@ Key capabilities:
 | Category navigation | `get_pagename_in_cat()`, `get_subcat_with_depth()` |
 | Citation counting | `get_doi_count()`, `get_refCount()`, `get_ISBN_count()` |
 | Citation parsing | `parse_article_ALL_citations()`, `get_parsed_citations()` |
-| Quality metrics | `get_sci_score()`, `get_sci_score2()` |
+| Quality metrics | `get_sci_score()` |
 | Annotation | `annotate_doi_list_europmc()`, `annotate_doi_list_cross_ref()` |
 | Revert trends | `get_revert_counts()` |
 | Visualisation | `plot_article_creation_per_year()`, `page_edit_plot()` |

@@ -45,9 +45,6 @@ art <- get_article_most_recent_table("Zeitgeber")
 # SciScore: proportion of journal citations (0–1)
 get_sci_score(art$`*`)
 
-# SciScore2: DOI-to-ref ratio
-get_sci_score2(art$`*`)
-
 # Raw counts
 get_doi_count(art$`*`)
 get_refCount(art$`*`)

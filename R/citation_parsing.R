@@ -409,28 +409,6 @@ get_sci_score <- function(art_text) {
 }
 
 
-#' Compute SciScore2 for a Wikipedia article
-#'
-#' SciScore2 is the ratio of DOIs to \code{<ref>} tags in the article.  A
-#' ratio close to 1 indicates that most references include a DOI (likely
-#' peer-reviewed sources).
-#'
-#' @param art_text Character string of raw wikitext.
-#' @return Numeric value, or \code{NA} when there are no reference tags.
-#' @export
-#' @examples
-#' \dontrun{
-#' art <- get_article_most_recent_table("Zeitgeber")
-#' get_sci_score2(art$`*`)
-#' }
-get_sci_score2 <- function(art_text) {
-  ref_count <- get_refCount(art_text)
-  doi_count <- get_doi_count(art_text)
-  if (ref_count == 0L) return(NA_real_)
-  as.numeric(doi_count / ref_count)
-}
-
-
 #' Count citations by CS1 source type
 #'
 #' @param art_text Character string of raw wikitext.

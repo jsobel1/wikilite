@@ -1,3 +1,15 @@
+# wikilite (development)
+
+## Breaking change
+
+* `get_sci_score2()` has been removed. The DOI-to-ref-tag ratio it computed
+  was misleading because (a) `<ref>` tags include footnotes that are not
+  scientific references at all, so the ratio was systematically biased by
+  article structure rather than citation quality, and (b) the metric was
+  not used downstream by any of the visualisation or annotation functions.
+  Use `get_sci_score()` for citation-quality scoring; for DOI density use
+  `get_doi_count() / nrow(parse_article_ALL_citations())` directly.
+
 # wikilite 0.2.0
 
 ## New features: interactive timelines and networks
