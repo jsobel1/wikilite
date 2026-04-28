@@ -459,14 +459,17 @@ get_source_type_counts <- function(art_text, article_name = NULL) {
 #' parsed <- get_parsed_citations(recent)
 #' }
 get_parsed_citations <- function(article_most_recent_table) {
+  p <- .progress_start("Parsing citations",
+                       total = nrow(article_most_recent_table))
+  on.exit(.progress_done(p), add = TRUE)
   rows <- lapply(seq_len(nrow(article_most_recent_table)), function(i) {
     art_i <- article_most_recent_table$art[i]
-    message("Parsing citations: ", art_i)
     dfctmp <- tryCatch(
       parse_article_ALL_citations(article_most_recent_table$`*`[i],
                                    article_name = art_i),
       error = function(e) NULL
     )
+    .progress_update(p)
     if (is.null(dfctmp) || nrow(dfctmp) < 1L) return(NULL)
     dfctmp$revid <- article_most_recent_table$revid[i]
     dfctmp
@@ -492,14 +495,17 @@ get_parsed_citations <- function(article_most_recent_table) {
 #' get_citation_type(recent)
 #' }
 get_citation_type <- function(article_most_recent_table) {
+  p <- .progress_start("Counting citation types",
+                       total = nrow(article_most_recent_table))
+  on.exit(.progress_done(p), add = TRUE)
   rows <- lapply(seq_len(nrow(article_most_recent_table)), function(i) {
     art_i <- article_most_recent_table$art[i]
-    message("Counting citation types: ", art_i)
     dfctmp <- tryCatch(
       get_source_type_counts(article_most_recent_table$`*`[i],
                               article_name = art_i),
       error = function(e) NULL
     )
+    .progress_update(p)
     if (is.null(dfctmp) || !is.data.frame(dfctmp) || nrow(dfctmp) < 1L) return(NULL)
     dfctmp$revid <- article_most_recent_table$revid[i]
     dfctmp

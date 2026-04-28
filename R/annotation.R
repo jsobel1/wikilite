@@ -28,9 +28,10 @@ annotate_doi_list_europmc <- function(doi_list) {
     "isOpenAccess", "citedByCount", "firstPublicationDate"
   )
 
+  p <- .progress_start("Annotating DOIs (EuropePMC)", total = length(doi_list))
+  on.exit(.progress_done(p), add = TRUE)
+
   rows <- lapply(seq_along(doi_list), function(i) {
-    message("Querying EuropePMC for DOI ", i, "/", length(doi_list),
-            ": ", doi_list[i])
     load <- tryCatch(
       europepmc::epmc_search(paste0("DOI:", doi_list[i])),
       error = function(e) NULL
@@ -41,6 +42,7 @@ annotate_doi_list_europmc <- function(doi_list) {
         error = function(e) NULL
       )
     }
+    .progress_update(p)
     if (is.null(load) || nrow(load) == 0L) return(NULL)
 
     # Guard: EuropePMC occasionally returns results without a `doi` column
@@ -94,8 +96,11 @@ annotate_doi_list_cross_ref <- function(doi_list, batch_size = 50L) {
 
   batches <- split(doi_list, ceiling(seq_along(doi_list) / batch_size))
 
+  p <- .progress_start("Annotating DOIs (CrossRef)", total = length(doi_list))
+  on.exit(.progress_done(p), add = TRUE)
+
   rows <- lapply(batches, function(batch) {
-    tryCatch({
+    out <- tryCatch({
       res <- rcrossref::cr_works(dois = batch)
       d   <- res$data
       if (is.null(d) || nrow(d) == 0L) return(NULL)

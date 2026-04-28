@@ -234,20 +234,28 @@ get_article_most_recent_table <- function(article_name,
 get_category_articles_history <- function(list_art, lang = "en", workers = 1L) {
   if (length(list_art) == 0L) return(NULL)
 
-  fetch_one <- function(art) {
-    message("Fetching history: ", art)
-    tryCatch(get_article_full_history_table(art, lang = lang),
-             error = function(e) NULL)
-  }
-
+  # Parallel branch can't share a serial progress bar, so we only wire one
+  # in for the (default) sequential path.
   if (workers > 1L && requireNamespace("furrr", quietly = TRUE) &&
       requireNamespace("future", quietly = TRUE)) {
+    fetch_one <- function(art) {
+      message("Fetching history: ", art)
+      tryCatch(get_article_full_history_table(art, lang = lang),
+               error = function(e) NULL)
+    }
     future::plan(future::multisession, workers = workers)
     on.exit(future::plan(future::sequential), add = TRUE)
     results <- furrr::future_map(list_art, fetch_one,
                                   .options = furrr::furrr_options(seed = TRUE))
   } else {
-    results <- lapply(list_art, fetch_one)
+    p <- .progress_start("Fetching article histories", total = length(list_art))
+    on.exit(.progress_done(p), add = TRUE)
+    results <- lapply(list_art, function(art) {
+      out <- tryCatch(get_article_full_history_table(art, lang = lang),
+                      error = function(e) NULL)
+      .progress_update(p)
+      out
+    })
   }
 
   dplyr::bind_rows(Filter(Negate(is.null), results))
@@ -272,10 +280,13 @@ get_category_articles_history <- function(list_art, lang = "en", workers = 1L) {
 #' }
 get_category_articles_creation <- function(list_art, lang = "en") {
   if (length(list_art) == 0L) return(NULL)
+  p <- .progress_start("Fetching creation revisions", total = length(list_art))
+  on.exit(.progress_done(p), add = TRUE)
   results <- lapply(list_art, function(art) {
-    message("Fetching creation: ", art)
-    tryCatch(get_article_initial_table(art, lang = lang),
-             error = function(e) NULL)
+    out <- tryCatch(get_article_initial_table(art, lang = lang),
+                    error = function(e) NULL)
+    .progress_update(p)
+    out
   })
   dplyr::bind_rows(Filter(Negate(is.null), results))
 }
@@ -303,10 +314,13 @@ get_category_articles_most_recent <- function(list_art,
                                               date_an = NULL,
                                               lang    = "en") {
   if (length(list_art) == 0L) return(NULL)
+  p <- .progress_start("Fetching most-recent revisions", total = length(list_art))
+  on.exit(.progress_done(p), add = TRUE)
   results <- lapply(list_art, function(art) {
-    message("Fetching most recent: ", art)
-    tryCatch(get_article_most_recent_table(art, date_an = date_an, lang = lang),
-             error = function(e) NULL)
+    out <- tryCatch(get_article_most_recent_table(art, date_an = date_an, lang = lang),
+                    error = function(e) NULL)
+    .progress_update(p)
+    out
   })
   dplyr::bind_rows(Filter(Negate(is.null), results))
 }

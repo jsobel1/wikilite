@@ -24,6 +24,7 @@ Encoding: UTF-8
 Depends:
     R (>= 4.1.0)
 Imports:
+    cli,
     digest,
     dplyr (>= 1.0.0),
     europepmc,
@@ -51,6 +52,7 @@ RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 Collate:
     'wikilite-package.R'
+    'progress_helpers.R'
     'citation_parsing.R'
     'cache.R'
     'article_history.R'
