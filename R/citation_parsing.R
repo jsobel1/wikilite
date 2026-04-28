@@ -241,15 +241,20 @@ replace_wikihypelinks <- function(art_text) {
 #' data frame where each row is one field of one citation.
 #'
 #' @param art_text Character string of raw wikitext.
+#' @param article_name Optional source-article title. When supplied (non-NULL),
+#'   the returned data frame gains an \code{art} column populated with this
+#'   value, preserving provenance through downstream pivots, joins, and exports.
+#'   Defaults to \code{NULL} for backward compatibility.
 #' @return A data frame with columns \code{type}, \code{id_cite},
-#'   \code{variable}, and \code{value}.
+#'   \code{variable}, and \code{value} — plus \code{art} when
+#'   \code{article_name} is supplied.
 #' @export
 #' @examples
 #' \dontrun{
 #' art <- get_article_most_recent_table("Zeitgeber")
-#' parse_article_ALL_citations(art$`*`)
+#' parse_article_ALL_citations(art$`*`, article_name = "Zeitgeber")
 #' }
-parse_article_ALL_citations <- function(art_text) {
+parse_article_ALL_citations <- function(art_text, article_name = NULL) {
   get_cite <- as.character(
     sapply(extract_citations(art_text), replace_wikihypelinks)
   )
@@ -269,7 +274,7 @@ parse_article_ALL_citations <- function(art_text) {
     value    = substr(raw_vec, split_at + 1L, nchar(raw_vec)),
     stringsAsFactors = FALSE
   )
-  data.frame(
+  out <- data.frame(
     type    = rep(as.character(unlist(cite_types)),
                   vapply(get_cite_subfield, length, integer(1L))),
     id_cite = rep(seq_along(get_cite),
@@ -277,6 +282,12 @@ parse_article_ALL_citations <- function(art_text) {
     kv
   ) |>
     dplyr::mutate(variable = gsub(" ", "", variable))
+
+  if (!is.null(article_name) && nrow(out) > 0L) {
+    out$art <- article_name
+    out <- out[, c("art", setdiff(names(out), "art"))]
+  }
+  out
 }
 
 
@@ -423,20 +434,30 @@ get_sci_score2 <- function(art_text) {
 #' Count citations by CS1 source type
 #'
 #' @param art_text Character string of raw wikitext.
-#' @return A data frame with columns \code{cite_type} and \code{Freq}, or
-#'   \code{NA} if no citations are found.
+#' @param article_name Optional source-article title. When supplied (non-NULL),
+#'   the returned data frame gains an \code{art} column populated with this
+#'   value, preserving provenance through downstream pivots, joins, and exports.
+#'   Defaults to \code{NULL} for backward compatibility.
+#' @return A data frame with columns \code{cite_type} and \code{Freq} — plus
+#'   \code{art} when \code{article_name} is supplied — or \code{NA} if no
+#'   citations are found.
 #' @export
 #' @examples
 #' \dontrun{
 #' art <- get_article_most_recent_table("Zeitgeber")
-#' get_source_type_counts(art$`*`)
+#' get_source_type_counts(art$`*`, article_name = "Zeitgeber")
 #' }
-get_source_type_counts <- function(art_text) {
+get_source_type_counts <- function(art_text, article_name = NULL) {
   extracted_cite    <- tryCatch(extract_citations(art_text), error = function(e) 0)
   cite_type         <- sapply(extracted_cite, parse_cite_type)
   cite_source_count <- tryCatch(table(cite_type), error = function(e) NA)
   if (length(cite_source_count) == 0L) return(NA)
-  as.data.frame(cite_source_count)
+  out <- as.data.frame(cite_source_count)
+  if (!is.null(article_name) && nrow(out) > 0L) {
+    out$art <- article_name
+    out <- out[, c("art", setdiff(names(out), "art"))]
+  }
+  out
 }
 
 
@@ -461,9 +482,11 @@ get_source_type_counts <- function(art_text) {
 #' }
 get_parsed_citations <- function(article_most_recent_table) {
   rows <- lapply(seq_len(nrow(article_most_recent_table)), function(i) {
-    message("Parsing citations: ", article_most_recent_table$art[i])
+    art_i <- article_most_recent_table$art[i]
+    message("Parsing citations: ", art_i)
     dfctmp <- tryCatch(
-      parse_article_ALL_citations(article_most_recent_table$`*`[i]),
+      parse_article_ALL_citations(article_most_recent_table$`*`[i],
+                                   article_name = art_i),
       error = function(e) NULL
     )
     if (is.null(dfctmp) || nrow(dfctmp) < 1L) return(NULL)
@@ -472,8 +495,9 @@ get_parsed_citations <- function(article_most_recent_table) {
   })
   df_cite_clean <- dplyr::bind_rows(Filter(Negate(is.null), rows))
   if (nrow(df_cite_clean) == 0L) return(df_cite_clean)
-  dplyr::select(article_most_recent_table, art, revid) |>
-    dplyr::right_join(df_cite_clean, by = "revid")
+  # `art` is now carried by parse_article_ALL_citations; reorder columns so
+  # provenance leads.
+  dplyr::select(df_cite_clean, art, revid, dplyr::everything())
 }
 
 
@@ -491,9 +515,11 @@ get_parsed_citations <- function(article_most_recent_table) {
 #' }
 get_citation_type <- function(article_most_recent_table) {
   rows <- lapply(seq_len(nrow(article_most_recent_table)), function(i) {
-    message("Counting citation types: ", article_most_recent_table$art[i])
+    art_i <- article_most_recent_table$art[i]
+    message("Counting citation types: ", art_i)
     dfctmp <- tryCatch(
-      get_source_type_counts(article_most_recent_table$`*`[i]),
+      get_source_type_counts(article_most_recent_table$`*`[i],
+                              article_name = art_i),
       error = function(e) NULL
     )
     if (is.null(dfctmp) || !is.data.frame(dfctmp) || nrow(dfctmp) < 1L) return(NULL)
@@ -502,8 +528,7 @@ get_citation_type <- function(article_most_recent_table) {
   })
   df_cite_type_clean <- dplyr::bind_rows(Filter(Negate(is.null), rows))
   if (nrow(df_cite_type_clean) == 0L) return(df_cite_type_clean)
-  dplyr::select(article_most_recent_table, art, revid) |>
-    dplyr::right_join(df_cite_type_clean, by = "revid")
+  dplyr::select(df_cite_type_clean, art, revid, dplyr::everything())
 }
 
 

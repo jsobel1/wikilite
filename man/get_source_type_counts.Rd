@@ -4,14 +4,20 @@
 \alias{get_source_type_counts}
 \title{Count citations by CS1 source type}
 \usage{
-get_source_type_counts(art_text)
+get_source_type_counts(art_text, article_name = NULL)
 }
 \arguments{
 \item{art_text}{Character string of raw wikitext.}
+
+\item{article_name}{Optional source-article title. When supplied (non-NULL),
+the returned data frame gains an \code{art} column populated with this
+value, preserving provenance through downstream pivots, joins, and exports.
+Defaults to \code{NULL} for backward compatibility.}
 }
 \value{
-A data frame with columns \code{cite_type} and \code{Freq}, or
-  \code{NA} if no citations are found.
+A data frame with columns \code{cite_type} and \code{Freq} — plus
+  \code{art} when \code{article_name} is supplied — or \code{NA} if no
+  citations are found.
 }
 \description{
 Count citations by CS1 source type
@@ -19,6 +25,6 @@ Count citations by CS1 source type
 \examples{
 \dontrun{
 art <- get_article_most_recent_table("Zeitgeber")
-get_source_type_counts(art$`*`)
+get_source_type_counts(art$`*`, article_name = "Zeitgeber")
 }
 }

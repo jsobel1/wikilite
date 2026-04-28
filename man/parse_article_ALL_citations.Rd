@@ -4,14 +4,20 @@
 \alias{parse_article_ALL_citations}
 \title{Parse all Citation Style 1 templates in a wikitext string}
 \usage{
-parse_article_ALL_citations(art_text)
+parse_article_ALL_citations(art_text, article_name = NULL)
 }
 \arguments{
 \item{art_text}{Character string of raw wikitext.}
+
+\item{article_name}{Optional source-article title. When supplied (non-NULL),
+the returned data frame gains an \code{art} column populated with this
+value, preserving provenance through downstream pivots, joins, and exports.
+Defaults to \code{NULL} for backward compatibility.}
 }
 \value{
 A data frame with columns \code{type}, \code{id_cite},
-  \code{variable}, and \code{value}.
+  \code{variable}, and \code{value} — plus \code{art} when
+  \code{article_name} is supplied.
 }
 \description{
 Extracts every CS1 citation, replaces hyperlinks, and returns a tidy long
@@ -20,6 +26,6 @@ data frame where each row is one field of one citation.
 \examples{
 \dontrun{
 art <- get_article_most_recent_table("Zeitgeber")
-parse_article_ALL_citations(art$`*`)
+parse_article_ALL_citations(art$`*`, article_name = "Zeitgeber")
 }
 }
