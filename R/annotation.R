@@ -43,8 +43,12 @@ annotate_doi_list_europmc <- function(doi_list) {
     }
     if (is.null(load) || nrow(load) == 0L) return(NULL)
 
+    # Guard: EuropePMC occasionally returns results without a `doi` column
+    if (!"doi" %in% names(load)) load$doi <- NA_character_
+
     # Select the row whose DOI exactly matches; fall back to the first hit
-    exact <- load[!is.na(load$doi) & tolower(load$doi) == tolower(doi_list[i]), ]
+    exact <- load[!is.na(load$doi) & tolower(load$doi) == tolower(doi_list[i]), ,
+                  drop = FALSE]
     if (nrow(exact) == 0L) exact <- load[1L, , drop = FALSE]
     load <- exact[1L, , drop = FALSE]
 
@@ -63,26 +67,77 @@ annotate_doi_list_europmc <- function(doi_list) {
 
 #' Annotate a list of DOIs using CrossRef
 #'
-#' Queries the CrossRef API for each DOI and returns a data frame of
-#' bibliographic metadata merged with CrossRef citation counts.
+#' Queries the CrossRef \code{/works} API for each DOI and returns a tidy data
+#' frame of bibliographic metadata.  Column names are aligned with those
+#' returned by \code{\link{annotate_doi_list_europmc}} to allow easy
+#' \code{coalesce}-based merging.
 #'
 #' @param doi_list Character vector of DOIs.
-#' @return A data frame of CrossRef metadata merged with citation counts.
+#' @param batch_size Integer.  Number of DOIs per \code{cr_works} request
+#'   (default 50).
+#' @return A data frame with columns \code{doi}, \code{title},
+#'   \code{authorString}, \code{journalTitle}, \code{pubYear},
+#'   \code{pubType}, \code{publisher}, \code{issn}, \code{volume},
+#'   \code{issue}, \code{page}, and \code{citedByCount}.
 #' @export
 #' @examples
 #' \dontrun{
-#' annotate_doi_list_cross_ref(c("10.1038/nature12373"))
+#' annotate_doi_list_cross_ref(c("10.1038/nature16961"))
 #' }
-annotate_doi_list_cross_ref <- function(doi_list) {
-  doi_bib    <- rcrossref::cr_cn(dois = doi_list, "bibentry", .progress = "text")
-  non_empty  <- doi_bib[lengths(doi_bib) > 0]
-  doi_bib_df <- do.call(rbind, lapply(seq_along(non_empty), function(i) {
-    x <- as.data.frame(non_empty[[i]], stringsAsFactors = FALSE)
-    x$L1 <- names(non_empty)[i]
-    x
-  }))
-  citation_countdf <- rcrossref::cr_citation_count(doi = doi_bib_df$doi)
-  dplyr::left_join(doi_bib_df, citation_countdf, by = "doi")
+annotate_doi_list_cross_ref <- function(doi_list, batch_size = 50L) {
+  # Internal helper: extract a 4-digit year from a list-column cell
+  .cr_year <- function(x) {
+    v <- unlist(x)
+    if (length(v) == 0L || all(is.na(v))) return(NA_integer_)
+    suppressWarnings(as.integer(substr(as.character(v[!is.na(v)][1L]), 1L, 4L)))
+  }
+
+  batches <- split(doi_list, ceiling(seq_along(doi_list) / batch_size))
+
+  rows <- lapply(batches, function(batch) {
+    tryCatch({
+      res <- rcrossref::cr_works(dois = batch)
+      d   <- res$data
+      if (is.null(d) || nrow(d) == 0L) return(NULL)
+
+      lapply(seq_len(nrow(d)), function(i) {
+        # Authors: "Family, G; ..." — graceful if author list is missing
+        au_df  <- tryCatch(d$author[[i]], error = function(e) NULL)
+        au_str <- if (is.data.frame(au_df) && "family" %in% names(au_df)) {
+          given  <- if ("given" %in% names(au_df)) au_df$given else rep(NA_character_, nrow(au_df))
+          paste(ifelse(is.na(given), au_df$family,
+                       paste(au_df$family, given, sep = ", ")),
+                collapse = "; ")
+        } else NA_character_
+
+        # Year: published.print > issued
+        yr <- .cr_year(d$published.print[i])
+        if (is.na(yr)) yr <- .cr_year(d$issued[i])
+
+        data.frame(
+          doi          = tolower(trimws(as.character(d$doi[i]))),
+          title        = paste(unlist(d$title[i]),            collapse = ""),
+          authorString = au_str,
+          journalTitle = paste(unlist(d[["container.title"]][i]), collapse = ""),
+          pubYear      = yr,
+          pubType      = paste(unlist(d$type[i]),             collapse = ""),
+          publisher    = paste(unlist(d$publisher[i]),        collapse = ""),
+          issn         = paste(unlist(d$issn[i]),             collapse = "; "),
+          volume       = paste(unlist(d$volume[i]),           collapse = ""),
+          issue        = paste(unlist(d$issue[i]),            collapse = ""),
+          page         = paste(unlist(d$page[i]),             collapse = ""),
+          citedByCount = suppressWarnings(
+            as.integer(d$is.referenced.by.count[i])),
+          stringsAsFactors = FALSE
+        )
+      }) |> dplyr::bind_rows()
+    }, error = function(e) {
+      warning("CrossRef batch failed: ", conditionMessage(e))
+      NULL
+    })
+  })
+
+  dplyr::bind_rows(Filter(Negate(is.null), rows))
 }
 
 
