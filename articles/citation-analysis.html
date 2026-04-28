@@ -169,8 +169,7 @@ about sleep science to illustrate each step.</p>
 <span>    n_url        <span class="op">=</span> <span class="fu"><a href="../reference/get_urlCount.html">get_urlCount</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span>,</span>
 <span>    n_ref        <span class="op">=</span> <span class="fu"><a href="../reference/get_refCount.html">get_refCount</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span>,</span>
 <span>    n_hyperlinks <span class="op">=</span> <span class="fu"><a href="../reference/get_hyperlinkCount.html">get_hyperlinkCount</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span>,</span>
-<span>    sci_score    <span class="op">=</span> <span class="fu"><a href="../reference/get_sci_score.html">get_sci_score</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span>,</span>
-<span>    sci_score2   <span class="op">=</span> <span class="fu"><a href="../reference/get_sci_score2.html">get_sci_score2</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span></span>
+<span>    sci_score    <span class="op">=</span> <span class="fu"><a href="../reference/get_sci_score.html">get_sci_score</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
@@ -180,12 +179,7 @@ about sleep science to illustrate each step.</p>
 <span><span class="co">#&gt; 1                     Zeitgeber    13      0     3    16           33 1.0000000</span></span>
 <span><span class="co">#&gt; 2 Advanced sleep phase disorder    19      0     3    20           52 0.9500000</span></span>
 <span><span class="co">#&gt; 3             Sleep deprivation   136     40   150   241          245 0.5756303</span></span>
-<span><span class="co">#&gt; 4              Circadian rhythm   144     12    41   165          270 0.8546512</span></span>
-<span><span class="co">#&gt;   sci_score2</span></span>
-<span><span class="co">#&gt; 1  0.8125000</span></span>
-<span><span class="co">#&gt; 2  0.9500000</span></span>
-<span><span class="co">#&gt; 3  0.5643154</span></span>
-<span><span class="co">#&gt; 4  0.8727273</span></span></code></pre></div>
+<span><span class="co">#&gt; 4              Circadian rhythm   144     12    41   165          270 0.8546512</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="parse-citation-style-1-templates">Parse Citation Style 1 templates<a class="anchor" aria-label="anchor" href="#parse-citation-style-1-templates"></a>
@@ -230,20 +224,48 @@ into a tidy long data frame where each row is one field:</p>
 <code class="sourceCode R"><span><span class="va">parsed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_parsed_citations.html">get_parsed_citations</a></span><span class="op">(</span><span class="va">recent</span><span class="op">)</span></span>
 <span><span class="co"># Columns: art, revid, type, id_cite, variable, value</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">parsed</span><span class="op">)</span></span>
-<span><span class="co">#&gt;         art      revid    type id_cite variable</span></span>
-<span><span class="co">#&gt; 1 Zeitgeber 1330736183 journal       1      doi</span></span>
-<span><span class="co">#&gt; 2 Zeitgeber 1330736183 journal       1    title</span></span>
-<span><span class="co">#&gt; 3 Zeitgeber 1330736183 journal       1     year</span></span>
-<span><span class="co">#&gt; 4 Zeitgeber 1330736183 journal       1    last1</span></span>
-<span><span class="co">#&gt; 5 Zeitgeber 1330736183 journal       1   first1</span></span>
-<span><span class="co">#&gt; 6 Zeitgeber 1330736183 journal       1    last2</span></span>
-<span><span class="co">#&gt;                                      value</span></span>
-<span><span class="co">#&gt; 1     10.1001/archpsyc.1988.01800340076012</span></span>
-<span><span class="co">#&gt; 2 Social Zeitgebers and Biological Rhythms</span></span>
-<span><span class="co">#&gt; 3                                     1988</span></span>
-<span><span class="co">#&gt; 4                                   Ehlers</span></span>
-<span><span class="co">#&gt; 5                                 Cindy L.</span></span>
-<span><span class="co">#&gt; 6                                    Frank</span></span></code></pre></div>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                                                     art</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482261 Zeitgeber</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482262 Zeitgeber</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482263 Zeitgeber</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482264 Zeitgeber</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482265 Zeitgeber</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482266 Zeitgeber</span></span>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                                                    revid</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482261 1330736183</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482262 1330736183</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482263 1330736183</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482264 1330736183</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482265 1330736183</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482266 1330736183</span></span>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                                                  type</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482261 journal</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482262 journal</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482263 journal</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482264 journal</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482265 journal</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482266 journal</span></span>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                                               id_cite</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482261       1</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482262       1</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482263       1</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482264       1</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482265       1</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482266       1</span></span>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                                               variable</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482261      doi</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482262    title</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482263     year</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482264    last1</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482265   first1</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482266    last2</span></span>
+<span><span class="co">#&gt;                                                                                                                                                                                                                                                                                                                  value</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482261     10.1001/archpsyc.1988.01800340076012</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482262 Social Zeitgebers and Biological Rhythms</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482263                                     1988</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482264                                   Ehlers</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482265                                 Cindy L.</span></span>
+<span><span class="co">#&gt;  journal |doi=10.1001/archpsyc.1988.01800340076012|title=Social Zeitgebers and Biological Rhythms|year=1988|last1=Ehlers|first1=Cindy L.|last2=Frank|first2=E.|last3=Kupfer|first3=D. J.|journal=Archives of General Psychiatry|volume=45|issue=10|pages=948–52|pmid=30482266                                    Frank</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="summarise-citation-types">Summarise citation types<a class="anchor" aria-label="anchor" href="#summarise-citation-types"></a>
@@ -298,19 +320,6 @@ scientifically sourced an article is.</p>
 <span><span class="co">#&gt;                     1.0000000                     0.9500000 </span></span>
 <span><span class="co">#&gt;              Circadian rhythm             Sleep deprivation </span></span>
 <span><span class="co">#&gt;                     0.8546512                     0.5756303</span></span></code></pre></div>
-<p><strong>SciScore2</strong> divides the count of DOIs by the total
-number of <code>&lt;ref&gt;</code> tags. A value near 1 suggests that
-almost every reference cites a publication with a DOI.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">scores2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">recent</span><span class="op">)</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="../reference/get_sci_score2.html">get_sci_score2</a></span><span class="op">(</span><span class="va">recent</span><span class="op">$</span><span class="va">`*`</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">scores2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">recent</span><span class="op">$</span><span class="va">art</span></span>
-<span><span class="va">scores2</span></span>
-<span><span class="co">#&gt;                     Zeitgeber Advanced sleep phase disorder </span></span>
-<span><span class="co">#&gt;                     0.8125000                     0.9500000 </span></span>
-<span><span class="co">#&gt;             Sleep deprivation              Circadian rhythm </span></span>
-<span><span class="co">#&gt;                     0.5643154                     0.8727273</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="identify-the-most-cited-scientific-papers">Identify the most-cited scientific papers<a class="anchor" aria-label="anchor" href="#identify-the-most-cited-scientific-papers"></a>
@@ -318,7 +327,7 @@ almost every reference cites a publication with a DOI.</p>
 <p><code><a href="../reference/get_top_cited_wiki_papers.html">get_top_cited_wiki_papers()</a></code> finds the 40 most frequently
 cited DOIs across all supplied articles, annotates them via EuropePMC
 and CrossRef, and adds per-article citation counts.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">doi_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_regex_citations_in_wiki_table.html">get_regex_citations_in_wiki_table</a></span><span class="op">(</span><span class="va">recent</span>, <span class="va">pkg.env</span><span class="op">$</span><span class="va">doi_regexp</span><span class="op">)</span></span>
 <span><span class="va">top_papers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_top_cited_wiki_papers.html">get_top_cited_wiki_papers</a></span><span class="op">(</span><span class="va">doi_df</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">top_papers</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"title"</span>, <span class="st">"journalTitle"</span>, <span class="st">"pubYear"</span>,</span>
@@ -342,7 +351,7 @@ and CrossRef, and adds per-article citation counts.</p>
 <h2 id="explore-article-revision-history">Explore article revision history<a class="anchor" aria-label="anchor" href="#explore-article-revision-history"></a>
 </h2>
 <p>For longitudinal analysis, retrieve the full revision history:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">history</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_article_full_history_table.html">get_article_full_history_table</a></span><span class="op">(</span><span class="st">"Zeitgeber"</span>,</span>
 <span>                                          date_an <span class="op">=</span> <span class="st">"2022-01-01T00:00:00Z"</span><span class="op">)</span></span>
 <span></span>
@@ -356,7 +365,7 @@ and CrossRef, and adds per-article citation counts.</p>
 <div class="section level2">
 <h2 id="export-results">Export results<a class="anchor" aria-label="anchor" href="#export-results"></a>
 </h2>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Save the parsed citation table to Excel</span></span>
 <span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html" class="external-link">write.xlsx</a></span><span class="op">(</span><span class="va">parsed</span>, <span class="st">"sleep_articles_parsed_citations.xlsx"</span><span class="op">)</span></span>
 <span></span>

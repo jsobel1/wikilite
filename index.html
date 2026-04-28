@@ -363,26 +363,17 @@
 <th>Range</th>
 <th>Interpretation</th>
 </tr></thead>
-<tbody>
-<tr class="odd">
+<tbody><tr class="odd">
 <td><code><a href="reference/get_sci_score.html">get_sci_score()</a></code></td>
 <td>(journal citations) / (all CS1 citations)</td>
 <td>0 – 1</td>
 <td>1 = all citations are to peer-reviewed journals</td>
-</tr>
-<tr class="even">
-<td><code><a href="reference/get_sci_score2.html">get_sci_score2()</a></code></td>
-<td>DOI count / <code>&lt;ref&gt;</code> tag count</td>
-<td>0 – ∞</td>
-<td>≈ 1 = most references include a DOI</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">text</span> <span class="op">&lt;-</span> <span class="va">recent</span><span class="op">$</span><span class="va">`*`</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/get_sci_score.html">get_sci_score</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span>   <span class="co">#&gt; 0.76</span></span>
-<span><span class="fu"><a href="reference/get_sci_score2.html">get_sci_score2</a></span><span class="op">(</span><span class="va">text</span><span class="op">)</span>  <span class="co">#&gt; 0.68</span></span>
 <span></span>
 <span><span class="co"># Compare across multiple articles</span></span>
 <span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">recent_all</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -803,16 +794,10 @@
 <th>Function</th>
 <th>Description</th>
 </tr></thead>
-<tbody>
-<tr class="odd">
+<tbody><tr class="odd">
 <td><code><a href="reference/get_sci_score.html">get_sci_score()</a></code></td>
 <td>Proportion of journal citations (0–1)</td>
-</tr>
-<tr class="even">
-<td><code><a href="reference/get_sci_score2.html">get_sci_score2()</a></code></td>
-<td>DOI-to-ref-tag ratio</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 </div>
 <div class="section level3">

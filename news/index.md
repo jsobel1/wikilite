@@ -59,9 +59,7 @@ wikilite consolidates and extends the functionality of
 
 - Renamed `Get_sci_score()` →
   [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md),
-  `Get_sci_score2()` →
-  [`get_sci_score2()`](https://jsobel1.github.io/wikilite/reference/get_sci_score2.md),
-  `Get_source_type_counts()` →
+  `Get_sci_score2()` → `get_sci_score2()`, `Get_source_type_counts()` →
   [`get_source_type_counts()`](https://jsobel1.github.io/wikilite/reference/get_source_type_counts.md),
   and `get_paresd_citations()` →
   [`get_parsed_citations()`](https://jsobel1.github.io/wikilite/reference/get_parsed_citations.md)

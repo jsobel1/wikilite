@@ -37,9 +37,7 @@ history and citations via the public MediaWiki API. Core capabilities:
 - Quality metrics:
 
   [`get_sci_score`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md)
-  (proportion of journal citations) and
-  [`get_sci_score2`](https://jsobel1.github.io/wikilite/reference/get_sci_score2.md)
-  (DOI-to-ref ratio).
+  (proportion of journal citations).
 
 - Annotation:
 

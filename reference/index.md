@@ -108,8 +108,6 @@ journal articles.
 
 - [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md)
   : Compute SciScore for a Wikipedia article
-- [`get_sci_score2()`](https://jsobel1.github.io/wikilite/reference/get_sci_score2.md)
-  : Compute SciScore2 for a Wikipedia article
 - [`get_top_cited_wiki_papers()`](https://jsobel1.github.io/wikilite/reference/get_top_cited_wiki_papers.md)
   : Identify the most-cited DOIs across a set of Wikipedia articles
 - [`get_pdfs_top20source()`](https://jsobel1.github.io/wikilite/reference/get_pdfs_top20source.md)

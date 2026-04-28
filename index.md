@@ -273,16 +273,14 @@ clean_text <- replace_wikihypelinks(recent$`*`)
 **SciScore** quantifies how scientifically sourced a Wikipedia article
 is.
 
-| Metric                                                                               | Formula                                   | Range | Interpretation                                  |
-|--------------------------------------------------------------------------------------|-------------------------------------------|-------|-------------------------------------------------|
-| [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md)   | (journal citations) / (all CS1 citations) | 0 – 1 | 1 = all citations are to peer-reviewed journals |
-| [`get_sci_score2()`](https://jsobel1.github.io/wikilite/reference/get_sci_score2.md) | DOI count / `<ref>` tag count             | 0 – ∞ | ≈ 1 = most references include a DOI             |
+| Metric                                                                             | Formula                                   | Range | Interpretation                                  |
+|------------------------------------------------------------------------------------|-------------------------------------------|-------|-------------------------------------------------|
+| [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md) | (journal citations) / (all CS1 citations) | 0 – 1 | 1 = all citations are to peer-reviewed journals |
 
 ``` r
 text <- recent$`*`
 
 get_sci_score(text)   #> 0.76
-get_sci_score2(text)  #> 0.68
 
 # Compare across multiple articles
 scores <- vapply(seq_len(nrow(recent_all)),
@@ -565,10 +563,9 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 
 ### Quality metrics
 
-| Function                                                                             | Description                           |
-|--------------------------------------------------------------------------------------|---------------------------------------|
-| [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md)   | Proportion of journal citations (0–1) |
-| [`get_sci_score2()`](https://jsobel1.github.io/wikilite/reference/get_sci_score2.md) | DOI-to-ref-tag ratio                  |
+| Function                                                                           | Description                           |
+|------------------------------------------------------------------------------------|---------------------------------------|
+| [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md) | Proportion of journal citations (0–1) |
 
 ### DOI annotation
 
