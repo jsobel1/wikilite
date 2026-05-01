@@ -21,49 +21,105 @@
 #' )))
 #' annotate_doi_list_europmc(dois[1:3])
 #' }
-annotate_doi_list_europmc <- function(doi_list) {
+annotate_doi_list_europmc <- function(doi_list, batch_size = 25L) {
   required_cols <- c(
     "id", "source", "pmid", "pmcid", "doi", "title",
     "authorString", "journalTitle", "pubYear", "pubType",
     "isOpenAccess", "citedByCount", "firstPublicationDate"
   )
 
-  p <- .progress_start("Annotating DOIs (EuropePMC)", total = length(doi_list))
-  on.exit(.progress_done(p), add = TRUE)
+  if (!length(doi_list)) return(data.frame())
+  doi_list <- unique(trimws(as.character(doi_list)))
+  doi_list <- doi_list[nzchar(doi_list)]
+  if (!length(doi_list)) return(data.frame())
 
-  rows <- lapply(seq_along(doi_list), function(i) {
-    load <- tryCatch(
-      europepmc::epmc_search(paste0("DOI:", doi_list[i])),
-      error = function(e) NULL
+  # ── Fast path: batched OR queries against the EuropePMC REST endpoint.
+  # ~25× faster than the per-DOI fallback for hundred-DOI lists. Falls back
+  # to the per-DOI loop on any non-200 response.
+  fast_rows <- list()
+  fast_done <- character(0)
+  if (requireNamespace("httr2", quietly = TRUE)) {
+    base <- "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+    chunks <- split(doi_list,
+                    ceiling(seq_along(doi_list) / max(1L, as.integer(batch_size))))
+    p_batch <- .progress_start(
+      sprintf("EuropePMC (batched, %d DOIs)", length(doi_list)),
+      total = length(chunks)
     )
-    if (is.null(load)) {
-      load <- tryCatch(
-        europepmc::epmc_search(doi_list[i]),
+    on.exit(.progress_done(p_batch), add = TRUE)
+
+    for (g in chunks) {
+      .progress_update(p_batch)
+      q <- paste0("(", paste(sprintf("DOI:%s", g), collapse = " OR "), ")")
+      resp_body <- tryCatch({
+        httr2::request(base) |>
+          httr2::req_user_agent(.wikilite_ua()) |>
+          httr2::req_url_query(query      = q,
+                               format     = "json",
+                               pageSize   = as.character(min(1000L, length(g) * 4L)),
+                               resultType = "lite") |>
+          httr2::req_retry(max_tries = 3, backoff = ~ 2^.x,
+                           is_transient = function(resp) {
+                             s <- httr2::resp_status(resp)
+                             s == 429 || s >= 500
+                           }) |>
+          httr2::req_perform() |>
+          httr2::resp_body_string()
+      }, error = function(e) NULL)
+      if (is.null(resp_body)) next
+      parsed <- tryCatch(jsonlite::fromJSON(resp_body, simplifyVector = TRUE),
+                         error = function(e) NULL)
+      results <- tryCatch(parsed$resultList$result, error = function(e) NULL)
+      if (is.null(results) || !is.data.frame(results) || nrow(results) == 0L) next
+
+      for (col in required_cols) {
+        if (!col %in% names(results)) results[[col]] <- NA
+      }
+      results <- results[, required_cols, drop = FALSE]
+      results$.key <- tolower(as.character(results$doi))
+
+      for (d in g) {
+        sub <- results[!is.na(results$.key) & results$.key == tolower(d), ,
+                       drop = FALSE]
+        if (nrow(sub) == 0L) next
+        fast_rows[[d]] <- sub[1L, required_cols, drop = FALSE]
+        fast_done      <- c(fast_done, d)
+      }
+    }
+  }
+
+  remaining <- setdiff(doi_list, fast_done)
+  slow_rows <- list()
+  if (length(remaining) > 0L) {
+    p <- .progress_start("Annotating DOIs (per-DOI fallback)",
+                         total = length(remaining))
+    on.exit(.progress_done(p), add = TRUE)
+    for (d in remaining) {
+      load <- tryCatch(europepmc::epmc_search(paste0("DOI:", d)),
+                       error = function(e) NULL)
+      if (is.null(load)) {
+        load <- tryCatch(europepmc::epmc_search(d), error = function(e) NULL)
+      }
+      .progress_update(p)
+      if (is.null(load) || nrow(load) == 0L) next
+      if (!"doi" %in% names(load)) load$doi <- NA_character_
+      exact <- load[!is.na(load$doi) & tolower(load$doi) == tolower(d), ,
+                    drop = FALSE]
+      if (nrow(exact) == 0L) exact <- load[1L, , drop = FALSE]
+      load <- exact[1L, , drop = FALSE]
+      for (col in required_cols) {
+        if (!col %in% names(load)) load[[col]] <- NA
+      }
+      slow_rows[[d]] <- tryCatch(
+        dplyr::select(load, dplyr::all_of(required_cols)),
         error = function(e) NULL
       )
     }
-    .progress_update(p)
-    if (is.null(load) || nrow(load) == 0L) return(NULL)
+  }
 
-    # Guard: EuropePMC occasionally returns results without a `doi` column
-    if (!"doi" %in% names(load)) load$doi <- NA_character_
-
-    # Select the row whose DOI exactly matches; fall back to the first hit
-    exact <- load[!is.na(load$doi) & tolower(load$doi) == tolower(doi_list[i]), ,
-                  drop = FALSE]
-    if (nrow(exact) == 0L) exact <- load[1L, , drop = FALSE]
-    load <- exact[1L, , drop = FALSE]
-
-    for (col in required_cols) {
-      if (!col %in% names(load)) load[[col]] <- NA
-    }
-    tryCatch(
-      dplyr::select(load, dplyr::all_of(required_cols)),
-      error = function(e) NULL
-    )
-  })
-
-  data.frame(dplyr::bind_rows(Filter(Negate(is.null), rows)))
+  rows_all <- c(fast_rows, slow_rows)
+  if (!length(rows_all)) return(data.frame())
+  data.frame(dplyr::bind_rows(rows_all))
 }
 
 

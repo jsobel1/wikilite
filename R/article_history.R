@@ -2,10 +2,37 @@
 
 # ── Internal helpers ────────────────────────────────────────────────────────────
 
+#' Descriptive User-Agent string for outbound API calls.
+#'
+#' MediaWiki, EuropePMC, Google Books and friends rate-limit anonymous /
+#' generic R clients aggressively (HTTP 429).  Setting a meaningful UA per
+#' the MediaWiki API etiquette guide
+#' <https://www.mediawiki.org/wiki/API:Etiquette> drops the throttle rate
+#' dramatically.  The UA can be overridden by the option
+#' \code{wikilite.user_agent}.
+#' @noRd
+.wikilite_ua <- function() {
+  ua <- getOption("wikilite.user_agent", default = NULL)
+  if (is.null(ua) || !nzchar(ua)) {
+    ver <- tryCatch(as.character(utils::packageVersion("wikilite")),
+                    error = function(e) "dev")
+    ua <- sprintf(
+      "wikilite/%s (https://github.com/jsobel1/wikilite) httr2/R-%s",
+      ver, paste(R.version$major, R.version$minor, sep = ".")
+    )
+  }
+  ua
+}
+
 #' @noRd
 .wiki_api_get <- function(url) {
   httr2::request(url) |>
-    httr2::req_retry(max_tries = 3, backoff = ~ 2^.x) |>
+    httr2::req_user_agent(.wikilite_ua()) |>
+    httr2::req_retry(max_tries = 3, backoff = ~ 2^.x,
+                     is_transient = function(resp) {
+                       s <- httr2::resp_status(resp)
+                       s == 429 || s >= 500
+                     }) |>
     httr2::req_perform() |>
     httr2::resp_body_string()
 }
