@@ -35,13 +35,18 @@ jobs:
           needs: website
 
       # Cache knitr chunk output AND its rendered figures across runs.
-      # Two prior bugs converged here:
+      # Three prior bugs converged here:
       #   (1) caching only `vignettes/cache` left the figure PNGs out, so a
       #       cache-hit replay made pkgdown ENOENT on figure-html/cite-type-1.png.
       #   (2) keying only on .Rmd files meant changes to the package's R/
       #       source (which the vignettes call into) didn't bust the cache —
       #       cached chunks then disagreed with the newly-built package.
-      # Now we cache both paths and key on R/, DESCRIPTION, and vignette source.
+      #   (3) a loose `restore-keys` prefix (`knitr-<os>-`) re-introduced (1):
+      #       on an R/ change the exact key missed, but the loose prefix
+      #       restored a STALE chunk cache whose figure-path expectations
+      #       didn't match the freshly-rendered HTML, again hitting ENOENT.
+      # Now we cache both paths, key on R/, DESCRIPTION, and vignette source,
+      # and intentionally drop `restore-keys` so a cache miss is a true miss.
       - name: Cache knitr chunk output and figures
         uses: actions/cache@v4
         with:
@@ -49,8 +54,6 @@ jobs:
             vignettes/cache
             vignettes/*_files
           key: knitr-${{ runner.os }}-${{ hashFiles('vignettes/**/*.Rmd', 'R/**/*.R', 'DESCRIPTION') }}
-          restore-keys: |
-            knitr-${{ runner.os }}-
 
       - name: Build pkgdown site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
