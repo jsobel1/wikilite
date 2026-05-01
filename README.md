@@ -727,8 +727,8 @@ This package implements and extends the methods described in:
 
 | Tool | Description |
 |------|-------------|
-| [**wikiliteApp**](https://github.com/jsobel1/wikiliteApp) | Interactive Shiny application for history-flow analysis, authorship, stability, vandalism, and multi-article networks — powered by this package |
-| [**wikicitation-mcp**](https://github.com/jsobel1/wikicitation-mcp) | MCP server exposing wikilite tools to Claude and other LLM assistants |
+| [**wikiliteApp**](https://github.com/jsobel1/wikiliteApp) | Interactive Shiny application built on this package. Top-level **Single Article** mode (History Flow, Citations, Authorship, Stability with SciScore-over-time, Vandalism & Wars, Revision Inspector with WikiWho token-level authorship) and **Corpus Analysis** mode (named/categorised article lists with cross-corpus timeline, citations panel including per-article + per-corpus SciScore, and three networks — co-citation, publication, wikilink — all with clickable nodes). Batched EuropePMC + Google Books annotation, multi-sheet XLSX exports. |
+| [**wikicitation-mcp**](https://github.com/jsobel1/wikicitation-mcp) | MCP server exposing wikilite tools to Claude and other LLM assistants — pure Python, ~40 tools covering history, citation extraction, SciScore, and DOI / ISBN annotation |
 
 ---
 
