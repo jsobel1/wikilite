@@ -9,20 +9,21 @@ annotation, and visualisation.
 
 Key capabilities:
 
-| Area                | Key functions                                                                                                                                                                                                                                              |
-|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| History retrieval   | [`get_article_full_history_table()`](https://jsobel1.github.io/wikilite/reference/get_article_full_history_table.md), [`get_article_most_recent_table()`](https://jsobel1.github.io/wikilite/reference/get_article_most_recent_table.md)                   |
-| Category navigation | [`get_pagename_in_cat()`](https://jsobel1.github.io/wikilite/reference/get_pagename_in_cat.md), [`get_subcat_with_depth()`](https://jsobel1.github.io/wikilite/reference/get_subcat_with_depth.md)                                                         |
-| Citation counting   | [`get_doi_count()`](https://jsobel1.github.io/wikilite/reference/get_doi_count.md), [`get_refCount()`](https://jsobel1.github.io/wikilite/reference/get_refCount.md), [`get_ISBN_count()`](https://jsobel1.github.io/wikilite/reference/get_ISBN_count.md) |
-| Citation parsing    | [`parse_article_ALL_citations()`](https://jsobel1.github.io/wikilite/reference/parse_article_ALL_citations.md), [`get_parsed_citations()`](https://jsobel1.github.io/wikilite/reference/get_parsed_citations.md)                                           |
-| Quality metrics     | [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md)                                                                                                                                                                         |
-| Annotation          | [`annotate_doi_list_europmc()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md), [`annotate_doi_list_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md)                                 |
-| Revert trends       | [`get_revert_counts()`](https://jsobel1.github.io/wikilite/reference/get_revert_counts.md)                                                                                                                                                                 |
-| Visualisation       | [`plot_article_creation_per_year()`](https://jsobel1.github.io/wikilite/reference/plot_article_creation_per_year.md), [`page_edit_plot()`](https://jsobel1.github.io/wikilite/reference/page_edit_plot.md)                                                 |
+| Area | Key functions |
+|----|----|
+| History retrieval | [`get_article_full_history_table()`](https://jsobel1.github.io/wikilite/reference/get_article_full_history_table.md), [`get_article_most_recent_table()`](https://jsobel1.github.io/wikilite/reference/get_article_most_recent_table.md) |
+| Category navigation | [`get_pagename_in_cat()`](https://jsobel1.github.io/wikilite/reference/get_pagename_in_cat.md), [`get_subcat_with_depth()`](https://jsobel1.github.io/wikilite/reference/get_subcat_with_depth.md) |
+| Citation counting | [`get_doi_count()`](https://jsobel1.github.io/wikilite/reference/get_doi_count.md), [`get_refCount()`](https://jsobel1.github.io/wikilite/reference/get_refCount.md), [`get_ISBN_count()`](https://jsobel1.github.io/wikilite/reference/get_ISBN_count.md) |
+| Citation parsing | [`parse_article_ALL_citations()`](https://jsobel1.github.io/wikilite/reference/parse_article_ALL_citations.md), [`get_parsed_citations()`](https://jsobel1.github.io/wikilite/reference/get_parsed_citations.md) |
+| Quality metrics | [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md) |
+| Annotation | [`annotate_doi_list_europmc()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md), [`annotate_doi_list_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md) |
+| Revert trends | [`get_revert_counts()`](https://jsobel1.github.io/wikilite/reference/get_revert_counts.md) |
+| Visualisation | [`plot_article_creation_per_year()`](https://jsobel1.github.io/wikilite/reference/plot_article_creation_per_year.md), [`page_edit_plot()`](https://jsobel1.github.io/wikilite/reference/page_edit_plot.md) |
 
 ## Installation
 
 ``` r
+
 # CRAN (once available)
 install.packages("wikilite")
 
@@ -33,6 +34,7 @@ remotes::install_github("jsobel1/wikilite")
 ## Quick-start: a single article
 
 ``` r
+
 library(wikilite)
 
 # Most recent revision of the Zeitgeber article
@@ -48,6 +50,7 @@ names(recent)
 Count citations directly from the wikitext:
 
 ``` r
+
 text <- recent$`*`
 
 get_doi_count(text)        # number of DOIs
@@ -65,11 +68,13 @@ get_sci_score(text)        # fraction of citations that are journal citations
 ## Multiple articles via a category
 
 ``` r
+
 # List all articles in a Wikipedia category
 sleep_articles <- get_pagename_in_cat("Circadian rhythm")
 head(sleep_articles)
-#> [1] "Chronodisruption"  "Circadian rhythm"  "AANAT (gene)"     
-#> [4] "N-Acetylserotonin" "Actigraphy"        "Actogram"
+#> [1] "Chronodisruption"                 "Circadian rhythm"                
+#> [3] "N-Acetylserotonin"                "Actigraphy"                      
+#> [5] "Actogram"                         "Aralkylamine N-acetyltransferase"
 
 # Fetch the most recent revision for each article
 sleep_recent <- get_category_articles_most_recent(sleep_articles)
@@ -78,6 +83,7 @@ sleep_recent <- get_category_articles_most_recent(sleep_articles)
 ## Extract DOIs
 
 ``` r
+
 doi_regexp <- pkg.env$doi_regexp   # "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
 
 dois <- get_regex_citations_in_wiki_table(sleep_recent, doi_regexp)
@@ -94,6 +100,7 @@ head(dois)
 ## Visualise article creation over time
 
 ``` r
+
 initial <- get_category_articles_creation(sleep_articles)
 
 # Cumulative count (default)
@@ -103,6 +110,7 @@ plot_article_creation_per_year(initial, name_title = "Circadian rhythm articles"
 ![](introduction_files/figure-html/viz-creation-1.png)
 
 ``` r
+
 
 # Annual counts
 plot_article_creation_per_year(initial, name_title = "Annual creation",
@@ -114,6 +122,7 @@ plot_article_creation_per_year(initial, name_title = "Annual creation",
 ## Static article timeline
 
 ``` r
+
 plot_static_timeline(initial)
 ```
 
@@ -122,6 +131,7 @@ plot_static_timeline(initial)
 ## Page-view and edit-activity plots
 
 ``` r
+
 # Daily page views
 page_view_plot("Zeitgeber", start = "2020010100", end = "2021010100")
 ```
@@ -129,6 +139,7 @@ page_view_plot("Zeitgeber", start = "2020010100", end = "2021010100")
 ![](introduction_files/figure-html/viz-activity-1.png)
 
 ``` r
+
 
 # Weekly edits
 page_edit_plot("Zeitgeber", start = "2020010100", end = "2021010100")
@@ -139,6 +150,7 @@ page_edit_plot("Zeitgeber", start = "2020010100", end = "2021010100")
 ## Export to Excel and BibTeX
 
 ``` r
+
 # Revision table → Excel
 write_wiki_history_to_xlsx(recent, "zeitgeber")
 
@@ -147,7 +159,9 @@ export_extracted_citations_xlsx(sleep_recent, "sleep_articles")
 
 # DOIs → BibTeX
 export_doi_to_bib(unique(dois$citation_fetched)[1:10], "references.bib")
-#>   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%  |                                                                              |========================================================              |  80%  |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%
+#>   |                                                                              |========================================================              |  80%
+#>   |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%
 ```
 
 ## Next steps

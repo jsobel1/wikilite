@@ -3,6 +3,7 @@
 ## 1. Installation
 
 ``` r
+
 # CRAN (once available):
 install.packages("wikilite")
 
@@ -16,6 +17,7 @@ The basic workflow fetches the most recent revision of an article and
 computes quality metrics.
 
 ``` r
+
 library(wikilite)
 
 # Fetch the most recent revision of Zeitgeber
@@ -38,6 +40,7 @@ arguments return instantly.
 ## 3. Category workflow
 
 ``` r
+
 # Get all article titles in a Wikipedia category
 articles <- get_pagename_in_cat("Circadian rhythm")
 
@@ -53,6 +56,7 @@ history <- get_category_articles_history(articles, workers = 4L)
 All API functions accept a `lang` parameter:
 
 ``` r
+
 # French Wikipedia
 fr_art <- get_article_most_recent_table("COVID-19", lang = "fr")
 
@@ -63,6 +67,7 @@ de_articles <- get_pagename_in_cat("Chronobiologie", lang = "de")
 ## 5. Citation extraction and parsing
 
 ``` r
+
 art <- get_article_most_recent_table("Zeitgeber")
 
 # Extract all DOIs
@@ -124,6 +129,7 @@ plot_distribution_source_type(ct)
 ## 6. Interactive visualisations
 
 ``` r
+
 articles <- c("Zeitgeber", "Circadian rhythm", "Sleep deprivation",
               "Advanced sleep phase disorder")
 
@@ -133,17 +139,20 @@ plot_interactive_timeline(articles)
 
 ``` r
 
+
 # Article–publication bipartite network
 plot_article_publication_network(articles, min_wiki_count = 2)
 ```
 
 ``` r
 
+
 # Co-citation network
 plot_article_cocitation_network(articles, min_shared_dois = 3)
 ```
 
 ``` r
+
 
 # Wikilink network
 plot_article_wikilink_network(articles)
@@ -152,13 +161,15 @@ plot_article_wikilink_network(articles)
 ## 7. Annotation (EuropePMC, CrossRef)
 
 ``` r
+
 # Annotate DOIs with EuropePMC metadata
 doi_list <- unique(doi_df$citation_fetched)
 epmc_df  <- annotate_doi_list_europmc(doi_list[1:10])
 
 # BibTeX export via CrossRef
 export_doi_to_bib(doi_list[1:5], file_name = "my_refs.bib")
-#>   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%
+#>   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%
+#>   |                                                                              |======================================================================| 100%
 
 # Top cited papers
 top <- get_top_cited_wiki_papers(doi_df)
@@ -167,6 +178,7 @@ top <- get_top_cited_wiki_papers(doi_df)
 ## 8. Edit trend analysis
 
 ``` r
+
 # Count revert-tagged edits for a one-hour window
 reverts <- get_revert_counts("20181212010000", "20181212000000")
 head(reverts)
@@ -186,6 +198,7 @@ all_edits <- get_revert_counts("20181212010000", "20181212000000",
 ## 9. Latency analysis (new in v0.1.0)
 
 ``` r
+
 # Compute citation latency: days from paper publication to Wikipedia insertion
 latency_df <- compute_citation_latency(doi_df, epmc_df)
 
@@ -197,6 +210,7 @@ plot_latency_distribution(latency_df, stratify_by = "is_preprint")
 
 ``` r
 
+
 # Segment plot of individual DOI latencies
 get_segment_history_doi_plot(latency_df, "Zeitgeber")
 ```
@@ -204,6 +218,7 @@ get_segment_history_doi_plot(latency_df, "Zeitgeber")
 ![](getting-started_files/figure-html/latency-2.png)
 
 ``` r
+
 
 # Dot plot showing insertion timing
 get_dotplot_history(latency_df, "Zeitgeber")
@@ -220,6 +235,7 @@ with different `date_an` arguments, then apply quality metrics to each
 snapshot.
 
 ``` r
+
 dates <- paste0(2019:2024, "-01-01T00:00:00Z")
 
 probe_df <- do.call(rbind, lapply(dates, function(d) {
@@ -245,6 +261,7 @@ probe_df
 ## 11. Cache management
 
 ``` r
+
 # See where the cache lives
 wiki_cache_dir()
 #> [1] "/home/runner/.cache/R/wikilite"
@@ -256,6 +273,7 @@ wiki_clear_cache()
 ## 12. Exporting results
 
 ``` r
+
 # Write revision table to Excel
 write_wiki_history_to_xlsx(art, "zeitgeber",
                             dir = tempdir())

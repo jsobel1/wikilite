@@ -9,6 +9,7 @@ a small set of articles about sleep science to illustrate each step.
 ## Fetch article data
 
 ``` r
+
 library(wikilite)
 
 articles <- c("Zeitgeber",
@@ -26,6 +27,7 @@ The package stores all built-in regular expressions in the `pkg.env`
 environment. You can inspect them:
 
 ``` r
+
 names(pkg.env$regexp_list)
 #>  [1] "doi_regexp"           "isbn_regexp"          "url_regexp"          
 #>  [4] "wikihyperlink_regexp" "tweet_regexp"         "news_regexp"         
@@ -41,6 +43,7 @@ names(pkg.env$regexp_list)
 Apply a single pattern:
 
 ``` r
+
 doi_regexp <- pkg.env$doi_regexp
 dois <- get_regex_citations_in_wiki_table(recent, doi_regexp)
 head(dois)
@@ -56,6 +59,7 @@ head(dois)
 Apply every pattern at once and receive a named list:
 
 ``` r
+
 all_results <- extract_citations_regexp(recent)
 
 # Each element is a data frame with art, revid, citation_fetched
@@ -83,6 +87,7 @@ sapply(all_results, nrow)
 ## Count individual elements per article
 
 ``` r
+
 results <- lapply(seq_len(nrow(recent)), function(i) {
   text <- recent$`*`[i]
   data.frame(
@@ -112,6 +117,7 @@ splits every CS1 template into a tidy long data frame where each row is
 one field:
 
 ``` r
+
 # For a single article
 zeitgeber_recent <- recent[recent$art == "Zeitgeber", ]
 parsed_one <- parse_article_ALL_citations(zeitgeber_recent$`*`)
@@ -149,6 +155,7 @@ head(parsed_one)
 Parse all articles at once:
 
 ``` r
+
 parsed <- get_parsed_citations(recent)
 # Columns: art, revid, type, id_cite, variable, value
 head(parsed)
@@ -199,15 +206,16 @@ head(parsed)
 ## Summarise citation types
 
 ``` r
+
 cite_types <- get_citation_type(recent)
 head(cite_types)
 #>                             art      revid cite_type Freq
 #> 1                     Zeitgeber 1330736183   journal   15
-#> 2 Advanced sleep phase disorder 1321198308   journal   19
-#> 3 Advanced sleep phase disorder 1321198308       web    1
-#> 4             Sleep deprivation 1350723346      book   21
-#> 5             Sleep deprivation 1350723346   journal  137
-#> 6             Sleep deprivation 1350723346      news   14
+#> 2 Advanced sleep phase disorder 1352025268   journal   19
+#> 3 Advanced sleep phase disorder 1352025268       web    1
+#> 4             Sleep deprivation 1351960078      book   21
+#> 5             Sleep deprivation 1351960078   journal  137
+#> 6             Sleep deprivation 1351960078      news   14
 
 # Distribution of journal / web / news / book citations
 plot_distribution_source_type(cite_types)
@@ -218,6 +226,7 @@ plot_distribution_source_type(cite_types)
 ## Top sources
 
 ``` r
+
 # Top 20 journal titles across all articles
 plot_top_source(parsed, "journal")
 ```
@@ -226,6 +235,7 @@ plot_top_source(parsed, "journal")
 
 ``` r
 
+
 # Top 20 publishers
 plot_top_source(parsed, "publisher")
 ```
@@ -233,6 +243,7 @@ plot_top_source(parsed, "publisher")
 ![](citation-analysis_files/figure-html/top-sources-2.png)
 
 ``` r
+
 
 # Generate charts for multiple fields at once
 get_pdfs_top20source(parsed,
@@ -248,6 +259,7 @@ get_pdfs_top20source(parsed,
 article is.
 
 ``` r
+
 scores <- sapply(seq_len(nrow(recent)), function(i) {
   get_sci_score(recent$`*`[i])
 })
@@ -267,6 +279,7 @@ annotates them via EuropePMC and CrossRef, and adds per-article citation
 counts.
 
 ``` r
+
 doi_df <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
 top_papers <- get_top_cited_wiki_papers(doi_df)
 head(top_papers[, c("title", "journalTitle", "pubYear",
@@ -292,6 +305,7 @@ head(top_papers[, c("title", "journalTitle", "pubYear",
 For longitudinal analysis, retrieve the full revision history:
 
 ``` r
+
 history <- get_article_full_history_table("Zeitgeber",
                                           date_an = "2022-01-01T00:00:00Z")
 
@@ -306,6 +320,7 @@ length(unique(doi_history$citation_fetched))
 ## Export results
 
 ``` r
+
 # Save the parsed citation table to Excel
 openxlsx::write.xlsx(parsed, "sleep_articles_parsed_citations.xlsx")
 

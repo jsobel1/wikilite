@@ -10,6 +10,7 @@ editor behaviour, stability, and vandalism patterns. It is located at
 ## Launching the app
 
 ``` r
+
 # From R console, inside the project directory:
 shiny::runApp("history-flow-analysis/shiny_app")
 
@@ -21,6 +22,7 @@ shiny::runApp()
 **Required packages:**
 
 ``` r
+
 install.packages(c(
   "shiny", "dplyr", "tidyr", "ggplot2", "plotly",
   "echarts4r", "jsonlite", "scales", "htmltools",
@@ -92,12 +94,12 @@ Tracks every `<ref>…</ref>` citation across sampled revisions.
 
 After analysis, four metric cards appear:
 
-| Card                    | Meaning                                                  |
-|-------------------------|----------------------------------------------------------|
+| Card | Meaning |
+|----|----|
 | **SciScore — journal%** | Fraction of active citations that use `{{cite journal}}` |
-| **DOI coverage%**       | Fraction of active citations that contain a DOI          |
-| **Journal refs**        | Raw count of `{{cite journal}}` citations                |
-| **DOI-linked refs**     | Raw count of citations with a DOI                        |
+| **DOI coverage%** | Fraction of active citations that contain a DOI |
+| **Journal refs** | Raw count of `{{cite journal}}` citations |
+| **DOI-linked refs** | Raw count of citations with a DOI |
 
 ### Citation timeline
 
@@ -114,12 +116,12 @@ annotating with EuropePMC, extra columns appear: **Journal**, **Year**,
 
 ### Buttons
 
-| Button                       | Action                                                       |
-|------------------------------|--------------------------------------------------------------|
-| **Analyse Citations**        | Fetch wikitext snapshots and build the citation matrix       |
-| **Annotate with EuropePMC**  | Query EuropePMC for all DOIs; enriches the table             |
-| **⬇ XLSX**                   | Export the citation table to Excel                           |
-| **⬇ BibTeX**                 | Export all DOIs to a `.bib` file (requires `rcrossref`)      |
+| Button | Action |
+|----|----|
+| **Analyse Citations** | Fetch wikitext snapshots and build the citation matrix |
+| **Annotate with EuropePMC** | Query EuropePMC for all DOIs; enriches the table |
+| **⬇ XLSX** | Export the citation table to Excel |
+| **⬇ BibTeX** | Export all DOIs to a `.bib` file (requires `rcrossref`) |
 | **Compute Citation Latency** | Calculate days from paper publication to Wikipedia insertion |
 
 ### Citation latency panel
@@ -137,14 +139,14 @@ triangle).
 
 Quantifies editor contributions.
 
-| Metric card      | Meaning                                                     |
-|------------------|-------------------------------------------------------------|
-| Revisions        | Total revisions in the filtered date range                  |
-| Editors          | Number of unique editors                                    |
-| Anonymous        | Fraction of edits by IP addresses                           |
-| Gini             | Inequality of edit distribution (0 = equal, 1 = one editor) |
-| Top editor       | Most prolific editor                                        |
-| Top editor share | Fraction of revisions by the top editor                     |
+| Metric card | Meaning |
+|----|----|
+| Revisions | Total revisions in the filtered date range |
+| Editors | Number of unique editors |
+| Anonymous | Fraction of edits by IP addresses |
+| Gini | Inequality of edit distribution (0 = equal, 1 = one editor) |
+| Top editor | Most prolific editor |
+| Top editor share | Fraction of revisions by the top editor |
 
 **Plots:** - Registered vs. anonymous edit history - Top N editor bar
 chart - Cumulative unique-editor growth over time
@@ -204,12 +206,12 @@ Compare multiple Wikipedia articles simultaneously.
 
 Four sub-tabs are populated:
 
-| Sub-tab             | Visualisation                                              |
-|---------------------|------------------------------------------------------------|
-| Timeline            | Interactive Gantt chart (article lifespan + colour metric) |
-| Co-citation Network | Articles sharing DOIs are connected by edges               |
-| Publication Network | Bipartite: articles ↔︎ DOIs they cite                       |
-| Wikilink Network    | Directed links between articles in your list               |
+| Sub-tab | Visualisation |
+|----|----|
+| Timeline | Interactive Gantt chart (article lifespan + colour metric) |
+| Co-citation Network | Articles sharing DOIs are connected by edges |
+| Publication Network | Bipartite: articles ↔︎ DOIs they cite |
+| Wikilink Network | Directed links between articles in your list |
 
 All networks are interactive (drag, zoom, click-to-open).
 

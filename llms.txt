@@ -1,4 +1,4 @@
-# wikilite ![](reference/figures/logo.png)
+# wikilite
 
 **wikilite** is an R toolkit for mining Wikipedia article revision
 history and citations via the public [MediaWiki
@@ -70,6 +70,7 @@ citation data.
 ## Installation
 
 ``` r
+
 # Stable release from CRAN
 install.packages("wikilite")
 
@@ -86,6 +87,7 @@ No Java or compiled-code dependencies.
 ## Quick start
 
 ``` r
+
 library(wikilite)
 
 # 1. Fetch the most recent revision of an article
@@ -111,15 +113,16 @@ head(annotated[, c("title", "journalTitle", "pubYear", "citedByCount")])
 
 #### Single article
 
-| Function                                             | Description                                            |
-|------------------------------------------------------|--------------------------------------------------------|
-| `get_article_full_history_table(article, date_an)`   | All revisions up to `date_an`, ordered chronologically |
-| `get_article_initial_table(article)`                 | First revision only (article creation)                 |
-| `get_article_most_recent_table(article, date_an)`    | Most recent revision before `date_an`                  |
-| `get_article_info_table(article, date_an)`           | Page metadata: ID, title, byte size                    |
-| `get_tables_initial_most_recent_full_info(articles)` | All four tables as a named list                        |
+| Function | Description |
+|----|----|
+| `get_article_full_history_table(article, date_an)` | All revisions up to `date_an`, ordered chronologically |
+| `get_article_initial_table(article)` | First revision only (article creation) |
+| `get_article_most_recent_table(article, date_an)` | Most recent revision before `date_an` |
+| `get_article_info_table(article, date_an)` | Page metadata: ID, title, byte size |
+| `get_tables_initial_most_recent_full_info(articles)` | All four tables as a named list |
 
 ``` r
+
 # Full revision history (every edit ever made)
 history <- get_article_full_history_table("Zeitgeber",
                                           date_an = "2023-01-01T00:00:00Z")
@@ -142,6 +145,7 @@ names(res)
 #### Multiple articles at once
 
 ``` r
+
 articles <- c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 
 history_all <- get_category_articles_history(articles)
@@ -157,6 +161,7 @@ Wikipedia’s category tree lets you discover related articles
 automatically.
 
 ``` r
+
 # All articles in a category (up to 500)
 sleep_articles <- get_pagename_in_cat("Circadian rhythm")
 head(sleep_articles)
@@ -184,6 +189,7 @@ all_pages   <- get_page_in_cat_multiple(c("Category:Biology", "Category:Medicine
 All regular expressions live in `pkg.env`:
 
 ``` r
+
 # Inspect available patterns
 names(pkg.env$regexp_list)
 #  [1] "doi_regexp"           "isbn_regexp"          "url_regexp"
@@ -207,6 +213,7 @@ sapply(all_results, nrow)
 #### Using a custom pattern
 
 ``` r
+
 # Example: extract PubMed Central IDs
 pmc_regexp <- "PMC\\d{5,8}"
 pmc_df <- get_regex_citations_in_wiki_table(recent, pmc_regexp)
@@ -215,6 +222,7 @@ pmc_df <- get_regex_citations_in_wiki_table(recent, pmc_regexp)
 #### Count helpers (fast scalar summaries)
 
 ``` r
+
 text <- recent$`*`
 
 get_doi_count(text)         # number of DOIs
@@ -233,6 +241,7 @@ CS1 templates (`{{cite journal}}`, `{{cite book}}`, etc.) are the
 structured citation markup used throughout English Wikipedia.
 
 ``` r
+
 # Determine the type of a single citation
 parse_cite_type("{{cite journal | author = Smith | year = 2020 }}")
 #> [1] "journal"
@@ -259,6 +268,7 @@ type_counts <- get_citation_type(recent_all)
 #### Working with wikilinks inside citations
 
 ``` r
+
 # Extract all [[...]] links
 links <- extract_wikihypelinks(recent$`*`)
 
@@ -273,11 +283,12 @@ clean_text <- replace_wikihypelinks(recent$`*`)
 **SciScore** quantifies how scientifically sourced a Wikipedia article
 is.
 
-| Metric                                                                             | Formula                                   | Range | Interpretation                                  |
-|------------------------------------------------------------------------------------|-------------------------------------------|-------|-------------------------------------------------|
+| Metric | Formula | Range | Interpretation |
+|----|----|----|----|
 | [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md) | (journal citations) / (all CS1 citations) | 0 – 1 | 1 = all citations are to peer-reviewed journals |
 
 ``` r
+
 text <- recent$`*`
 
 get_sci_score(text)   #> 0.76
@@ -294,15 +305,16 @@ sort(scores, decreasing = TRUE)
 
 ### 6. Annotate DOIs
 
-| Function                                     | Source               | Returns                                                           |
-|----------------------------------------------|----------------------|-------------------------------------------------------------------|
-| `annotate_doi_list_europmc(doi_list)`        | EuropePMC            | title, authors, journal, year, open-access status, citation count |
-| `annotate_doi_list_cross_ref(doi_list)`      | CrossRef             | full bibliographic metadata + citation count                      |
-| `annotate_doi_to_bibtex_cross_ref(doi_list)` | CrossRef             | list of BibTeX strings                                            |
-| `annotate_doi_list_altmetrics(doi_list)`     | Altmetric            | social-media attention scores                                     |
-| `get_top_cited_wiki_papers(doi_df)`          | EuropePMC + CrossRef | top 40 most-cited DOIs across your article set                    |
+| Function | Source | Returns |
+|----|----|----|
+| `annotate_doi_list_europmc(doi_list)` | EuropePMC | title, authors, journal, year, open-access status, citation count |
+| `annotate_doi_list_cross_ref(doi_list)` | CrossRef | full bibliographic metadata + citation count |
+| `annotate_doi_to_bibtex_cross_ref(doi_list)` | CrossRef | list of BibTeX strings |
+| `annotate_doi_list_altmetrics(doi_list)` | Altmetric | social-media attention scores |
+| `get_top_cited_wiki_papers(doi_df)` | EuropePMC + CrossRef | top 40 most-cited DOIs across your article set |
 
 ``` r
+
 doi_list <- unique(doi_df$citation_fetched)
 
 # EuropePMC (open-access, fast)
@@ -330,6 +342,7 @@ head(top40[, c("title", "journalTitle", "pubYear", "wiki_count", "count")])
 ### 7. Annotate ISBNs
 
 ``` r
+
 isbn_df   <- get_regex_citations_in_wiki_table(recent, pkg.env$isbn_regexp)
 isbn_list <- unique(isbn_df$citation_fetched)
 
@@ -354,6 +367,7 @@ further customise them with standard `+` syntax.
 #### Article creation timeline
 
 ``` r
+
 initial <- get_category_articles_creation(sleep_articles)
 
 # Cumulative creation curve
@@ -370,6 +384,7 @@ plot_static_timeline(initial)
 #### Page views and edit activity
 
 ``` r
+
 # Daily page views (Wikimedia pageviews API)
 page_view_plot("Zeitgeber", start = "2020010100", end = "2021010100")
 
@@ -380,6 +395,7 @@ page_edit_plot("Zeitgeber", start = "2020010100", end = "2021010100")
 #### Citation-type distributions
 
 ``` r
+
 type_counts <- get_citation_type(recent_all)
 
 # Boxplot of journal / web / news / book citation counts
@@ -405,6 +421,7 @@ useful for identifying disputed, controversial, or frequently vandalised
 articles.
 
 ``` r
+
 # One-hour window on 12 December 2018
 reverts <- get_revert_counts(
   start = "20181212010000",   # newer boundary (YYYYMMDDHHmmss)
@@ -434,6 +451,7 @@ page; clicking a publication opens its DOI page.
 #### Interactive Gantt timeline
 
 ``` r
+
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 
@@ -451,6 +469,7 @@ shows creation date, first editor, and byte sizes.
 #### Article–publication bipartite network
 
 ``` r
+
 plot_article_publication_network(articles,
                                   min_wiki_count = 2)   # only DOIs cited by ≥ 2 articles
 ```
@@ -461,12 +480,14 @@ publications. Node size is proportional to citation degree. Set
 titles (requires internet; slower):
 
 ``` r
+
 plot_article_publication_network(articles, annotate = TRUE, top_n_dois = 30)
 ```
 
 #### Article co-citation network
 
 ``` r
+
 # Edge = articles share ≥ 3 DOIs; edge thickness ∝ shared count
 plot_article_cocitation_network(articles, min_shared_dois = 3)
 ```
@@ -477,6 +498,7 @@ identifying which articles cover overlapping scientific ground.
 #### Article wikilink network
 
 ``` r
+
 # Show only links within the supplied article set (default)
 plot_article_wikilink_network(articles)
 
@@ -495,6 +517,7 @@ grey ellipses.
 ### 11. Export results
 
 ``` r
+
 # Revision table → Excel
 write_wiki_history_to_xlsx(recent, file_name = "zeitgeber")
 # → writes "zeitgeber_wiki_table.xlsx"
@@ -513,96 +536,96 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 
 ### Article history
 
-| Function                                                                                                                                 | Description                                 |
-|------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
-| [`get_article_full_history_table()`](https://jsobel1.github.io/wikilite/reference/get_article_full_history_table.md)                     | All revisions of one article                |
-| [`get_article_initial_table()`](https://jsobel1.github.io/wikilite/reference/get_article_initial_table.md)                               | First revision only                         |
-| [`get_article_most_recent_table()`](https://jsobel1.github.io/wikilite/reference/get_article_most_recent_table.md)                       | Most recent revision                        |
-| [`get_article_info_table()`](https://jsobel1.github.io/wikilite/reference/get_article_info_table.md)                                     | Page metadata (ID, title, size)             |
-| [`get_tables_initial_most_recent_full_info()`](https://jsobel1.github.io/wikilite/reference/get_tables_initial_most_recent_full_info.md) | All four tables in one call                 |
-| [`get_category_articles_history()`](https://jsobel1.github.io/wikilite/reference/get_category_articles_history.md)                       | Full history for multiple articles          |
-| [`get_category_articles_creation()`](https://jsobel1.github.io/wikilite/reference/get_category_articles_creation.md)                     | Creation revisions for multiple articles    |
-| [`get_category_articles_most_recent()`](https://jsobel1.github.io/wikilite/reference/get_category_articles_most_recent.md)               | Most recent revisions for multiple articles |
+| Function | Description |
+|----|----|
+| [`get_article_full_history_table()`](https://jsobel1.github.io/wikilite/reference/get_article_full_history_table.md) | All revisions of one article |
+| [`get_article_initial_table()`](https://jsobel1.github.io/wikilite/reference/get_article_initial_table.md) | First revision only |
+| [`get_article_most_recent_table()`](https://jsobel1.github.io/wikilite/reference/get_article_most_recent_table.md) | Most recent revision |
+| [`get_article_info_table()`](https://jsobel1.github.io/wikilite/reference/get_article_info_table.md) | Page metadata (ID, title, size) |
+| [`get_tables_initial_most_recent_full_info()`](https://jsobel1.github.io/wikilite/reference/get_tables_initial_most_recent_full_info.md) | All four tables in one call |
+| [`get_category_articles_history()`](https://jsobel1.github.io/wikilite/reference/get_category_articles_history.md) | Full history for multiple articles |
+| [`get_category_articles_creation()`](https://jsobel1.github.io/wikilite/reference/get_category_articles_creation.md) | Creation revisions for multiple articles |
+| [`get_category_articles_most_recent()`](https://jsobel1.github.io/wikilite/reference/get_category_articles_most_recent.md) | Most recent revisions for multiple articles |
 
 ### Category navigation
 
-| Function                                                                                                 | Description                          |
-|----------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [`get_pagename_in_cat()`](https://jsobel1.github.io/wikilite/reference/get_pagename_in_cat.md)           | Article titles in a category         |
-| [`get_subcat_table()`](https://jsobel1.github.io/wikilite/reference/get_subcat_table.md)                 | Direct subcategories of a category   |
-| [`get_pages_in_cat_table()`](https://jsobel1.github.io/wikilite/reference/get_pages_in_cat_table.md)     | Pages in a category                  |
-| [`get_subcat_multiple()`](https://jsobel1.github.io/wikilite/reference/get_subcat_multiple.md)           | Subcategories of multiple categories |
-| [`get_page_in_cat_multiple()`](https://jsobel1.github.io/wikilite/reference/get_page_in_cat_multiple.md) | Pages of multiple categories         |
-| [`get_subcat_with_depth()`](https://jsobel1.github.io/wikilite/reference/get_subcat_with_depth.md)       | Recursive subcategory traversal      |
+| Function | Description |
+|----|----|
+| [`get_pagename_in_cat()`](https://jsobel1.github.io/wikilite/reference/get_pagename_in_cat.md) | Article titles in a category |
+| [`get_subcat_table()`](https://jsobel1.github.io/wikilite/reference/get_subcat_table.md) | Direct subcategories of a category |
+| [`get_pages_in_cat_table()`](https://jsobel1.github.io/wikilite/reference/get_pages_in_cat_table.md) | Pages in a category |
+| [`get_subcat_multiple()`](https://jsobel1.github.io/wikilite/reference/get_subcat_multiple.md) | Subcategories of multiple categories |
+| [`get_page_in_cat_multiple()`](https://jsobel1.github.io/wikilite/reference/get_page_in_cat_multiple.md) | Pages of multiple categories |
+| [`get_subcat_with_depth()`](https://jsobel1.github.io/wikilite/reference/get_subcat_with_depth.md) | Recursive subcategory traversal |
 
 ### Citation extraction & counting
 
-| Function                                                                                                                   | Description                          |
-|----------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| Function | Description |
+|----|----|
 | [`get_regex_citations_in_wiki_table()`](https://jsobel1.github.io/wikilite/reference/get_regex_citations_in_wiki_table.md) | Apply any regexp to a revision table |
-| [`extract_citations_regexp()`](https://jsobel1.github.io/wikilite/reference/extract_citations_regexp.md)                   | Apply all built-in patterns at once  |
-| [`extract_citations()`](https://jsobel1.github.io/wikilite/reference/extract_citations.md)                                 | Extract raw CS1 template strings     |
-| [`extract_wikihypelinks()`](https://jsobel1.github.io/wikilite/reference/extract_wikihypelinks.md)                         | Extract `[[...]]` links              |
-| [`replace_wikihypelinks()`](https://jsobel1.github.io/wikilite/reference/replace_wikihypelinks.md)                         | Strip wikilink markup                |
-| [`get_doi_count()`](https://jsobel1.github.io/wikilite/reference/get_doi_count.md)                                         | Count DOIs                           |
-| [`get_refCount()`](https://jsobel1.github.io/wikilite/reference/get_refCount.md)                                           | Count `<ref>` tags                   |
-| [`get_urlCount()`](https://jsobel1.github.io/wikilite/reference/get_urlCount.md)                                           | Count URLs                           |
-| [`get_hyperlinkCount()`](https://jsobel1.github.io/wikilite/reference/get_hyperlinkCount.md)                               | Count wikilinks                      |
-| [`get_ISBN_count()`](https://jsobel1.github.io/wikilite/reference/get_ISBN_count.md)                                       | Count ISBNs                          |
-| [`get_anyCount()`](https://jsobel1.github.io/wikilite/reference/get_anyCount.md)                                           | Count custom pattern matches         |
+| [`extract_citations_regexp()`](https://jsobel1.github.io/wikilite/reference/extract_citations_regexp.md) | Apply all built-in patterns at once |
+| [`extract_citations()`](https://jsobel1.github.io/wikilite/reference/extract_citations.md) | Extract raw CS1 template strings |
+| [`extract_wikihypelinks()`](https://jsobel1.github.io/wikilite/reference/extract_wikihypelinks.md) | Extract `[[...]]` links |
+| [`replace_wikihypelinks()`](https://jsobel1.github.io/wikilite/reference/replace_wikihypelinks.md) | Strip wikilink markup |
+| [`get_doi_count()`](https://jsobel1.github.io/wikilite/reference/get_doi_count.md) | Count DOIs |
+| [`get_refCount()`](https://jsobel1.github.io/wikilite/reference/get_refCount.md) | Count `<ref>` tags |
+| [`get_urlCount()`](https://jsobel1.github.io/wikilite/reference/get_urlCount.md) | Count URLs |
+| [`get_hyperlinkCount()`](https://jsobel1.github.io/wikilite/reference/get_hyperlinkCount.md) | Count wikilinks |
+| [`get_ISBN_count()`](https://jsobel1.github.io/wikilite/reference/get_ISBN_count.md) | Count ISBNs |
+| [`get_anyCount()`](https://jsobel1.github.io/wikilite/reference/get_anyCount.md) | Count custom pattern matches |
 
 ### Citation parsing
 
-| Function                                                                                                       | Description                                    |
-|----------------------------------------------------------------------------------------------------------------|------------------------------------------------|
-| [`parse_cite_type()`](https://jsobel1.github.io/wikilite/reference/parse_cite_type.md)                         | Determine CS1 citation type                    |
+| Function | Description |
+|----|----|
+| [`parse_cite_type()`](https://jsobel1.github.io/wikilite/reference/parse_cite_type.md) | Determine CS1 citation type |
 | [`parse_article_ALL_citations()`](https://jsobel1.github.io/wikilite/reference/parse_article_ALL_citations.md) | Parse all CS1 templates → tidy long data frame |
-| [`get_parsed_citations()`](https://jsobel1.github.io/wikilite/reference/get_parsed_citations.md)               | Parse CS1 templates for multiple articles      |
-| [`get_citation_type()`](https://jsobel1.github.io/wikilite/reference/get_citation_type.md)                     | Frequency table of citation types per article  |
-| [`get_source_type_counts()`](https://jsobel1.github.io/wikilite/reference/get_source_type_counts.md)           | Citation type counts for a single wikitext     |
+| [`get_parsed_citations()`](https://jsobel1.github.io/wikilite/reference/get_parsed_citations.md) | Parse CS1 templates for multiple articles |
+| [`get_citation_type()`](https://jsobel1.github.io/wikilite/reference/get_citation_type.md) | Frequency table of citation types per article |
+| [`get_source_type_counts()`](https://jsobel1.github.io/wikilite/reference/get_source_type_counts.md) | Citation type counts for a single wikitext |
 
 ### Quality metrics
 
-| Function                                                                           | Description                           |
-|------------------------------------------------------------------------------------|---------------------------------------|
+| Function | Description |
+|----|----|
 | [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md) | Proportion of journal citations (0–1) |
 
 ### DOI annotation
 
-| Function                                                                                                                 | Description                                 |
-|--------------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
-| [`annotate_doi_list_europmc()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md)               | EuropePMC metadata                          |
-| [`annotate_doi_list_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md)           | CrossRef metadata + citation counts         |
-| [`annotate_doi_to_bibtex_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_to_bibtex_cross_ref.md) | CrossRef BibTeX entries                     |
-| [`annotate_doi_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_altmetrics.md)         | Altmetric attention scores                  |
-| [`get_top_cited_wiki_papers()`](https://jsobel1.github.io/wikilite/reference/get_top_cited_wiki_papers.md)               | Top 40 most-cited DOIs with full annotation |
+| Function | Description |
+|----|----|
+| [`annotate_doi_list_europmc()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md) | EuropePMC metadata |
+| [`annotate_doi_list_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md) | CrossRef metadata + citation counts |
+| [`annotate_doi_to_bibtex_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_to_bibtex_cross_ref.md) | CrossRef BibTeX entries |
+| [`annotate_doi_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_altmetrics.md) | Altmetric attention scores |
+| [`get_top_cited_wiki_papers()`](https://jsobel1.github.io/wikilite/reference/get_top_cited_wiki_papers.md) | Top 40 most-cited DOIs with full annotation |
 
 ### ISBN annotation
 
-| Function                                                                                                           | Description                |
-|--------------------------------------------------------------------------------------------------------------------|----------------------------|
-| [`annotate_isbn_google()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_google.md)                   | Google Books metadata      |
-| [`annotate_isbn_openlib()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_openlib.md)                 | Open Library metadata      |
+| Function | Description |
+|----|----|
+| [`annotate_isbn_google()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_google.md) | Google Books metadata |
+| [`annotate_isbn_openlib()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_openlib.md) | Open Library metadata |
 | [`annotate_isbn_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_list_altmetrics.md) | Altmetric scores for books |
 
 ### Revert trend analysis
 
-| Function                                                                                   | Description                                      |
-|--------------------------------------------------------------------------------------------|--------------------------------------------------|
+| Function | Description |
+|----|----|
 | [`get_revert_counts()`](https://jsobel1.github.io/wikilite/reference/get_revert_counts.md) | Revert-tagged edits per article in a time window |
 
 ### Visualisation
 
-| Function                                                                                                             | Description                                  |
-|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| [`plot_article_creation_per_year()`](https://jsobel1.github.io/wikilite/reference/plot_article_creation_per_year.md) | Cumulative or annual creation timeline       |
-| [`plot_static_timeline()`](https://jsobel1.github.io/wikilite/reference/plot_static_timeline.md)                     | Static labelled timeline                     |
-| [`plot_navi_timeline()`](https://jsobel1.github.io/wikilite/reference/plot_navi_timeline.md)                         | Interactive timeline (stub — see note below) |
-| [`page_view_plot()`](https://jsobel1.github.io/wikilite/reference/page_view_plot.md)                                 | Daily page views area chart                  |
-| [`page_edit_plot()`](https://jsobel1.github.io/wikilite/reference/page_edit_plot.md)                                 | Weekly edit counts area chart                |
-| [`plot_top_source()`](https://jsobel1.github.io/wikilite/reference/plot_top_source.md)                               | Top 20 values for a citation field           |
-| [`get_pdfs_top20source()`](https://jsobel1.github.io/wikilite/reference/get_pdfs_top20source.md)                     | Top-20 charts for multiple citation fields   |
-| [`plot_distribution_source_type()`](https://jsobel1.github.io/wikilite/reference/plot_distribution_source_type.md)   | Boxplot of citation type distributions       |
+| Function | Description |
+|----|----|
+| [`plot_article_creation_per_year()`](https://jsobel1.github.io/wikilite/reference/plot_article_creation_per_year.md) | Cumulative or annual creation timeline |
+| [`plot_static_timeline()`](https://jsobel1.github.io/wikilite/reference/plot_static_timeline.md) | Static labelled timeline |
+| [`plot_navi_timeline()`](https://jsobel1.github.io/wikilite/reference/plot_navi_timeline.md) | Interactive timeline (stub — see note below) |
+| [`page_view_plot()`](https://jsobel1.github.io/wikilite/reference/page_view_plot.md) | Daily page views area chart |
+| [`page_edit_plot()`](https://jsobel1.github.io/wikilite/reference/page_edit_plot.md) | Weekly edit counts area chart |
+| [`plot_top_source()`](https://jsobel1.github.io/wikilite/reference/plot_top_source.md) | Top 20 values for a citation field |
+| [`get_pdfs_top20source()`](https://jsobel1.github.io/wikilite/reference/get_pdfs_top20source.md) | Top-20 charts for multiple citation fields |
+| [`plot_distribution_source_type()`](https://jsobel1.github.io/wikilite/reference/plot_distribution_source_type.md) | Boxplot of citation type distributions |
 
 > **Note:**
 > [`plot_navi_timeline()`](https://jsobel1.github.io/wikilite/reference/plot_navi_timeline.md)
@@ -612,20 +635,20 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 
 ### Interactive timeline and networks
 
-| Function                                                                                                                 | Description                                                                             |
-|--------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| [`plot_interactive_timeline()`](https://jsobel1.github.io/wikilite/reference/plot_interactive_timeline.md)               | Plotly Gantt timeline of article edit lifetimes, coloured by SciScore, size, or uniform |
-| [`plot_article_publication_network()`](https://jsobel1.github.io/wikilite/reference/plot_article_publication_network.md) | Bipartite visNetwork: article nodes → cited DOI nodes                                   |
-| [`plot_article_cocitation_network()`](https://jsobel1.github.io/wikilite/reference/plot_article_cocitation_network.md)   | Article–article visNetwork weighted by shared DOI count                                 |
-| [`plot_article_wikilink_network()`](https://jsobel1.github.io/wikilite/reference/plot_article_wikilink_network.md)       | Directed visNetwork of `[[...]]` wikilinks between articles                             |
+| Function | Description |
+|----|----|
+| [`plot_interactive_timeline()`](https://jsobel1.github.io/wikilite/reference/plot_interactive_timeline.md) | Plotly Gantt timeline of article edit lifetimes, coloured by SciScore, size, or uniform |
+| [`plot_article_publication_network()`](https://jsobel1.github.io/wikilite/reference/plot_article_publication_network.md) | Bipartite visNetwork: article nodes → cited DOI nodes |
+| [`plot_article_cocitation_network()`](https://jsobel1.github.io/wikilite/reference/plot_article_cocitation_network.md) | Article–article visNetwork weighted by shared DOI count |
+| [`plot_article_wikilink_network()`](https://jsobel1.github.io/wikilite/reference/plot_article_wikilink_network.md) | Directed visNetwork of `[[...]]` wikilinks between articles |
 
 ### Export
 
-| Function                                                                                                               | Description                     |
-|------------------------------------------------------------------------------------------------------------------------|---------------------------------|
-| [`write_wiki_history_to_xlsx()`](https://jsobel1.github.io/wikilite/reference/write_wiki_history_to_xlsx.md)           | Revision table → Excel          |
+| Function | Description |
+|----|----|
+| [`write_wiki_history_to_xlsx()`](https://jsobel1.github.io/wikilite/reference/write_wiki_history_to_xlsx.md) | Revision table → Excel |
 | [`export_extracted_citations_xlsx()`](https://jsobel1.github.io/wikilite/reference/export_extracted_citations_xlsx.md) | All regex matches → Excel files |
-| [`export_doi_to_bib()`](https://jsobel1.github.io/wikilite/reference/export_doi_to_bib.md)                             | DOIs → BibTeX file              |
+| [`export_doi_to_bib()`](https://jsobel1.github.io/wikilite/reference/export_doi_to_bib.md) | DOIs → BibTeX file |
 
 ------------------------------------------------------------------------
 
@@ -634,6 +657,7 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 Access all patterns via `pkg.env`:
 
 ``` r
+
 # List all available patterns
 names(pkg.env$regexp_list)
 
@@ -661,28 +685,28 @@ pkg.env$template_regexp    # {{pp...}} protection templates
 The core data structure returned by all history functions is a
 **revision data frame**:
 
-| Column      | Type        | Description                                          |
-|-------------|-------------|------------------------------------------------------|
-| `art`       | `character` | Article title                                        |
-| `revid`     | `integer`   | Revision ID                                          |
-| `parentid`  | `integer`   | ID of the previous revision                          |
-| `user`      | `character` | Editor username                                      |
-| `userid`    | `integer`   | Editor user ID                                       |
-| `timestamp` | `character` | ISO 8601 timestamp (`"2020-03-15T14:22:01Z"`)        |
-| `size`      | `integer`   | Article size in bytes                                |
-| `comment`   | `character` | Edit summary                                         |
-| `*`         | `character` | Raw wikitext (backtick-quoted in R: `` table$`*` ``) |
+| Column | Type | Description |
+|----|----|----|
+| `art` | `character` | Article title |
+| `revid` | `integer` | Revision ID |
+| `parentid` | `integer` | ID of the previous revision |
+| `user` | `character` | Editor username |
+| `userid` | `integer` | Editor user ID |
+| `timestamp` | `character` | ISO 8601 timestamp (`"2020-03-15T14:22:01Z"`) |
+| `size` | `integer` | Article size in bytes |
+| `comment` | `character` | Edit summary |
+| `*` | `character` | Raw wikitext (backtick-quoted in R: `` table$`*` ``) |
 
 The **parsed citation data frame** (from
 [`get_parsed_citations()`](https://jsobel1.github.io/wikilite/reference/get_parsed_citations.md))
 adds:
 
-| Column     | Type        | Description                                           |
-|------------|-------------|-------------------------------------------------------|
-| `type`     | `character` | CS1 citation type (`"journal"`, `"book"`, `"web"`, …) |
-| `id_cite`  | `integer`   | Citation index within the article                     |
-| `variable` | `character` | Field name (`"author"`, `"doi"`, `"title"`, …)        |
-| `value`    | `character` | Field value                                           |
+| Column | Type | Description |
+|----|----|----|
+| `type` | `character` | CS1 citation type (`"journal"`, `"book"`, `"web"`, …) |
+| `id_cite` | `integer` | Citation index within the article |
+| `variable` | `character` | Field name (`"author"`, `"doi"`, `"title"`, …) |
+| `value` | `character` | Field value |
 
 ------------------------------------------------------------------------
 
@@ -709,13 +733,13 @@ adds:
 
 ### Suggested (only needed for specific tasks)
 
-| Package               | Purpose                                                                                            |
-|-----------------------|----------------------------------------------------------------------------------------------------|
-| `rAltmetric`          | Altmetric attention scores (install from [r-universe](https://ropensci.r-universe.dev/rAltmetric)) |
-| `testthat` ≥ 3.0.0    | Running the test suite                                                                             |
-| `knitr` / `rmarkdown` | Building vignettes                                                                                 |
-| `httptest2`           | Offline HTTP fixture testing                                                                       |
-| `covr`                | Code coverage                                                                                      |
+| Package | Purpose |
+|----|----|
+| `rAltmetric` | Altmetric attention scores (install from [r-universe](https://ropensci.r-universe.dev/rAltmetric)) |
+| `testthat` ≥ 3.0.0 | Running the test suite |
+| `knitr` / `rmarkdown` | Building vignettes |
+| `httptest2` | Offline HTTP fixture testing |
+| `covr` | Code coverage |
 
 ------------------------------------------------------------------------
 
@@ -761,10 +785,10 @@ This package implements and extends the methods described in:
 
 ## Related tools
 
-| Tool                                                                | Description                                                                                                                                     |
-|---------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**wikiliteApp**](https://github.com/jsobel1/wikiliteApp)           | Interactive Shiny application for history-flow analysis, authorship, stability, vandalism, and multi-article networks — powered by this package |
-| [**wikicitation-mcp**](https://github.com/jsobel1/wikicitation-mcp) | MCP server exposing wikilite tools to Claude and other LLM assistants                                                                           |
+| Tool | Description |
+|----|----|
+| [**wikiliteApp**](https://github.com/jsobel1/wikiliteApp) | Interactive Shiny application built on this package. Top-level **Single Article** mode (History Flow, Citations, Authorship, Stability with SciScore-over-time, Vandalism & Wars, Revision Inspector with WikiWho token-level authorship) and **Corpus Analysis** mode (named/categorised article lists with cross-corpus timeline, citations panel including per-article + per-corpus SciScore, and three networks — co-citation, publication, wikilink — all with clickable nodes). Batched EuropePMC + Google Books annotation, multi-sheet XLSX exports. |
+| [**wikicitation-mcp**](https://github.com/jsobel1/wikicitation-mcp) | MCP server exposing wikilite tools to Claude and other LLM assistants — pure Python, ~40 tools covering history, citation extraction, SciScore, and DOI / ISBN annotation |
 
 ------------------------------------------------------------------------
 
