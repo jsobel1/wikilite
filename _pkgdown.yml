@@ -120,6 +120,7 @@ reference:
       - get_sci_score
       - get_top_cited_wiki_papers
       - get_pdfs_top20source
+      - probe_article_over_time
 
   - title: "Annotate DOIs"
     desc: >
