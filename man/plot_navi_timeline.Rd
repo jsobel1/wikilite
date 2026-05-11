@@ -21,7 +21,7 @@ The function issues an informative message and returns \code{NULL}
 invisibly.  Use \code{\link{plot_static_timeline}} for a static equivalent.
 }
 \examples{
-\dontrun{
+\donttest{
 initial <- get_article_initial_table("Zeitgeber")
 info    <- get_article_info_table("Zeitgeber")
 plot_navi_timeline(initial, info)

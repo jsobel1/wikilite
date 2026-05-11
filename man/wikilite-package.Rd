@@ -49,7 +49,9 @@ patterns.  Access via \code{pkg.env$doi_regexp},
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://jsobel1.github.io/wikilite/}
   \item \url{https://github.com/jsobel1/wikilite}
+  \item \url{https://github.com/jsobel1/wikiliteApp}
   \item Report bugs at \url{https://github.com/jsobel1/wikilite/issues}
 }
 

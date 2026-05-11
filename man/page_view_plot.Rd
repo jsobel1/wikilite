@@ -30,7 +30,7 @@ Queries the Wikimedia pageviews API and plots daily view counts as an area
 chart.
 }
 \examples{
-\dontrun{
+\donttest{
 page_view_plot("Zeitgeber", start = "2020010100", end = "2020050100")
 }
 }

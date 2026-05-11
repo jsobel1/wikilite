@@ -4,11 +4,12 @@
 \alias{get_article_initial_table}
 \title{Retrieve the first revision of a Wikipedia article}
 \usage{
-get_article_initial_table(article_name)
+get_article_initial_table(article_name, lang = "en")
 }
 \arguments{
-\item{article_name}{Character string giving the English Wikipedia article
-title.}
+\item{article_name}{Character string giving the Wikipedia article title.}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A single-row data frame with the same columns as
@@ -18,7 +19,7 @@ A single-row data frame with the same columns as
 Retrieve the first revision of a Wikipedia article
 }
 \examples{
-\dontrun{
+\donttest{
 get_article_initial_table("Zeitgeber")
 }
 }

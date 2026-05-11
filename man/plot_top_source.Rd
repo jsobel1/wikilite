@@ -20,7 +20,7 @@ A \code{ggplot2} object (invisibly).
 Plot the top 20 values for a given citation field
 }
 \examples{
-\dontrun{
+\donttest{
 recent <- get_article_most_recent_table("Zeitgeber")
 df     <- get_parsed_citations(recent)
 plot_top_source(df, "publisher")

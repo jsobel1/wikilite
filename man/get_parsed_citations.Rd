@@ -19,7 +19,7 @@ Applies \code{\link{parse_article_ALL_citations}} to every row of
 \code{article_most_recent_table} and returns a combined tidy data frame.
 }
 \examples{
-\dontrun{
+\donttest{
 recent <- get_category_articles_most_recent(
   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 )

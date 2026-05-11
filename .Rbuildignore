@@ -2,3 +2,9 @@
 ^\.git$
 ^\.gitignore$
 ^README\.Rmd$
+^\.claude$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^wikilite_.*\.tar\.gz$
+^wikilite\.Rcheck$

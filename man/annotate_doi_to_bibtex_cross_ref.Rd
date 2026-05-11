@@ -16,7 +16,7 @@ A list of BibTeX character strings, one per DOI.
 Retrieve BibTeX entries for a list of DOIs via CrossRef
 }
 \examples{
-\dontrun{
+\donttest{
 annotate_doi_to_bibtex_cross_ref("10.1038/nature12373")
 }
 }

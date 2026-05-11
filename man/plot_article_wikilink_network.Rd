@@ -6,7 +6,8 @@
 \usage{
 plot_article_wikilink_network(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   only_internal = TRUE,
   top_n_links = 80L
 )
@@ -15,7 +16,9 @@ plot_article_wikilink_network(
 \item{articles}{Character vector of English Wikipedia article titles.}
 
 \item{date_an}{Character string. Upper date limit in ISO 8601 format
-(default: \code{"2024-01-01T00:00:00Z"}).}
+(default: current UTC time).}
+
+\item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
 \item{only_internal}{Logical.  If \code{TRUE} (default), only wikilinks
 pointing to another article in \code{articles} are shown.}
@@ -43,7 +46,7 @@ Node size reflects in-degree (number of incoming links).  Clicking any node
 opens the corresponding Wikipedia article in a new browser tab.
 }
 \examples{
-\dontrun{
+\donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 # Internal links only

@@ -4,14 +4,16 @@
 \alias{get_subcat_with_depth}
 \title{Recursively retrieve subcategories up to a given depth}
 \usage{
-get_subcat_with_depth(catname, depth, replecement = "_")
+get_subcat_with_depth(catname, depth, replacement = "_", lang = "en")
 }
 \arguments{
 \item{catname}{Character string — root category name.}
 
 \item{depth}{Integer — number of levels to descend.}
 
-\item{replecement}{Character used to replace spaces (default: \code{"_"}).}
+\item{replacement}{Character used to replace spaces (default: \code{"_"}).}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A data frame of all unique subcategories up to \code{depth} levels
@@ -21,7 +23,7 @@ A data frame of all unique subcategories up to \code{depth} levels
 Recursively retrieve subcategories up to a given depth
 }
 \examples{
-\dontrun{
+\donttest{
 get_subcat_with_depth("Category:Biology", depth = 2)
 }
 }

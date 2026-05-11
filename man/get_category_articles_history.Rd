@@ -4,22 +4,25 @@
 \alias{get_category_articles_history}
 \title{Retrieve the full revision history for multiple Wikipedia articles}
 \usage{
-get_category_articles_history(list_art)
+get_category_articles_history(list_art, lang = "en", workers = 1L)
 }
 \arguments{
-\item{list_art}{Character vector of English Wikipedia article titles.}
+\item{list_art}{Character vector of Wikipedia article titles.}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
+
+\item{workers}{Integer.  Number of parallel workers when \pkg{furrr} is
+installed (default: \code{1L} — sequential).}
 }
 \value{
-A combined data frame with the same columns as
-  \code{\link{get_article_full_history_table}}, or \code{NULL} if all
-  requests fail.
+A combined data frame, or \code{NULL} if all requests fail.
 }
 \description{
 Calls \code{\link{get_article_full_history_table}} for each element of
 \code{list_art} and row-binds the results.
 }
 \examples{
-\dontrun{
+\donttest{
 get_category_articles_history(
   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 )

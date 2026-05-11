@@ -4,10 +4,12 @@
 \alias{get_tables_initial_most_recent_full_info}
 \title{Retrieve initial, most-recent, info, and full-history tables for a set of articles}
 \usage{
-get_tables_initial_most_recent_full_info(all_art)
+get_tables_initial_most_recent_full_info(all_art, lang = "en")
 }
 \arguments{
-\item{all_art}{Character vector of English Wikipedia article titles.}
+\item{all_art}{Character vector of Wikipedia article titles.}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A named list with elements \code{article_initial_table},
@@ -23,7 +25,7 @@ A convenience wrapper that calls
 \code{all_art} and returns the four tables as a named list.
 }
 \examples{
-\dontrun{
+\donttest{
 res <- get_tables_initial_most_recent_full_info(
   c("Zeitgeber", "Sleep deprivation")
 )

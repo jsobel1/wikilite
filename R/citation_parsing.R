@@ -109,7 +109,7 @@ pkg.env$regexp_list <- c(
 #'   \code{citation_fetched}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' history <- get_article_full_history_table("Zeitgeber")
 #' dois    <- get_regex_citations_in_wiki_table(history,
 #'              "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+")
@@ -189,7 +189,7 @@ classify_cite_type <- function(raw_type) {
 #' @return Character vector of matched CS1 templates.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' art <- get_article_most_recent_table("Zeitgeber")
 #' extract_citations(art$`*`)
 #' }
@@ -250,7 +250,7 @@ replace_wikihypelinks <- function(art_text) {
 #'   \code{article_name} is supplied.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' art <- get_article_most_recent_table("Zeitgeber")
 #' parse_article_ALL_citations(art$`*`, article_name = "Zeitgeber")
 #' }
@@ -391,7 +391,7 @@ get_anyCount <- function(art_text, regexp) {
 #'   citations.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' art <- get_article_most_recent_table("Zeitgeber")
 #' get_sci_score(art$`*`)
 #' }
@@ -421,7 +421,7 @@ get_sci_score <- function(art_text) {
 #'   citations are found.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' art <- get_article_most_recent_table("Zeitgeber")
 #' get_source_type_counts(art$`*`, article_name = "Zeitgeber")
 #' }
@@ -452,7 +452,7 @@ get_source_type_counts <- function(art_text, article_name = NULL) {
 #'   \code{id_cite}, \code{variable}, and \code{value}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' recent <- get_category_articles_most_recent(
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
@@ -490,7 +490,7 @@ get_parsed_citations <- function(article_most_recent_table) {
 #'   \code{cite_type}, and \code{Freq}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' recent <- get_article_most_recent_table("Zeitgeber")
 #' get_citation_type(recent)
 #' }
@@ -528,7 +528,7 @@ get_citation_type <- function(article_most_recent_table) {
 #'   \code{revid}, and \code{citation_fetched}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' recent       <- get_article_most_recent_table("Zeitgeber")
 #' all_citations <- extract_citations_regexp(recent)
 #' names(all_citations)
@@ -557,7 +557,7 @@ extract_citations_regexp <- function(article_most_recent_table) {
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' recent <- get_article_most_recent_table("Zeitgeber")
 #' df     <- get_parsed_citations(recent)
 #' plot_top_source(df, "publisher")
@@ -593,7 +593,7 @@ plot_top_source <- function(df_cite_parsed_revid_art, source_type) {
 #' @return Invisibly returns \code{NULL}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' recent <- get_article_most_recent_table("Zeitgeber")
 #' df     <- get_parsed_citations(recent)
 #' get_pdfs_top20source(df)
@@ -620,7 +620,7 @@ get_pdfs_top20source <- function(
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' recent <- get_article_most_recent_table("Zeitgeber")
 #' df     <- get_citation_type(recent)
 #' plot_distribution_source_type(df)
@@ -648,7 +648,7 @@ plot_distribution_source_type <- function(df_cite_count_revid_art) {
 #'   and Wikipedia citation counts.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' doi_df <- get_regex_citations_in_wiki_table(
 #'   get_article_most_recent_table("Zeitgeber"),
 #'   "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"

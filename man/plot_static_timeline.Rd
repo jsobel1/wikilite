@@ -18,7 +18,7 @@ A \code{ggplot2} object (invisibly).
 Plot a static timeline of article creation dates
 }
 \examples{
-\dontrun{
+\donttest{
 initial <- get_category_articles_creation(
   c("Zeitgeber", "Advanced sleep phase disorder")
 )

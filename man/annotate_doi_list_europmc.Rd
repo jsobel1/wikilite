@@ -4,10 +4,14 @@
 \alias{annotate_doi_list_europmc}
 \title{Annotate a list of DOIs using EuropePMC}
 \usage{
-annotate_doi_list_europmc(doi_list)
+annotate_doi_list_europmc(doi_list, batch_size = 25L)
 }
 \arguments{
 \item{doi_list}{Character vector of DOIs.}
+
+\item{batch_size}{Integer.  Number of DOIs to request per EuropePMC
+batch query (default \code{25}).  Larger values reduce the number of
+HTTP calls but increase per-request payload size.}
 }
 \value{
 A data frame with columns \code{id}, \code{source}, \code{pmid},
@@ -22,7 +26,7 @@ bibliographic metadata.  Rows for DOIs not found in EuropePMC are silently
 skipped.
 }
 \examples{
-\dontrun{
+\donttest{
 art_test <- get_article_most_recent_table("Zeitgeber")
 dois <- unique(unlist(stringr::str_match_all(
   art_test$`*`, "10\\\\.\\\\d{4,9}/[-._;()/:a-z0-9A-Z]+"

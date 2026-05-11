@@ -1,6 +1,6 @@
 Package: wikilite
 Title: Retrieve, Parse, and Analyse Wikipedia Article History and Citations
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     person(given = "Jonathan",
            family = "Sobel",
@@ -14,9 +14,11 @@ Description: A toolkit for mining Wikipedia article revision history and
     DOIs through 'europepmc' and 'rcrossref', computes scientific-source
     quality metrics (SciScore), identifies revert-based edit trends across
     all Wikipedia articles, and provides visualisations including interactive
-    timelines and citation networks.
+    timelines and citation networks. Implements and extends the methods
+    described in Benjakob, Aviram and Sobel (2022)
+    <doi:10.1093/gigascience/giab095>.
 License: GPL-3
-URL: https://jsobel1.github.io/wikilite,
+URL: https://jsobel1.github.io/wikilite/,
     https://github.com/jsobel1/wikilite,
     https://github.com/jsobel1/wikiliteApp
 BugReports: https://github.com/jsobel1/wikilite/issues
@@ -45,8 +47,12 @@ Suggests:
     future,
     furrr,
     knitr,
+    rAltmetric,
     rmarkdown,
+    shiny,
     testthat (>= 3.0.0)
+Additional_repositories:
+    https://ropensci.r-universe.dev
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3

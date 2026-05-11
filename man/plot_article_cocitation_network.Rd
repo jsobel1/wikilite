@@ -6,7 +6,8 @@
 \usage{
 plot_article_cocitation_network(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   min_shared_dois = 1L
 )
 }
@@ -14,7 +15,9 @@ plot_article_cocitation_network(
 \item{articles}{Character vector of English Wikipedia article titles.}
 
 \item{date_an}{Character string. Upper date limit in ISO 8601 format
-(default: \code{"2024-01-01T00:00:00Z"}).}
+(default: current UTC time).}
+
+\item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
 \item{min_shared_dois}{Minimum number of shared DOIs required to draw an
 edge (default: 1).  Increase this to focus on the most strongly connected
@@ -35,7 +38,7 @@ Hovering over an edge lists the top shared DOIs.  Clicking a node opens the
 Wikipedia article in a new tab.
 }
 \examples{
-\dontrun{
+\donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm",
               "Non-24-hour sleep-wake disorder")

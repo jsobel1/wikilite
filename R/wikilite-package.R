@@ -53,7 +53,7 @@ utils::globalVariables(c(
   "cite_type", "Freq", "citation_fetched", "doi",
   "firstPublicationDate",
   # edit trends
-  "nb_reverts", "sum_nb_reverts", "tags", "cnt",
+  "nb_reverts", "sum_nb_reverts", "tags", "cnt", "nb_cnt",
   # interactive visualisation
   "n_articles", "n_dois", "color_val", "created",
   "updated", "size_first", "size_last",

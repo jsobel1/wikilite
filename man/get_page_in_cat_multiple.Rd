@@ -4,12 +4,14 @@
 \alias{get_page_in_cat_multiple}
 \title{Retrieve pages for multiple Wikipedia categories}
 \usage{
-get_page_in_cat_multiple(catlist, replecement = "_")
+get_page_in_cat_multiple(catlist, replacement = "_", lang = "en")
 }
 \arguments{
 \item{catlist}{Character vector of category names.}
 
-\item{replecement}{Character used to replace spaces (default: \code{"_"}).}
+\item{replacement}{Character used to replace spaces (default: \code{"_"}).}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A combined data frame of page metadata.
@@ -18,7 +20,7 @@ A combined data frame of page metadata.
 Retrieve pages for multiple Wikipedia categories
 }
 \examples{
-\dontrun{
+\donttest{
 get_page_in_cat_multiple(c("Category:Biology", "Category:Medicine"))
 }
 }

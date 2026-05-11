@@ -16,11 +16,11 @@ get_edits_vs_time_plot(art_history_full, art_name)
 A \code{ggplot2} object (invisibly).
 }
 \description{
-Produces a stacked bar chart of edit counts grouped by year, coloured by
-edit type (revert vs. other).
+Produces a \pkg{ggplot2} bar chart of edit counts grouped by year,
+optionally coloured by edit type (revert vs. other).
 }
 \examples{
-\dontrun{
+\donttest{
 hist_df <- get_article_full_history_table("Zeitgeber")
 get_edits_vs_time_plot(hist_df, "Zeitgeber")
 }

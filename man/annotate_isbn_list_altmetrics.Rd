@@ -17,6 +17,8 @@ Annotate a list of ISBNs using Altmetric
 }
 \examples{
 \dontrun{
+# Requires the optional 'rAltmetric' package (not on CRAN):
+#   remotes::install_github('ropensci/rAltmetric')
 annotate_isbn_list_altmetrics(list(c("9780156031356")))
 }
 }

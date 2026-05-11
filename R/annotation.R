@@ -7,6 +7,9 @@
 #' skipped.
 #'
 #' @param doi_list Character vector of DOIs.
+#' @param batch_size Integer.  Number of DOIs to request per EuropePMC
+#'   batch query (default \code{25}).  Larger values reduce the number of
+#'   HTTP calls but increase per-request payload size.
 #' @return A data frame with columns \code{id}, \code{source}, \code{pmid},
 #'   \code{pmcid}, \code{doi}, \code{title}, \code{authorString},
 #'   \code{journalTitle}, \code{pubYear}, \code{pubType},
@@ -14,7 +17,7 @@
 #'   \code{firstPublicationDate}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' art_test <- get_article_most_recent_table("Zeitgeber")
 #' dois <- unique(unlist(stringr::str_match_all(
 #'   art_test$`*`, "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
@@ -139,7 +142,7 @@ annotate_doi_list_europmc <- function(doi_list, batch_size = 25L) {
 #'   \code{issue}, \code{page}, and \code{citedByCount}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' annotate_doi_list_cross_ref(c("10.1038/nature16961"))
 #' }
 annotate_doi_list_cross_ref <- function(doi_list, batch_size = 50L) {
@@ -208,7 +211,7 @@ annotate_doi_list_cross_ref <- function(doi_list, batch_size = 50L) {
 #' @return A list of BibTeX character strings, one per DOI.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' annotate_doi_to_bibtex_cross_ref("10.1038/nature12373")
 #' }
 annotate_doi_to_bibtex_cross_ref <- function(doi_list) {
@@ -227,6 +230,8 @@ annotate_doi_to_bibtex_cross_ref <- function(doi_list) {
 #' @export
 #' @examples
 #' \dontrun{
+#' # Requires the optional 'rAltmetric' package (not on CRAN):
+#' #   remotes::install_github('ropensci/rAltmetric')
 #' art_test <- get_article_most_recent_table("Zeitgeber")
 #' dois <- unique(unlist(stringr::str_match_all(
 #'   art_test$`*`, "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
@@ -267,7 +272,7 @@ annotate_doi_list_altmetrics <- function(doi_list) {
 #'   \code{authors}, or \code{NULL} if the ISBN is not found.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' annotate_isbn_google("978-0-15-603135-6")
 #' }
 annotate_isbn_google <- function(isbn_nb) {
@@ -299,7 +304,7 @@ annotate_isbn_google <- function(isbn_nb) {
 #'   ISBN is not found.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' annotate_isbn_openlib("9780156031356")
 #' }
 annotate_isbn_openlib <- function(isbn_nb) {
@@ -321,6 +326,8 @@ annotate_isbn_openlib <- function(isbn_nb) {
 #' @export
 #' @examples
 #' \dontrun{
+#' # Requires the optional 'rAltmetric' package (not on CRAN):
+#' #   remotes::install_github('ropensci/rAltmetric')
 #' annotate_isbn_list_altmetrics(list(c("9780156031356")))
 #' }
 annotate_isbn_list_altmetrics <- function(isbn_list) {

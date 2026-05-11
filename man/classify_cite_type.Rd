@@ -2,30 +2,27 @@
 % Please edit documentation in R/citation_parsing.R
 \name{classify_cite_type}
 \alias{classify_cite_type}
-\title{Map a raw CS1 cite type to a display category}
+\title{Map a raw CS1 type keyword to a display category}
 \usage{
 classify_cite_type(raw_type)
 }
 \arguments{
 \item{raw_type}{Character string — the lowercase keyword produced by
-\code{\link{parse_cite_type}}, e.g. \code{"journal"}, \code{"arxiv"}.}
+\code{parse_cite_type()}.}
 }
 \value{
 One of \code{"Journal"}, \code{"Book"}, \code{"Web"},
-\code{"News/Magazine"}, \code{"Preprint"}, \code{"Thesis"},
-\code{"Conference"}, \code{"Report"}, \code{"Multimedia"},
-\code{"Legal/Patent"}, \code{"Social Media"}, or \code{"Other"}.
-The function is case-insensitive and trims leading/trailing whitespace.
+  \code{"News/Magazine"}, \code{"Preprint"}, \code{"Thesis"},
+  \code{"Conference"}, \code{"Report"}, \code{"Multimedia"},
+  \code{"Legal/Patent"}, \code{"Social Media"}, or \code{"Other"}.
 }
 \description{
-Converts a raw Citation Style 1 template keyword into one of twelve
-human-readable display categories used by \code{\link{get_citation_type}}
-and the pkgdown site.
+Converts the keyword returned by \code{\link{parse_cite_type}} (e.g.
+\code{"journal"}, \code{"arxiv"}) to a human-readable display category
+aligned with the Wikipedia Citation Style 1/2 template taxonomy.
 }
 \examples{
-classify_cite_type("journal")    # "Journal"
-classify_cite_type("arxiv")      # "Preprint"
-classify_cite_type("book")       # "Book"
-classify_cite_type("JOURNAL")    # "Journal"  (case-insensitive)
-classify_cite_type("unknown_xyz") # "Other"
+classify_cite_type("journal")   # "Journal"
+classify_cite_type("arxiv")     # "Preprint"
+classify_cite_type("book")      # "Book"
 }

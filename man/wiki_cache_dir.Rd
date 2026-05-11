@@ -2,21 +2,13 @@
 % Please edit documentation in R/cache.R
 \name{wiki_cache_dir}
 \alias{wiki_cache_dir}
-\title{Return the wikilite user cache directory}
+\title{Return (and create if needed) the wikilite user cache directory}
 \usage{
 wiki_cache_dir()
 }
 \value{
-Character string path to the cache directory (created if it does not
-exist).
+Character string path to the cache directory.
 }
 \description{
-Returns (and creates if needed) the platform-appropriate user cache
-directory for \pkg{wikilite}, as determined by
-\code{\link[tools]{R_user_dir}}.
-}
-\examples{
-\dontrun{
-wiki_cache_dir()
-}
+Return (and create if needed) the wikilite user cache directory
 }

@@ -4,14 +4,23 @@
 \alias{get_article_most_recent_table}
 \title{Retrieve the most recent revision of a Wikipedia article}
 \usage{
-get_article_most_recent_table(article_name, date_an = "2020-05-01T00:00:00Z")
+get_article_most_recent_table(
+  article_name,
+  date_an = NULL,
+  lang = "en",
+  use_cache = TRUE
+)
 }
 \arguments{
-\item{article_name}{Character string giving the English Wikipedia article
-title.}
+\item{article_name}{Character string giving the Wikipedia article title.}
 
-\item{date_an}{Character string — upper date limit in ISO 8601 format
-(default: \code{"2020-05-01T00:00:00Z"}).}
+\item{date_an}{Character string — upper date limit in ISO 8601 format.
+Default: current UTC time.}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
+
+\item{use_cache}{Logical.  When \code{TRUE} (default), results are cached
+to disk.}
 }
 \value{
 A single-row data frame with the same columns as
@@ -21,7 +30,8 @@ A single-row data frame with the same columns as
 Retrieve the most recent revision of a Wikipedia article
 }
 \examples{
-\dontrun{
+\donttest{
 get_article_most_recent_table("Zeitgeber")
+get_article_most_recent_table("COVID-19", lang = "fr")
 }
 }

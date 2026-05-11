@@ -23,7 +23,7 @@ A data frame with columns \code{cite_type} and \code{Freq} — plus
 Count citations by CS1 source type
 }
 \examples{
-\dontrun{
+\donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 get_source_type_counts(art$`*`, article_name = "Zeitgeber")
 }

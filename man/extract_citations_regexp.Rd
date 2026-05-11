@@ -20,7 +20,7 @@ Iterates over every pattern in \code{\link{pkg.env}}\code{$regexp_list}
 and returns a named list of data frames, one per pattern.
 }
 \examples{
-\dontrun{
+\donttest{
 recent       <- get_article_most_recent_table("Zeitgeber")
 all_citations <- extract_citations_regexp(recent)
 names(all_citations)

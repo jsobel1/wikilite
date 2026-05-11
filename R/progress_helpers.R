@@ -13,7 +13,7 @@
 #     dependency of dplyr, but is now a direct Import so the contract is
 #     explicit.
 #   - When `getOption("wikilite.progress", TRUE)` is FALSE, all progress
-#     output is suppressed — useful inside vignettes/tests/CI.
+#     output is suppressed -- useful inside vignettes/tests/CI.
 #
 # Public-ish helpers (kept un-exported, internal to the package):
 #   .progress_start(label, total = NULL)
@@ -97,7 +97,7 @@
     ))
   } else if (handle$kind == "shiny") {
     try(shiny::incProgress(0, detail = sprintf(
-      "done — %d items in %.1fs", handle$count, elapsed
+      "done - %d items in %.1fs", handle$count, elapsed
     )), silent = TRUE)
   }
   invisible(NULL)

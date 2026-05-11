@@ -4,12 +4,14 @@
 \alias{get_subcat_multiple}
 \title{Retrieve subcategories for multiple Wikipedia categories}
 \usage{
-get_subcat_multiple(catlist, replecement = "_")
+get_subcat_multiple(catlist, replacement = "_", lang = "en")
 }
 \arguments{
 \item{catlist}{Character vector of category names.}
 
-\item{replecement}{Character used to replace spaces (default: \code{"_"}).}
+\item{replacement}{Character used to replace spaces (default: \code{"_"}).}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A combined data frame of subcategory metadata.
@@ -18,7 +20,7 @@ A combined data frame of subcategory metadata.
 Retrieve subcategories for multiple Wikipedia categories
 }
 \examples{
-\dontrun{
+\donttest{
 get_subcat_multiple(c("Category:Biology", "Category:Medicine"))
 }
 }

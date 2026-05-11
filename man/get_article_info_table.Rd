@@ -4,14 +4,15 @@
 \alias{get_article_info_table}
 \title{Retrieve metadata for a Wikipedia article}
 \usage{
-get_article_info_table(article_name, date_an = "2020-05-01T00:00:00Z")
+get_article_info_table(article_name, date_an = NULL, lang = "en")
 }
 \arguments{
-\item{article_name}{Character string giving the English Wikipedia article
-title.}
+\item{article_name}{Character string giving the Wikipedia article title.}
 
-\item{date_an}{Character string — reference date in ISO 8601 format
-(default: \code{"2020-05-01T00:00:00Z"}).}
+\item{date_an}{Character string — reference date in ISO 8601 format.
+Default: current UTC time.}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A named character vector with at least \code{pageid}, \code{title},
@@ -22,7 +23,7 @@ Returns a named vector containing the page ID, title, and byte length of
 the current revision of the article.
 }
 \examples{
-\dontrun{
+\donttest{
 get_article_info_table("Zeitgeber")
 }
 }

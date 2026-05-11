@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis_viz.R
 \name{get_dotplot_history}
 \alias{get_dotplot_history}
-\title{Dot plot of DOI citation insertions over time}
+\title{Dot plot of DOI citation edits over time}
 \usage{
 get_dotplot_history(df_doi, art_name)
 }
@@ -10,7 +10,7 @@ get_dotplot_history(df_doi, art_name)
 \item{df_doi}{A data frame as returned by
 \code{\link{compute_citation_latency}} with columns
 \code{citation_fetched}, \code{firstPublicationDate},
-\code{latency_days}, and \code{is_preprint}.}
+and \code{latency_days}.}
 
 \item{art_name}{Character string used as the plot title.}
 }
@@ -18,12 +18,15 @@ get_dotplot_history(df_doi, art_name)
 A \code{ggplot2} object (invisibly).
 }
 \description{
-Plots each DOI citation insertion as a point on a scatter chart: x-axis is
-Wikipedia insertion date, y-axis is latency in days.  Points are coloured
-by source type (journal vs. preprint).
+Plots each DOI citation insertion as a point on a timeline, providing a
+fine-grained view of when citations were added to the article.
 }
 \examples{
-\dontrun{
-get_dotplot_history(latency_df, "Zeitgeber")
+\donttest{
+recent  <- get_article_most_recent_table("Zeitgeber")
+doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+latency <- compute_citation_latency(doi_df, epmc_df)
+get_dotplot_history(latency, "Zeitgeber")
 }
 }

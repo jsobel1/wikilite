@@ -19,7 +19,7 @@ citations (\code{cite journal}).  A score of 1 means all citations are
 to peer-reviewed journals; 0 means none are.
 }
 \examples{
-\dontrun{
+\donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 get_sci_score(art$`*`)
 }

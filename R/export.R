@@ -20,11 +20,8 @@
 #'   a file.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' tmpwikitable <- get_article_initial_table("Zeitgeber")
-#' write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber")
-#'
-#' # Write to a specific directory
 #' write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber", dir = tempdir())
 #' }
 write_wiki_history_to_xlsx <- function(wiki_hist, file_name, dir = NULL) {
@@ -63,11 +60,14 @@ write_wiki_history_to_xlsx <- function(wiki_hist, file_name, dir = NULL) {
 #'   files.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' category_most_recent <- get_category_articles_most_recent(
 #'   c("Zeitgeber", "Advanced sleep phase disorder")
 #' )
-#' export_extracted_citations_xlsx(category_most_recent, "sleep_articles")
+#' export_extracted_citations_xlsx(
+#'   category_most_recent,
+#'   file.path(tempdir(), "sleep_articles")
+#' )
 #' }
 export_extracted_citations_xlsx <- function(article_most_recent_table,
                                             name_file_prefix) {
@@ -105,7 +105,7 @@ export_extracted_citations_xlsx <- function(article_most_recent_table,
 #'   a file.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' category_recent <- get_category_articles_most_recent(
 #'   c("Zeitgeber", "Advanced sleep phase disorder")
 #' )
@@ -113,7 +113,10 @@ export_extracted_citations_xlsx <- function(article_most_recent_table,
 #'   category_recent,
 #'   "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
 #' )
-#' export_doi_to_bib(unique(extracted$citation_fetched)[1:5], "output.bib")
+#' export_doi_to_bib(
+#'   unique(extracted$citation_fetched)[1:5],
+#'   file.path(tempdir(), "output.bib")
+#' )
 #' }
 export_doi_to_bib <- function(doi_list, file_name = "file.bib") {
   dfa <- annotate_doi_to_bibtex_cross_ref(doi_list)

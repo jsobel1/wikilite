@@ -8,11 +8,12 @@ page_edit_plot(
   article_name,
   ymax = NA,
   start = "2020010100",
-  end = "2020050100"
+  end = "2020050100",
+  lang = "en"
 )
 }
 \arguments{
-\item{article_name}{Character string — English Wikipedia article title.}
+\item{article_name}{Character string — Wikipedia article title.}
 
 \item{ymax}{Optional numeric upper limit for the y-axis.}
 
@@ -21,6 +22,8 @@ page_edit_plot(
 
 \item{end}{End date in \code{"YYYYMMDDHH"} format
 (default: \code{"2020050100"}).}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A \code{ggplot2} object (invisibly).
@@ -30,7 +33,7 @@ Retrieves the full revision history and plots the number of edits per week
 as an area chart.
 }
 \examples{
-\dontrun{
+\donttest{
 page_edit_plot("Zeitgeber", start = "2019010100", end = "2021010100")
 }
 }

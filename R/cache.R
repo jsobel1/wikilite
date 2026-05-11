@@ -29,7 +29,7 @@ wiki_cache_dir <- function() {
 #' @return \code{NULL} invisibly.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' wiki_clear_cache()
 #' }
 wiki_clear_cache <- function() {

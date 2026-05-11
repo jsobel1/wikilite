@@ -2,15 +2,15 @@
 % Please edit documentation in R/analysis_viz.R
 \name{get_segment_history_doi_plot}
 \alias{get_segment_history_doi_plot}
-\title{Plot DOI latency as horizontal segments}
+\title{Plot DOI latency segments}
 \usage{
 get_segment_history_doi_plot(df_doi, art_name)
 }
 \arguments{
 \item{df_doi}{A data frame as returned by
 \code{\link{compute_citation_latency}} with columns
-\code{citation_fetched}, \code{firstPublicationDate}, and
-\code{latency_days}.}
+\code{citation_fetched}, \code{firstPublicationDate},
+and \code{latency_days}.}
 
 \item{art_name}{Character string used as the plot title.}
 }
@@ -19,11 +19,14 @@ A \code{ggplot2} object (invisibly).
 }
 \description{
 Produces a segment plot showing, for each DOI, the gap between paper
-publication date (navy dot) and first Wikipedia citation insertion (red
-triangle).  DOIs are ordered by publication date.
+publication date and first Wikipedia citation insertion.
 }
 \examples{
-\dontrun{
-get_segment_history_doi_plot(latency_df, "Zeitgeber")
+\donttest{
+recent  <- get_article_most_recent_table("Zeitgeber")
+doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+latency <- compute_citation_latency(doi_df, epmc_df)
+get_segment_history_doi_plot(latency, "Zeitgeber")
 }
 }

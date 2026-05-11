@@ -2,9 +2,9 @@
 % Please edit documentation in R/wiki_trends.R
 \name{get_revert_counts}
 \alias{get_revert_counts}
-\title{Count revert-tagged edits per article for a time window}
+\title{Count revert-tagged (or all) edits per article for a time window}
 \usage{
-get_revert_counts(start, end)
+get_revert_counts(start, end, rev_eds = TRUE)
 }
 \arguments{
 \item{start}{Character string — newer boundary of the query window in
@@ -13,31 +13,34 @@ MediaWiki API timestamp format \code{"YYYYMMDDHHmmss"}
 
 \item{end}{Character string — older boundary in the same format
 (e.g. \code{"20181212000000"}).}
+
+\item{rev_eds}{Logical.  If \code{TRUE} (default), only revert-tagged edits
+(\code{"mw-undo"} or \code{"mw-rollback"}) are counted and the result
+column is named \code{sum_nb_reverts}.  If \code{FALSE}, all revisions
+are counted and the result column is named \code{sum_nb_edits}.}
 }
 \value{
 A data frame with columns:
   \describe{
     \item{\code{art}}{Article title.}
-    \item{\code{sum_nb_reverts}}{Total number of revert-tagged edits
-      within the time window.}
+    \item{\code{sum_nb_reverts} or \code{sum_nb_edits}}{Total edit count
+      within the time window (mode-dependent).}
   }
-  Rows are ordered by \code{sum_nb_reverts} descending.  Articles with
-  zero reverts are excluded.
+  Rows are ordered descending.  Articles with zero counts are excluded.
 }
 \description{
 Queries the English Wikipedia MediaWiki API for all revisions whose
 timestamps fall between \code{start} (newer) and \code{end} (older),
 counts revisions tagged as \code{"mw-undo"} or \code{"mw-rollback"}
-(revert-type edits), and returns a sorted data frame of articles with
-at least one such edit.
-}
-\details{
-The function handles pagination automatically — it follows all
-\code{arvcontinue} tokens until the full time window has been fetched.
+(revert-type edits) when \code{rev_eds = TRUE}, or counts all revisions
+when \code{rev_eds = FALSE}.  Handles pagination automatically.
 }
 \examples{
-\dontrun{
+\donttest{
 # Count revert edits for a one-hour window on 12 December 2018
 get_revert_counts("20181212010000", "20181212000000")
+
+# Count ALL edits for the same window
+get_revert_counts("20181212010000", "20181212000000", rev_eds = FALSE)
 }
 }
