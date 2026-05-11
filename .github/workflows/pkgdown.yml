@@ -32,6 +32,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::pkgdown, local::.
+          extra-repositories: https://ropensci.r-universe.dev
           needs: website
 
       # Cache knitr chunk output AND its rendered figures across runs.
