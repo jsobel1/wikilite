@@ -31,8 +31,10 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
-          extra-repositories: https://ropensci.r-universe.dev
+          extra-packages: |
+            any::pkgdown
+            github::ropensci/rAltmetric
+            local::.
           needs: website
 
       # Cache knitr chunk output AND its rendered figures across runs.
