@@ -6,19 +6,23 @@ the current revision of the article.
 ## Usage
 
 ``` r
-get_article_info_table(article_name, date_an = "2020-05-01T00:00:00Z")
+get_article_info_table(article_name, date_an = NULL, lang = "en")
 ```
 
 ## Arguments
 
 - article_name:
 
-  Character string giving the English Wikipedia article title.
+  Character string giving the Wikipedia article title.
 
 - date_an:
 
-  Character string — reference date in ISO 8601 format (default:
-  `"2020-05-01T00:00:00Z"`).
+  Character string — reference date in ISO 8601 format. Default: current
+  UTC time.
+
+- lang:
+
+  Two-letter language code (default: `"en"`).
 
 ## Value
 
@@ -28,7 +32,7 @@ elements.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 get_article_info_table("Zeitgeber")
-} # }
+# }
 ```

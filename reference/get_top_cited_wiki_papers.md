@@ -25,11 +25,11 @@ Wikipedia citation counts.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 doi_df <- get_regex_citations_in_wiki_table(
   get_article_most_recent_table("Zeitgeber"),
   "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
 )
 get_top_cited_wiki_papers(doi_df)
-} # }
+# }
 ```

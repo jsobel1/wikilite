@@ -22,5 +22,4 @@ Integer count of matched DOIs.
 
 ``` r
 get_doi_count("See 10.1038/nature12373 and 10.1016/j.cell.2020.01.001.")
-#> [1] 2
 ```

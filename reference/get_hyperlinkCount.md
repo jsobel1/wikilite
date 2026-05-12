@@ -22,5 +22,4 @@ Integer count of `[[...]]`-style links.
 
 ``` r
 get_hyperlinkCount("[[Article one]] and [[Article two|display]]")
-#> [1] 2
 ```

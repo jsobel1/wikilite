@@ -25,9 +25,9 @@ Each element has columns `art`, `revid`, and `citation_fetched`.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 recent       <- get_article_most_recent_table("Zeitgeber")
 all_citations <- extract_citations_regexp(recent)
 names(all_citations)
-} # }
+# }
 ```

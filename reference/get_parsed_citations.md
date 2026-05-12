@@ -26,10 +26,10 @@ and `value`.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 recent <- get_category_articles_most_recent(
   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 )
 parsed <- get_parsed_citations(recent)
-} # }
+# }
 ```

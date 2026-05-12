@@ -69,7 +69,11 @@ contains all pre-built patterns. Access via `pkg.env$doi_regexp`,
 
 Useful links:
 
+- <https://jsobel1.github.io/wikilite/>
+
 - <https://github.com/jsobel1/wikilite>
+
+- <https://github.com/jsobel1/wikiliteApp>
 
 - Report bugs at <https://github.com/jsobel1/wikilite/issues>
 

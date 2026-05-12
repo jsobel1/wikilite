@@ -9,7 +9,7 @@ supplied DOIs."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,14 +78,15 @@ supplied DOIs.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">art_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_article_most_recent_table.html">get_article_most_recent_table</a></span><span class="op">(</span><span class="st">"Zeitgeber"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_match.html" class="external-link">str_match_all</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">art_test</span><span class="op">$</span><span class="va">`*`</span>, <span class="st">"10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"</span></span></span>
-<span class="r-in"><span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">annotate_doi_list_altmetrics</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">dois</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-</code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span>
+<span><span class="co"># Requires the optional 'rAltmetric' package (not on CRAN):</span></span>
+<span><span class="co">#   remotes::install_github('ropensci/rAltmetric')</span></span>
+<span><span class="va">art_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_article_most_recent_table.html">get_article_most_recent_table</a></span><span class="op">(</span><span class="st">"Zeitgeber"</span><span class="op">)</span></span>
+<span><span class="va">dois</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_match.html" class="external-link">str_match_all</a></span><span class="op">(</span></span>
+<span>  <span class="va">art_test</span><span class="op">$</span><span class="va">`*`</span>, <span class="st">"10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"</span></span>
+<span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">annotate_doi_list_altmetrics</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">dois</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="co"># }</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

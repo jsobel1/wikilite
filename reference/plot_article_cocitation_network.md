@@ -10,7 +10,8 @@ the number of shared citations; node size scales with connectivity.
 ``` r
 plot_article_cocitation_network(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   min_shared_dois = 1L
 )
 ```
@@ -24,7 +25,11 @@ plot_article_cocitation_network(
 - date_an:
 
   Character string. Upper date limit in ISO 8601 format (default:
-  `"2024-01-01T00:00:00Z"`).
+  current UTC time).
+
+- lang:
+
+  Two-letter Wikipedia language code (default `"en"`).
 
 - min_shared_dois:
 
@@ -44,10 +49,10 @@ the Wikipedia article in a new tab.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm",
               "Non-24-hour sleep-wake disorder")
 plot_article_cocitation_network(articles, min_shared_dois = 2)
-} # }
+# }
 ```

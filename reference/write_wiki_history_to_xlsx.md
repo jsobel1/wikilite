@@ -2,12 +2,12 @@
 
 Writes a Wikipedia revision table (as returned by
 [`get_article_full_history_table`](https://jsobel1.github.io/wikilite/reference/get_article_full_history_table.md)
-or similar functions) to an Excel file in the current working directory.
+or similar functions) to an Excel file.
 
 ## Usage
 
 ``` r
-write_wiki_history_to_xlsx(wiki_hist, file_name)
+write_wiki_history_to_xlsx(wiki_hist, file_name, dir = NULL)
 ```
 
 ## Arguments
@@ -20,8 +20,15 @@ write_wiki_history_to_xlsx(wiki_hist, file_name)
 
 - file_name:
 
-  Character string used as a prefix for the output file name. The file
-  will be saved as `<file_name>_wiki_table.xlsx`.
+  Full path prefix for the output file. The file will be saved as
+  `<file_name>_wiki_table.xlsx`. If only a base name is given (no
+  directory), the file is written to the current working directory (see
+  [`getwd()`](https://rdrr.io/r/base/getwd.html)).
+
+- dir:
+
+  Optional directory path. When non-`NULL`, `file_name` is interpreted
+  as a base name and the file is written inside `dir`.
 
 ## Value
 
@@ -30,8 +37,8 @@ Invisibly returns `NULL`. Called for its side effect of writing a file.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 tmpwikitable <- get_article_initial_table("Zeitgeber")
-write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber")
-} # }
+write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber", dir = tempdir())
+# }
 ```

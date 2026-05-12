@@ -2,6 +2,34 @@
 
 ## wikilite 0.2.0
 
+### Breaking change
+
+- `get_sci_score2()` has been removed. The DOI-to-ref-tag ratio it
+  computed was misleading because (a) `<ref>` tags include footnotes
+  that are not scientific references at all, so the ratio was
+  systematically biased by article structure rather than citation
+  quality, and (b) the metric was not used downstream by any of the
+  visualisation or annotation functions. Use
+  [`get_sci_score()`](https://jsobel1.github.io/wikilite/reference/get_sci_score.md)
+  for citation-quality scoring; for DOI density use
+  `get_doi_count() / nrow(parse_article_ALL_citations())` directly.
+
+### CRAN submission fixes
+
+- `DESCRIPTION` now cites the methods paper in the standard CRAN format:
+  Benjakob, Aviram and Sobel (2022) <doi:10.1093/gigascience/giab095>.
+- Example wrappers changed from `\dontrun{}` to `\donttest{}` for every
+  network-dependent example. The two Altmetric helpers retain
+  `\dontrun{}` because they require the optional, non-CRAN `rAltmetric`
+  package.
+- Documented previously-undocumented arguments `batch_size` (on
+  `annotate_doi_list_europmc`) and `lang` (on the four interactive-viz
+  functions).
+- [`compute_citation_latency()`](https://jsobel1.github.io/wikilite/reference/compute_citation_latency.md)
+  now degrades gracefully when EuropePMC annotation returns an empty
+  data frame, instead of erroring inside
+  [`dplyr::select()`](https://dplyr.tidyverse.org/reference/select.html).
+
 ### New features: interactive timelines and networks
 
 Four new exported functions powered by **plotly** and **visNetwork**:
@@ -72,7 +100,7 @@ wikilite consolidates and extends the functionality of
   now issues an informative message instead of failing silently when
   `timevis` is unavailable.
 - All examples that require a network connection are wrapped in
-  `\dontrun{}`.
+  `\donttest{}`.
 - Comprehensive `testthat` edition 3 test suite (all network tests
   guarded by `skip_on_cran()`).
 - Three vignettes covering introduction, citation analysis, and

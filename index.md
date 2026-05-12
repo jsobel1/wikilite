@@ -735,7 +735,7 @@ adds:
 
 | Package | Purpose |
 |----|----|
-| `rAltmetric` | Altmetric attention scores (install from [r-universe](https://ropensci.r-universe.dev/rAltmetric)) |
+| `rAltmetric` | Altmetric attention scores (install from [GitHub](https://github.com/ropensci/rAltmetric)) |
 | `testthat` ≥ 3.0.0 | Running the test suite |
 | `knitr` / `rmarkdown` | Building vignettes |
 | `httptest2` | Offline HTTP fixture testing |
@@ -779,7 +779,7 @@ This package implements and extends the methods described in:
 > Benjakob O, Aviram R, Sobel JA. (2022). *Citation needed? Wikipedia
 > bibliometrics during the first wave of the COVID-19 pandemic.*
 > GigaScience, 11, giab095.
-> <https://academic.oup.com/gigascience/article/11/2022/giab095/6505121>
+> <doi:%5B10.1093/gigascience/giab095>\](<https://doi.org/10.1093/gigascience/giab095>)
 
 ------------------------------------------------------------------------
 

@@ -5,7 +5,7 @@ Recursively retrieve subcategories up to a given depth
 ## Usage
 
 ``` r
-get_subcat_with_depth(catname, depth, replecement = "_")
+get_subcat_with_depth(catname, depth, replacement = "_", lang = "en")
 ```
 
 ## Arguments
@@ -18,9 +18,13 @@ get_subcat_with_depth(catname, depth, replecement = "_")
 
   Integer — number of levels to descend.
 
-- replecement:
+- replacement:
 
   Character used to replace spaces (default: `"_"`).
+
+- lang:
+
+  Two-letter language code (default: `"en"`).
 
 ## Value
 
@@ -30,7 +34,7 @@ A data frame of all unique subcategories up to `depth` levels below
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 get_subcat_with_depth("Category:Biology", depth = 2)
-} # }
+# }
 ```

@@ -9,7 +9,8 @@ and directed edges represent hyperlinks from one article to another.
 ``` r
 plot_article_wikilink_network(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   only_internal = TRUE,
   top_n_links = 80L
 )
@@ -24,7 +25,11 @@ plot_article_wikilink_network(
 - date_an:
 
   Character string. Upper date limit in ISO 8601 format (default:
-  `"2024-01-01T00:00:00Z"`).
+  current UTC time).
+
+- lang:
+
+  Two-letter Wikipedia language code (default `"en"`).
 
 - only_internal:
 
@@ -55,7 +60,7 @@ node opens the corresponding Wikipedia article in a new browser tab.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 # Internal links only
@@ -65,5 +70,5 @@ plot_article_wikilink_network(articles)
 plot_article_wikilink_network(articles,
                               only_internal = FALSE,
                               top_n_links   = 40)
-} # }
+# }
 ```

@@ -38,10 +38,10 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 initial <- get_category_articles_creation(
   c("Zeitgeber", "Advanced sleep phase disorder")
 )
 plot_article_creation_per_year(initial, "Sleep articles")
-} # }
+# }
 ```

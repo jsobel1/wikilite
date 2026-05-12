@@ -1,8 +1,7 @@
-# Dot plot of DOI citation insertions over time
+# Dot plot of DOI citation edits over time
 
-Plots each DOI citation insertion as a point on a scatter chart: x-axis
-is Wikipedia insertion date, y-axis is latency in days. Points are
-coloured by source type (journal vs. preprint).
+Plots each DOI citation insertion as a point on a timeline, providing a
+fine-grained view of when citations were added to the article.
 
 ## Usage
 
@@ -16,8 +15,8 @@ get_dotplot_history(df_doi, art_name)
 
   A data frame as returned by
   [`compute_citation_latency`](https://jsobel1.github.io/wikilite/reference/compute_citation_latency.md)
-  with columns `citation_fetched`, `firstPublicationDate`,
-  `latency_days`, and `is_preprint`.
+  with columns `citation_fetched`, `firstPublicationDate`, and
+  `latency_days`.
 
 - art_name:
 
@@ -30,7 +29,11 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-get_dotplot_history(latency_df, "Zeitgeber")
-} # }
+# \donttest{
+recent  <- get_article_most_recent_table("Zeitgeber")
+doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+latency <- compute_citation_latency(doi_df, epmc_df)
+get_dotplot_history(latency, "Zeitgeber")
+# }
 ```

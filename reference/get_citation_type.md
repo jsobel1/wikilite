@@ -22,8 +22,8 @@ A data frame with columns `art`, `revid`, `cite_type`, and `Freq`.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 recent <- get_article_most_recent_table("Zeitgeber")
 get_citation_type(recent)
-} # }
+# }
 ```

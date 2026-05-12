@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
           <code><a href="wiki_cache_dir.html">wiki_cache_dir()</a></code>
 
         </dt>
-        <dd>Return the wikilite user cache directory</dd>
+        <dd>Return (and create if needed) the wikilite user cache directory</dd>
 
         <dt>
 
@@ -302,7 +302,7 @@
           <code><a href="classify_cite_type.html">classify_cite_type()</a></code>
 
         </dt>
-        <dd>Map a raw CS1 cite type to a display category</dd>
+        <dd>Map a raw CS1 type keyword to a display category</dd>
 
         <dt>
 
@@ -354,6 +354,13 @@
 
         </dt>
         <dd>Plot bar charts of the top 20 values for all citation source types</dd>
+
+        <dt>
+
+          <code><a href="probe_article_over_time.html">probe_article_over_time()</a></code>
+
+        </dt>
+        <dd>Probe a Wikipedia article at multiple time points</dd>
       </dl></div><div class="section level2">
       <h2 id="annotate-dois">Annotate DOIs<a class="anchor" aria-label="anchor" href="#annotate-dois"></a></h2>
 
@@ -450,14 +457,14 @@
           <code><a href="get_segment_history_doi_plot.html">get_segment_history_doi_plot()</a></code>
 
         </dt>
-        <dd>Plot DOI latency as horizontal segments</dd>
+        <dd>Plot DOI latency segments</dd>
 
         <dt>
 
           <code><a href="get_dotplot_history.html">get_dotplot_history()</a></code>
 
         </dt>
-        <dd>Dot plot of DOI citation insertions over time</dd>
+        <dd>Dot plot of DOI citation edits over time</dd>
       </dl></div><div class="section level2">
       <h2 id="visualise-history">Visualise history<a class="anchor" aria-label="anchor" href="#visualise-history"></a></h2>
 
@@ -582,7 +589,7 @@
           <code><a href="get_revert_counts.html">get_revert_counts()</a></code>
 
         </dt>
-        <dd>Count revert-tagged edits per article for a time window</dd>
+        <dd>Count revert-tagged (or all) edits per article for a time window</dd>
 
         <dt>
 

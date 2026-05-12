@@ -21,8 +21,8 @@ Character vector of matched CS1 templates.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 extract_citations(art$`*`)
-} # }
+# }
 ```

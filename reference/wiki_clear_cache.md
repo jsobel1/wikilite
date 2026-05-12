@@ -1,7 +1,6 @@
 # Clear the wikilite disk cache
 
-Deletes all cached API responses stored by wikilite. Subsequent calls to
-API-backed functions will make fresh network requests.
+Deletes all cached API responses stored by wikilite.
 
 ## Usage
 
@@ -16,7 +15,7 @@ wiki_clear_cache()
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 wiki_clear_cache()
-} # }
+# }
 ```

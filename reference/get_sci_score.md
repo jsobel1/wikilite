@@ -23,8 +23,8 @@ Numeric value between 0 and 1, or `0` if there are no citations.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 get_sci_score(art$`*`)
-} # }
+# }
 ```

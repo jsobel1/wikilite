@@ -20,7 +20,8 @@ article node opens its Wikipedia page.
 ``` r
 plot_article_publication_network(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   top_n_dois = 50L,
   min_wiki_count = 2L,
   annotate = FALSE
@@ -36,7 +37,11 @@ plot_article_publication_network(
 - date_an:
 
   Character string. Upper date limit in ISO 8601 format (default:
-  `"2024-01-01T00:00:00Z"`).
+  current UTC time).
+
+- lang:
+
+  Two-letter Wikipedia language code (default `"en"`).
 
 - top_n_dois:
 
@@ -61,12 +66,12 @@ A `visNetwork` htmlwidget.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 plot_article_publication_network(articles)
 
 # With EuropePMC annotation for paper titles
 plot_article_publication_network(articles, annotate = TRUE)
-} # }
+# }
 ```

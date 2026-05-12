@@ -12,14 +12,18 @@ list.
 ## Usage
 
 ``` r
-get_tables_initial_most_recent_full_info(all_art)
+get_tables_initial_most_recent_full_info(all_art, lang = "en")
 ```
 
 ## Arguments
 
 - all_art:
 
-  Character vector of English Wikipedia article titles.
+  Character vector of Wikipedia article titles.
+
+- lang:
+
+  Two-letter language code (default: `"en"`).
 
 ## Value
 
@@ -30,9 +34,9 @@ A named list with elements `article_initial_table`,
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 res <- get_tables_initial_most_recent_full_info(
   c("Zeitgeber", "Sleep deprivation")
 )
-} # }
+# }
 ```

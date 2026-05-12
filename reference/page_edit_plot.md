@@ -10,7 +10,8 @@ page_edit_plot(
   article_name,
   ymax = NA,
   start = "2020010100",
-  end = "2020050100"
+  end = "2020050100",
+  lang = "en"
 )
 ```
 
@@ -18,7 +19,7 @@ page_edit_plot(
 
 - article_name:
 
-  Character string — English Wikipedia article title.
+  Character string — Wikipedia article title.
 
 - ymax:
 
@@ -32,6 +33,10 @@ page_edit_plot(
 
   End date in `"YYYYMMDDHH"` format (default: `"2020050100"`).
 
+- lang:
+
+  Two-letter language code (default: `"en"`).
+
 ## Value
 
 A `ggplot2` object (invisibly).
@@ -39,7 +44,7 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 page_edit_plot("Zeitgeber", start = "2019010100", end = "2021010100")
-} # }
+# }
 ```

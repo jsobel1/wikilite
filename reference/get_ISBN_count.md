@@ -22,5 +22,4 @@ Integer count of matched ISBNs.
 
 ``` r
 get_ISBN_count("Book isbn=978-0-06-112008-4")
-#> [1] 2
 ```

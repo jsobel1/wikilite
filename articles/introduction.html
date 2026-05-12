@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -166,7 +166,7 @@ downstream analysis, annotation, and visualisation.</p>
 <h2 id="quick-start-a-single-article">Quick-start: a single article<a class="anchor" aria-label="anchor" href="#quick-start-a-single-article"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jsobel1.github.io/wikilite">wikilite</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jsobel1.github.io/wikilite/">wikilite</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Most recent revision of the Zeitgeber article</span></span>
 <span><span class="va">recent</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_article_most_recent_table.html">get_article_most_recent_table</a></span><span class="op">(</span><span class="st">"Zeitgeber"</span><span class="op">)</span></span>
@@ -214,12 +214,12 @@ downstream analysis, annotation, and visualisation.</p>
 <span><span class="va">dois</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_regex_citations_in_wiki_table.html">get_regex_citations_in_wiki_table</a></span><span class="op">(</span><span class="va">sleep_recent</span>, <span class="va">doi_regexp</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dois</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                art      revid                 citation_fetched</span></span>
-<span><span class="co">#&gt; 1 Chronodisruption 1340992483 10.1111/j.1600-079X.2009.00665.x</span></span>
-<span><span class="co">#&gt; 2 Chronodisruption 1340992483              10.1530/REP-20-0298</span></span>
-<span><span class="co">#&gt; 3 Chronodisruption 1340992483      10.1016/j.exger.2022.112076</span></span>
-<span><span class="co">#&gt; 4 Chronodisruption 1340992483    10.1080/07420528.2019.1683570</span></span>
-<span><span class="co">#&gt; 5 Chronodisruption 1340992483        10.1038/s41398-020-0694-0</span></span>
-<span><span class="co">#&gt; 6 Chronodisruption 1340992483    10.1161/CIRCRESAHA.123.323520</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 Chronodisruption 1352738775 10.1111/j.1600-079X.2009.00665.x</span></span>
+<span><span class="co">#&gt; 2 Chronodisruption 1352738775              10.1530/REP-20-0298</span></span>
+<span><span class="co">#&gt; 3 Chronodisruption 1352738775      10.1016/j.exger.2022.112076</span></span>
+<span><span class="co">#&gt; 4 Chronodisruption 1352738775    10.1080/07420528.2019.1683570</span></span>
+<span><span class="co">#&gt; 5 Chronodisruption 1352738775        10.1038/s41398-020-0694-0</span></span>
+<span><span class="co">#&gt; 6 Chronodisruption 1352738775    10.1161/CIRCRESAHA.123.323520</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualise-article-creation-over-time">Visualise article creation over time<a class="anchor" aria-label="anchor" href="#visualise-article-creation-over-time"></a>
@@ -271,7 +271,8 @@ downstream analysis, annotation, and visualisation.</p>
 <span><span class="fu"><a href="../reference/export_doi_to_bib.html">export_doi_to_bib</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dois</span><span class="op">$</span><span class="va">citation_fetched</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="st">"references.bib"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%</span></span>
 <span><span class="co">#&gt;   |                                                                              |========================================================              |  80%</span></span>
-<span><span class="co">#&gt;   |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%</span></span></code></pre></div>
+<span><span class="co">#&gt;   |                                                                              |===============================================================       |  90%</span></span>
+<span><span class="co">#&gt;   |                                                                              |======================================================================| 100%</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,20 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="wikilite-020">wikilite 0.2.0<a class="anchor" aria-label="anchor" href="#wikilite-020"></a></h2>
 <div class="section level3">
+<h3 id="breaking-change-0-2-0">Breaking change<a class="anchor" aria-label="anchor" href="#breaking-change-0-2-0"></a></h3>
+<ul><li>
+<code>get_sci_score2()</code> has been removed. The DOI-to-ref-tag ratio it computed was misleading because (a) <code>&lt;ref&gt;</code> tags include footnotes that are not scientific references at all, so the ratio was systematically biased by article structure rather than citation quality, and (b) the metric was not used downstream by any of the visualisation or annotation functions. Use <code><a href="../reference/get_sci_score.html">get_sci_score()</a></code> for citation-quality scoring; for DOI density use <code>get_doi_count() / nrow(parse_article_ALL_citations())</code> directly.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="cran-submission-fixes-0-2-0">CRAN submission fixes<a class="anchor" aria-label="anchor" href="#cran-submission-fixes-0-2-0"></a></h3>
+<ul><li>
+<code>DESCRIPTION</code> now cites the methods paper in the standard CRAN format: Benjakob, Aviram and Sobel (2022) <a href="doi:10.1093/gigascience/giab095" class="uri">doi:10.1093/gigascience/giab095</a>.</li>
+<li>Example wrappers changed from <code>\dontrun{}</code> to <code>\donttest{}</code> for every network-dependent example. The two Altmetric helpers retain <code>\dontrun{}</code> because they require the optional, non-CRAN <code>rAltmetric</code> package.</li>
+<li>Documented previously-undocumented arguments <code>batch_size</code> (on <code>annotate_doi_list_europmc</code>) and <code>lang</code> (on the four interactive-viz functions).</li>
+<li>
+<code><a href="../reference/compute_citation_latency.html">compute_citation_latency()</a></code> now degrades gracefully when EuropePMC annotation returns an empty data frame, instead of erroring inside <code><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">dplyr::select()</a></code>.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="new-features-interactive-timelines-and-networks-0-2-0">New features: interactive timelines and networks<a class="anchor" aria-label="anchor" href="#new-features-interactive-timelines-and-networks-0-2-0"></a></h3>
 <p>Four new exported functions powered by <strong>plotly</strong> and <strong>visNetwork</strong>:</p>
 <ul><li><p><code>plot_interactive_timeline(articles, date_an, color_by)</code> — Plotly Gantt-style timeline showing article creation and last-edit dates. Bars are colour-coded by SciScore (default), article size, or a uniform colour. Hover text includes creation date, first editor, and byte sizes. Clicking labels opens the Wikipedia article.</p></li>
@@ -83,7 +97,7 @@
 <li>Removed unused archived packages: <code>timevis</code>, <code>textreuse</code>, <code>ggridges</code>, <code>gridExtra</code>, <code>scales</code>, <code>curl</code>, <code>XML</code>.</li>
 <li>
 <code><a href="../reference/plot_navi_timeline.html">plot_navi_timeline()</a></code> now issues an informative message instead of failing silently when <code>timevis</code> is unavailable.</li>
-<li>All examples that require a network connection are wrapped in <code>\dontrun{}</code>.</li>
+<li>All examples that require a network connection are wrapped in <code>\donttest{}</code>.</li>
 <li>Comprehensive <code>testthat</code> edition 3 test suite (all network tests guarded by <code>skip_on_cran()</code>).</li>
 <li>Three vignettes covering introduction, citation analysis, and annotation workflows.</li>
 </ul></div>

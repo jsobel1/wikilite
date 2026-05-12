@@ -22,5 +22,4 @@ Integer count of matched URLs.
 
 ``` r
 get_urlCount("See https://example.com and http://test.org.")
-#> [1] 2
 ```

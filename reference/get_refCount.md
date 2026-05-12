@@ -22,5 +22,4 @@ Integer count of reference tags.
 
 ``` r
 get_refCount("<ref>one</ref> text <ref name='r2'>two</ref>")
-#> [1] 2
 ```

@@ -39,7 +39,7 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 page_view_plot("Zeitgeber", start = "2020010100", end = "2020050100")
-} # }
+# }
 ```

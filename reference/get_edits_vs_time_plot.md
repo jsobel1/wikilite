@@ -1,7 +1,7 @@
 # Plot yearly edit counts for a Wikipedia article
 
-Produces a stacked bar chart of edit counts grouped by year, coloured by
-edit type (revert vs. other).
+Produces a ggplot2 bar chart of edit counts grouped by year, optionally
+coloured by edit type (revert vs. other).
 
 ## Usage
 
@@ -27,8 +27,8 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 hist_df <- get_article_full_history_table("Zeitgeber")
 get_edits_vs_time_plot(hist_df, "Zeitgeber")
-} # }
+# }
 ```

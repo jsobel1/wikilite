@@ -7,18 +7,23 @@ for each element of `list_art` and row-binds the results.
 ## Usage
 
 ``` r
-get_category_articles_most_recent(list_art, date_an = NULL)
+get_category_articles_most_recent(list_art, date_an = NULL, lang = "en")
 ```
 
 ## Arguments
 
 - list_art:
 
-  Character vector of English Wikipedia article titles.
+  Character vector of Wikipedia article titles.
 
 - date_an:
 
-  Reserved for future use; currently ignored. Pass `NULL` (default).
+  Character string — upper date limit in ISO 8601 format. Default:
+  current UTC time.
+
+- lang:
+
+  Two-letter language code (default: `"en"`).
 
 ## Value
 
@@ -28,9 +33,9 @@ requests fail.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 get_category_articles_most_recent(
   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 )
-} # }
+# }
 ```

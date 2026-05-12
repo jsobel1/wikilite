@@ -29,9 +29,9 @@ plot_navi_timeline(article_initial_table_sel, article_info_table)
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 initial <- get_article_initial_table("Zeitgeber")
 info    <- get_article_info_table("Zeitgeber")
 plot_navi_timeline(initial, info)
-} # }
+# }
 ```

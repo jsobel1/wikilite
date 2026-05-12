@@ -7,7 +7,7 @@ and filters out user and category pages.
 ## Usage
 
 ``` r
-get_pagename_in_cat(category)
+get_pagename_in_cat(category, lang = "en")
 ```
 
 ## Arguments
@@ -17,6 +17,10 @@ get_pagename_in_cat(category)
   Character string — Wikipedia category name (e.g.
   `"Circadian rhythm"`).
 
+- lang:
+
+  Two-letter language code (default: `"en"`).
+
 ## Value
 
 Character vector of article titles, or `NULL` on error.
@@ -24,9 +28,8 @@ Character vector of article titles, or `NULL` on error.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 get_pagename_in_cat("Circadian rhythm")
-# Multiple categories:
-unique(unlist(sapply(c("Circadian rhythm", "Sleep"), get_pagename_in_cat)))
-} # }
+get_pagename_in_cat("Rythme_circadien", lang = "fr")
+# }
 ```

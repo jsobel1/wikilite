@@ -27,8 +27,8 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 hist_df <- get_article_full_history_table("Zeitgeber")
 get_size_vs_time_plot(hist_df, "Zeitgeber")
-} # }
+# }
 ```

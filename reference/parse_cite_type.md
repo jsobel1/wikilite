@@ -23,7 +23,5 @@ Lowercase character string giving the citation type.
 
 ``` r
 parse_cite_type("{{cite journal | author = Smith | year = 2020 }}")
-#> [1] "journal"
 parse_cite_type("{{Cite book | title = My Book }}")
-#> [1] "book"
 ```

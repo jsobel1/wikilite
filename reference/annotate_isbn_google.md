@@ -24,7 +24,7 @@ found.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 annotate_isbn_google("978-0-15-603135-6")
-} # }
+# }
 ```

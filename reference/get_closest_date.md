@@ -1,6 +1,6 @@
 # Find the closest date in a vector to a reference date
 
-Utility used for aligning paper publication dates to Wikipedia revision
+Utility used for aligning publication dates to Wikipedia revision
 snapshots.
 
 ## Usage
@@ -28,5 +28,4 @@ The element of `date_vect` closest in time to `date_in`.
 ``` r
 dates <- as.Date(c("2020-01-01", "2020-06-01", "2021-01-01"))
 get_closest_date(as.Date("2020-04-15"), dates)
-#> [1] "2020-06-01"
 ```

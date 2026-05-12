@@ -23,7 +23,7 @@ found.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 annotate_isbn_openlib("9780156031356")
-} # }
+# }
 ```

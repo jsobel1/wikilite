@@ -29,8 +29,8 @@ A data frame with columns `cite_type` and `Freq` — plus `art` when
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 get_source_type_counts(art$`*`, article_name = "Zeitgeber")
-} # }
+# }
 ```

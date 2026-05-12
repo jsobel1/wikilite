@@ -11,7 +11,8 @@ current byte size, and a clickable link to the Wikipedia page.
 ``` r
 plot_interactive_timeline(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   color_by = c("sciscore", "size", "none")
 )
 ```
@@ -25,7 +26,11 @@ plot_interactive_timeline(
 - date_an:
 
   Character string. Upper date limit for revision queries in ISO 8601
-  format (default: `"2024-01-01T00:00:00Z"`).
+  format (default: current UTC time).
+
+- lang:
+
+  Two-letter Wikipedia language code (default `"en"`).
 
 - color_by:
 
@@ -39,9 +44,9 @@ A `plotly` htmlwidget.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 plot_interactive_timeline(articles)
-} # }
+# }
 ```

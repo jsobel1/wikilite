@@ -5,7 +5,7 @@
 Control the on-disk article cache.
 
 - [`wiki_cache_dir()`](https://jsobel1.github.io/wikilite/reference/wiki_cache_dir.md)
-  : Return the wikilite user cache directory
+  : Return (and create if needed) the wikilite user cache directory
 - [`wiki_clear_cache()`](https://jsobel1.github.io/wikilite/reference/wiki_clear_cache.md)
   : Clear the wikilite disk cache
 
@@ -93,7 +93,7 @@ Extract and classify Citation Style 1 (CS1) templates and hyperlinks.
 - [`parse_cite_type()`](https://jsobel1.github.io/wikilite/reference/parse_cite_type.md)
   : Determine the type of a Citation Style 1 template
 - [`classify_cite_type()`](https://jsobel1.github.io/wikilite/reference/classify_cite_type.md)
-  : Map a raw CS1 cite type to a display category
+  : Map a raw CS1 type keyword to a display category
 - [`get_parsed_citations()`](https://jsobel1.github.io/wikilite/reference/get_parsed_citations.md)
   : Parse all CS1 citations across a Wikipedia revision table
 - [`get_citation_type()`](https://jsobel1.github.io/wikilite/reference/get_citation_type.md)
@@ -112,6 +112,8 @@ journal articles.
   : Identify the most-cited DOIs across a set of Wikipedia articles
 - [`get_pdfs_top20source()`](https://jsobel1.github.io/wikilite/reference/get_pdfs_top20source.md)
   : Plot bar charts of the top 20 values for all citation source types
+- [`probe_article_over_time()`](https://jsobel1.github.io/wikilite/reference/probe_article_over_time.md)
+  : Probe a Wikipedia article at multiple time points
 
 ## Annotate DOIs
 
@@ -149,9 +151,9 @@ and visualise the distribution.
 - [`plot_latency_distribution()`](https://jsobel1.github.io/wikilite/reference/plot_latency_distribution.md)
   : Plot the distribution of citation latency
 - [`get_segment_history_doi_plot()`](https://jsobel1.github.io/wikilite/reference/get_segment_history_doi_plot.md)
-  : Plot DOI latency as horizontal segments
+  : Plot DOI latency segments
 - [`get_dotplot_history()`](https://jsobel1.github.io/wikilite/reference/get_dotplot_history.md)
-  : Dot plot of DOI citation insertions over time
+  : Dot plot of DOI citation edits over time
 
 ## Visualise history
 
@@ -197,7 +199,7 @@ comparison.
 Detect revert-tagged edits and identify disputed articles.
 
 - [`get_revert_counts()`](https://jsobel1.github.io/wikilite/reference/get_revert_counts.md)
-  : Count revert-tagged edits per article for a time window
+  : Count revert-tagged (or all) edits per article for a time window
 - [`get_closest_date()`](https://jsobel1.github.io/wikilite/reference/get_closest_date.md)
   : Find the closest date in a vector to a reference date
 

@@ -22,5 +22,4 @@ Character vector of matched `[[...]]`-style links.
 
 ``` r
 extract_wikihypelinks("See [[Zeitgeber|the article]] and [[Sleep]].")
-#> [1] "[[Zeitgeber|the article]]" "[[Sleep]]"                
 ```

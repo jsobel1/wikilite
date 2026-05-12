@@ -7,7 +7,7 @@ silently skipped.
 ## Usage
 
 ``` r
-annotate_doi_list_europmc(doi_list)
+annotate_doi_list_europmc(doi_list, batch_size = 25L)
 ```
 
 ## Arguments
@@ -15,6 +15,12 @@ annotate_doi_list_europmc(doi_list)
 - doi_list:
 
   Character vector of DOIs.
+
+- batch_size:
+
+  Integer. Number of DOIs to request per EuropePMC batch query (default
+  `25`). Larger values reduce the number of HTTP calls but increase
+  per-request payload size.
 
 ## Value
 
@@ -25,11 +31,11 @@ A data frame with columns `id`, `source`, `pmid`, `pmcid`, `doi`,
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 art_test <- get_article_most_recent_table("Zeitgeber")
 dois <- unique(unlist(stringr::str_match_all(
   art_test$`*`, "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
 )))
 annotate_doi_list_europmc(dois[1:3])
-} # }
+# }
 ```

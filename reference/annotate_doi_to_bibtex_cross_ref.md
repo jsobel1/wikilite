@@ -21,7 +21,7 @@ A list of BibTeX character strings, one per DOI.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 annotate_doi_to_bibtex_cross_ref("10.1038/nature12373")
-} # }
+# }
 ```

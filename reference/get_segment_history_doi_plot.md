@@ -1,8 +1,7 @@
-# Plot DOI latency as horizontal segments
+# Plot DOI latency segments
 
 Produces a segment plot showing, for each DOI, the gap between paper
-publication date (navy dot) and first Wikipedia citation insertion (red
-triangle). DOIs are ordered by publication date.
+publication date and first Wikipedia citation insertion.
 
 ## Usage
 
@@ -30,7 +29,11 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-get_segment_history_doi_plot(latency_df, "Zeitgeber")
-} # }
+# \donttest{
+recent  <- get_article_most_recent_table("Zeitgeber")
+doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+latency <- compute_citation_latency(doi_df, epmc_df)
+get_segment_history_doi_plot(latency, "Zeitgeber")
+# }
 ```

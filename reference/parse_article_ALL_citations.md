@@ -30,8 +30,8 @@ plus `art` when `article_name` is supplied.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 parse_article_ALL_citations(art$`*`, article_name = "Zeitgeber")
-} # }
+# }
 ```

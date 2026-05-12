@@ -33,9 +33,9 @@ Available built-in regular expressions are stored in
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 history <- get_article_full_history_table("Zeitgeber")
 dois    <- get_regex_citations_in_wiki_table(history,
              "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+")
-} # }
+# }
 ```

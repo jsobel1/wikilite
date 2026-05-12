@@ -27,9 +27,9 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 recent <- get_article_most_recent_table("Zeitgeber")
 df     <- get_parsed_citations(recent)
 plot_top_source(df, "publisher")
-} # }
+# }
 ```

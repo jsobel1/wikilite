@@ -7,14 +7,18 @@ for each element of `list_art` and row-binds the results.
 ## Usage
 
 ``` r
-get_category_articles_creation(list_art)
+get_category_articles_creation(list_art, lang = "en")
 ```
 
 ## Arguments
 
 - list_art:
 
-  Character vector of English Wikipedia article titles.
+  Character vector of Wikipedia article titles.
+
+- lang:
+
+  Two-letter language code (default: `"en"`).
 
 ## Value
 
@@ -24,9 +28,9 @@ fail.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 get_category_articles_creation(
   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 )
-} # }
+# }
 ```

@@ -26,5 +26,4 @@ Integer count of matches.
 
 ``` r
 get_anyCount("foo bar baz foo", "foo")
-#> [1] 2
 ```

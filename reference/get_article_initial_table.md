@@ -5,14 +5,18 @@ Retrieve the first revision of a Wikipedia article
 ## Usage
 
 ``` r
-get_article_initial_table(article_name)
+get_article_initial_table(article_name, lang = "en")
 ```
 
 ## Arguments
 
 - article_name:
 
-  Character string giving the English Wikipedia article title.
+  Character string giving the Wikipedia article title.
+
+- lang:
+
+  Two-letter language code (default: `"en"`).
 
 ## Value
 
@@ -22,7 +26,7 @@ A single-row data frame with the same columns as
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 get_article_initial_table("Zeitgeber")
-} # }
+# }
 ```

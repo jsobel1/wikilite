@@ -3,7 +3,7 @@
 Applies every regular expression in
 [`pkg.env`](https://jsobel1.github.io/wikilite/reference/pkg.env.md)`$regexp_list`
 to `article_most_recent_table` and saves the results as individual
-`.xlsx` files in the working directory.
+`.xlsx` files.
 
 ## Usage
 
@@ -20,7 +20,10 @@ export_extracted_citations_xlsx(article_most_recent_table, name_file_prefix)
 
 - name_file_prefix:
 
-  Character prefix used for all output file names.
+  Full path prefix used for all output file names. Each file is named
+  `<name_file_prefix>_<regexp>_extracted_citations.xlsx`. If only a base
+  name is given (no directory), files are written to the current working
+  directory (see [`getwd()`](https://rdrr.io/r/base/getwd.html)).
 
 ## Value
 
@@ -29,10 +32,13 @@ Invisibly returns `NULL`. Called for its side effect of writing files.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 category_most_recent <- get_category_articles_most_recent(
   c("Zeitgeber", "Advanced sleep phase disorder")
 )
-export_extracted_citations_xlsx(category_most_recent, "sleep_articles")
-} # }
+export_extracted_citations_xlsx(
+  category_most_recent,
+  file.path(tempdir(), "sleep_articles")
+)
+# }
 ```

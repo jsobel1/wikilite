@@ -23,9 +23,9 @@ A `ggplot2` object (invisibly).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 recent <- get_article_most_recent_table("Zeitgeber")
 df     <- get_citation_type(recent)
 plot_distribution_source_type(df)
-} # }
+# }
 ```

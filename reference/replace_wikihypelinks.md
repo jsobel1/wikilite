@@ -23,5 +23,4 @@ The input string with all hyperlinks replaced by plain text.
 
 ``` r
 replace_wikihypelinks("[[Zeitgeber|the article]] was described in [[Biology]].")
-#> [1] "Zeitgeber was described in Biology."
 ```
