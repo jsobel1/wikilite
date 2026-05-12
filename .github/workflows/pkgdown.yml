@@ -58,8 +58,20 @@ jobs:
             vignettes/*_files
           key: knitr-${{ runner.os }}-${{ hashFiles('vignettes/**/*.Rmd', 'R/**/*.R', 'DESCRIPTION') }}
 
+      # Skip running examples on the reference index. The 0.2.0 CRAN
+      # cleanup rewrapped network-bound examples from \dontrun{} (which
+      # pkgdown skips by default) to \donttest{} (which pkgdown evaluates).
+      # That made the reference build try to fetch Wikipedia / EuropePMC /
+      # CrossRef for every exported function and we hit the 6h job limit.
+      # The function signatures are documented in man/*.Rd; we don't need
+      # actually-run example output for the site.
       - name: Build pkgdown site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: |
+          pkgdown::build_site_github_pages(
+            new_process = FALSE,
+            install     = FALSE,
+            examples    = FALSE
+          )
         shell: Rscript {0}
 
       - name: Deploy to GitHub Pages
