@@ -25,7 +25,7 @@ Local `R CMD check --as-cran` returns **0 ERRORs / 0 WARNINGs / 2 NOTEs**.
 * "unable to verify current time" -- NTP resolution issue on the local
   machine; not reproducible on CRAN infrastructure.
 
-## Resubmission notes (response to Beni Altmann, 2026-05-11)
+## Resubmission notes (response to CRAN review, 2026-05-11)
 
 This is a resubmission of wikilite, bumped to version **0.2.0**, addressing
 the two points raised in the previous review:
