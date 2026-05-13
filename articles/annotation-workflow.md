@@ -128,7 +128,8 @@ Retrieve BibTeX entries directly:
 ``` r
 
 bibtex_entries <- annotate_doi_to_bibtex_cross_ref(doi_list[1:3])
-#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
+#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%
+#>   |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
 cat(bibtex_entries[[1]])
 #>  @article{Ehlers_1988, title={Social Zeitgebers and Biological Rhythms: A Unified Approach to Understanding the Etiology of Depression}, volume={45}, ISSN={0003-990X}, url={http://dx.doi.org/10.1001/archpsyc.1988.01800340076012}, DOI={10.1001/archpsyc.1988.01800340076012}, number={10}, journal={Archives of General Psychiatry}, publisher={American Medical Association (AMA)}, author={Ehlers, Cindy L.}, year={1988}, month=Oct, pages={948} }
 ```
@@ -138,9 +139,12 @@ Export to a `.bib` file:
 ``` r
 
 export_doi_to_bib(doi_list[1:10], file_name = "zeitgeber_refs.bib")
-#>   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%
-#>   |                                                                              |===================================                                   |  50%
-#>   |                                                                              |==========================================                            |  60%
+#>   |                                                                              |                                                                      |   0%
+#>   |                                                                              |=======                                                               |  10%
+#>   |                                                                              |==============                                                        |  20%
+#>   |                                                                              |=====================                                                 |  30%
+#>   |                                                                              |============================                                          |  40%
+#>   |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%
 #>   |                                                                              |=================================================                     |  70%
 #>   |                                                                              |========================================================              |  80%
 #>   |                                                                              |===============================================================       |  90%
@@ -208,8 +212,7 @@ Google Books returns metadata for most widely published books.
 # Single ISBN
 book_meta <- annotate_isbn_google("9780156031356")
 book_meta[, c("title", "publisher", "publishedDate", "categories")]
-#>               title     publisher publishedDate categories
-#> 1 Elephants on Acid Harvest Books          2007  Reference
+#> NULL
 ```
 
 ### Open Library
