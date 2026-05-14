@@ -9,3 +9,5 @@
 ^pkgdown$
 ^vignettes/cache$
 ^vignettes/.*\.xlsx$
+^wikilite_.*\.tar\.gz$
+^wikilite\.Rcheck$

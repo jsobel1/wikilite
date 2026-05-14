@@ -25,7 +25,7 @@ returned by \code{\link{annotate_doi_list_europmc}} to allow easy
 \code{coalesce}-based merging.
 }
 \examples{
-\dontrun{
+\donttest{
 annotate_doi_list_cross_ref(c("10.1038/nature16961"))
 }
 }

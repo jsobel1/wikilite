@@ -26,7 +26,7 @@
 #'   Rows are ordered descending.  Articles with zero counts are excluded.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Count revert edits for a one-hour window on 12 December 2018
 #' get_revert_counts("20181212010000", "20181212000000")
 #'

@@ -14,7 +14,9 @@ Description: A toolkit for mining Wikipedia article revision history and
     'DOIs' through 'europepmc' and 'rcrossref', computes scientific-source
     quality metrics ('SciScore'), identifies revert-based edit trends across
     all Wikipedia articles, and provides visualisations including interactive
-    timelines and citation networks.
+    timelines and citation networks. Implements and extends the methods
+    described in Benjakob, Aviram and Sobel (2022)
+    <doi:10.1093/gigascience/giab095>.
 License: GPL-3
 URL: https://jsobel1.github.io/wikilite/,
     https://github.com/jsobel1/wikilite,

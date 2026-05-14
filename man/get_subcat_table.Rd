@@ -23,7 +23,7 @@ A data frame of subcategory metadata with an additional column
 Retrieve subcategories of a Wikipedia category
 }
 \examples{
-\dontrun{
+\donttest{
 get_subcat_table("Category:Biology")
 }
 }

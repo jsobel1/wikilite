@@ -32,7 +32,7 @@ and computes the requested quality metrics.  This implements the monthly
 probing approach used in COVID-19 citation analysis.
 }
 \examples{
-\dontrun{
+\donttest{
 dates <- paste0(2018:2023, "-01-01T00:00:00Z")
 probe_article_over_time("Zeitgeber", dates)
 }

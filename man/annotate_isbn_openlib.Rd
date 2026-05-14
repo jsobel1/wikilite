@@ -18,7 +18,7 @@ A data frame with Open Library metadata, or \code{NULL} if the
 Annotate a single ISBN using the Open Library API
 }
 \examples{
-\dontrun{
+\donttest{
 annotate_isbn_openlib("9780156031356")
 }
 }

@@ -31,32 +31,26 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::pkgdown, local::.
+          extra-packages: |
+            any::pkgdown
+            github::ropensci/rAltmetric
+            local::.
           needs: website
 
-      # Cache knitr chunk output AND its rendered figures across runs.
-      # Three prior bugs converged here:
-      #   (1) caching only `vignettes/cache` left the figure PNGs out, so a
-      #       cache-hit replay made pkgdown ENOENT on figure-html/cite-type-1.png.
-      #   (2) keying only on .Rmd files meant changes to the package's R/
-      #       source (which the vignettes call into) didn't bust the cache —
-      #       cached chunks then disagreed with the newly-built package.
-      #   (3) a loose `restore-keys` prefix (`knitr-<os>-`) re-introduced (1):
-      #       on an R/ change the exact key missed, but the loose prefix
-      #       restored a STALE chunk cache whose figure-path expectations
-      #       didn't match the freshly-rendered HTML, again hitting ENOENT.
-      # Now we cache both paths, key on R/, DESCRIPTION, and vignette source,
-      # and intentionally drop `restore-keys` so a cache miss is a true miss.
-      - name: Cache knitr chunk output and figures
-        uses: actions/cache@v4
-        with:
-          path: |
-            vignettes/cache
-            vignettes/*_files
-          key: knitr-${{ runner.os }}-${{ hashFiles('vignettes/**/*.Rmd', 'R/**/*.R', 'DESCRIPTION') }}
-
+      # Skip running examples on the reference index. The 0.2.0 CRAN
+      # cleanup rewrapped network-bound examples from \dontrun{} (which
+      # pkgdown skips by default) to \donttest{} (which pkgdown evaluates).
+      # That made the reference build try to fetch Wikipedia / EuropePMC /
+      # CrossRef for every exported function and we hit the 6h job limit.
+      # The function signatures are documented in man/*.Rd; we don't need
+      # actually-run example output for the site.
       - name: Build pkgdown site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: |
+          pkgdown::build_site_github_pages(
+            new_process = FALSE,
+            install     = FALSE,
+            examples    = FALSE
+          )
         shell: Rscript {0}
 
       - name: Deploy to GitHub Pages

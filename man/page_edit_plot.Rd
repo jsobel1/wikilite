@@ -33,7 +33,7 @@ Retrieves the full revision history and plots the number of edits per week
 as an area chart.
 }
 \examples{
-\dontrun{
+\donttest{
 page_edit_plot("Zeitgeber", start = "2019010100", end = "2021010100")
 }
 }

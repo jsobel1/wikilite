@@ -1,29 +1,4 @@
-# CRAN submission comments -- wikilite 0.1.0 (resubmission)
-
-This is a resubmission addressing all issues flagged by the CRAN incoming
-auto-check on 2026-05-05. Changes since the initial submission:
-
-* DESCRIPTION URL changed to the canonical form
-  `https://jsobel1.github.io/wikilite/` (added trailing slash).
-* Technical terms (`MediaWiki`, `DOIs`, `ISBNs`, `PMIDs`, `URLs`, `SciScore`)
-  in the Description field are now wrapped in single quotes per CRAN policy.
-* Replaced GigaScience publisher URL with plain DOI text in the README to
-  avoid spurious 403/Forbidden URL-checker false positives.
-* Added `.github`, `_pkgdown.yml`, `vignettes/cache`, and stray
-  `vignettes/*.xlsx` artefacts to `.Rbuildignore` so the source tarball
-  contains only canonical package contents.
-* Replaced two non-ASCII em-dashes inside string literals in
-  `R/progress_helpers.R` with ASCII hyphens.
-* Added `nb_cnt` to the `globalVariables()` declaration to silence the
-  no-visible-binding NOTE in `get_revert_counts()`.
-* Removed `annotate_doi_list_altmetrics()` and `annotate_isbn_list_altmetrics()`
-  (which depended on the archived `rAltmetric` package) from the package.
-* Added `shiny` to Suggests; the progress helpers reference it through
-  `requireNamespace()` for in-Shiny progress bar routing.
-* Regenerated all `man/*.Rd` files via roxygen2 7.3.3, fixing every
-  codoc mismatch reported in the auto-check (missing `lang`, `use_cache`,
-  `batch_size`, `dir`, `workers`, `replacement` arguments and the
-  `replecement` typo).
+# CRAN submission comments -- wikilite 0.2.1
 
 ## Test environments
 
@@ -32,11 +7,53 @@ auto-check on 2026-05-05. Changes since the initial submission:
 
 ## R CMD check results
 
-0 ERRORs, 0 WARNINGs, 2 NOTEs:
+Local `R CMD check --as-cran` returns **0 ERRORs / 0 WARNINGs / 2 NOTEs**.
+
+### Expected NOTEs
 
 * "New submission" -- expected.
-* "unable to verify current time" -- NTP-resolution artefact on the local
+* "unable to verify current time" -- NTP resolution issue on the local
   machine; not reproducible on CRAN infrastructure.
+
+## Resubmission notes (response to CRAN review, 2026-05-11)
+
+This is a resubmission of wikilite, bumped to version **0.2.1**, addressing
+the two points raised in the previous review plus removing the optional
+`rAltmetric` dependency entirely:
+
+1. **References in `DESCRIPTION`.** Added the methods reference in the
+   required CRAN format:
+   `Benjakob, Aviram and Sobel (2022) <doi:10.1093/gigascience/giab095>`.
+2. **`\dontrun{}` vs `\donttest{}`.** Replaced every `\dontrun{}` example
+   wrapper with `\donttest{}`. All examples that hit external APIs
+   (MediaWiki, EuropePMC, CrossRef, Google Books, Open Library,
+   Wikimedia pageviews) are now in `\donttest{}` and run successfully
+   under `R CMD check --as-cran --run-donttest`.
+3. **Removed `rAltmetric` dependency.** `annotate_doi_list_altmetrics()`
+   and `annotate_isbn_list_altmetrics()` have been removed from the
+   package. `rAltmetric` has been archived on CRAN since 2022 and its
+   presence was causing a NOTE; removing these two functions eliminates
+   the dependency entirely.
+
+Additional cleanup performed at the same time:
+
+* Documented previously-undocumented arguments (`batch_size` on
+  `annotate_doi_list_europmc`; `lang` on the four interactive-viz
+  functions).
+* Added `nb_cnt` to `globalVariables()` to silence the only remaining
+  "no visible binding" NOTE from dplyr NSE.
+* Replaced two non-ASCII em-dashes in `R/progress_helpers.R` comments
+  with plain ASCII.
+* Tightened `.Rbuildignore` to exclude `_pkgdown.yml`, `.github/`,
+  `.claude/`, and build artefacts.
+* Rewrote a handful of examples that referenced a free variable
+  (`latency_df`) or wrote files into the working directory to be
+  self-contained and to use `tempdir()`.
+* Fixed two README URLs that returned 403/404.
+* Removed `purrr` from Imports (was only used by the removed Altmetric
+  functions).
+* Fixed vignette code chunks that could error during `R CMD check` when
+  network returns empty results.
 
 ## Dependencies
 
@@ -46,9 +63,10 @@ R >= 4.1.0 for the native pipe operator (`|>`).
 ## Network access
 
 All functions that query external APIs (MediaWiki, EuropePMC, CrossRef,
-Google Books, Open Library, Wikimedia pageviews) are guarded by
-`\dontrun{}` in examples and `skip_on_cran()` in tests. The package does
-not initiate any network connections during `R CMD check`.
+Google Books, Open Library, Wikimedia pageviews) are wrapped in
+`\donttest{}` in examples (so they are not run on CRAN itself) and
+`skip_on_cran()` in tests. The package does not initiate any network
+connections during `R CMD check` on CRAN.
 
 ## Vignettes
 

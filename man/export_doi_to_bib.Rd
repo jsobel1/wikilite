@@ -22,7 +22,7 @@ Queries CrossRef for each DOI in \code{doi_list}, then writes the results
 to a BibTeX file.
 }
 \examples{
-\dontrun{
+\donttest{
 category_recent <- get_category_articles_most_recent(
   c("Zeitgeber", "Advanced sleep phase disorder")
 )
@@ -30,6 +30,9 @@ extracted <- get_regex_citations_in_wiki_table(
   category_recent,
   "10\\\\.\\\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
 )
-export_doi_to_bib(unique(extracted$citation_fetched)[1:5], "output.bib")
+export_doi_to_bib(
+  unique(extracted$citation_fetched)[1:5],
+  file.path(tempdir(), "output.bib")
+)
 }
 }

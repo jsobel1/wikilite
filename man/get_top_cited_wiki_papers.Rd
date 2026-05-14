@@ -19,7 +19,7 @@ Finds the 40 most frequently cited DOIs, annotates them via EuropePMC and
 CrossRef, and adds per-article citation counts.
 }
 \examples{
-\dontrun{
+\donttest{
 doi_df <- get_regex_citations_in_wiki_table(
   get_article_most_recent_table("Zeitgeber"),
   "10\\\\.\\\\d{4,9}/[-._;()/:a-z0-9A-Z]+"

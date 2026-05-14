@@ -708,7 +708,7 @@ This package implements and extends the methods described in:
 
 > Benjakob O, Aviram R, Sobel JA. (2022). *Citation needed? Wikipedia bibliometrics
 > during the first wave of the COVID-19 pandemic.* GigaScience, 11, giab095.
-> doi:10.1093/gigascience/giab095
+> doi:[10.1093/gigascience/giab095](https://doi.org/10.1093/gigascience/giab095)
 
 ---
 

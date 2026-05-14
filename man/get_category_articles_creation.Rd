@@ -20,7 +20,7 @@ Calls \code{\link{get_article_initial_table}} for each element of
 \code{list_art} and row-binds the results.
 }
 \examples{
-\dontrun{
+\donttest{
 get_category_articles_creation(
   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 )

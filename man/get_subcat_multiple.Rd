@@ -20,7 +20,7 @@ A combined data frame of subcategory metadata.
 Retrieve subcategories for multiple Wikipedia categories
 }
 \examples{
-\dontrun{
+\donttest{
 get_subcat_multiple(c("Category:Biology", "Category:Medicine"))
 }
 }

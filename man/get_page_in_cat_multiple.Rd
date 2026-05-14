@@ -20,7 +20,7 @@ A combined data frame of page metadata.
 Retrieve pages for multiple Wikipedia categories
 }
 \examples{
-\dontrun{
+\donttest{
 get_page_in_cat_multiple(c("Category:Biology", "Category:Medicine"))
 }
 }

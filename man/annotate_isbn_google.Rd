@@ -19,7 +19,7 @@ A data frame with columns \code{title}, \code{publisher},
 Annotate a single ISBN using the Google Books API
 }
 \examples{
-\dontrun{
+\donttest{
 annotate_isbn_google("978-0-15-603135-6")
 }
 }

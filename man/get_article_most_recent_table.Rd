@@ -30,7 +30,7 @@ A single-row data frame with the same columns as
 Retrieve the most recent revision of a Wikipedia article
 }
 \examples{
-\dontrun{
+\donttest{
 get_article_most_recent_table("Zeitgeber")
 get_article_most_recent_table("COVID-19", lang = "fr")
 }

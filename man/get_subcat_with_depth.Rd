@@ -23,7 +23,7 @@ A data frame of all unique subcategories up to \code{depth} levels
 Recursively retrieve subcategories up to a given depth
 }
 \examples{
-\dontrun{
+\donttest{
 get_subcat_with_depth("Category:Biology", depth = 2)
 }
 }

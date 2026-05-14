@@ -25,7 +25,7 @@ A convenience wrapper that calls
 \code{all_art} and returns the four tables as a named list.
 }
 \examples{
-\dontrun{
+\donttest{
 res <- get_tables_initial_most_recent_full_info(
   c("Zeitgeber", "Sleep deprivation")
 )

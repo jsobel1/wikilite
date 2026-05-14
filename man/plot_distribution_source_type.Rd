@@ -18,7 +18,7 @@ Displays a horizontal boxplot of citation-type counts for the four main
 CS1 types: journal, news, web, and book.
 }
 \examples{
-\dontrun{
+\donttest{
 recent <- get_article_most_recent_table("Zeitgeber")
 df     <- get_citation_type(recent)
 plot_distribution_source_type(df)

@@ -273,7 +273,7 @@
 #'
 #' @param articles Character vector of English Wikipedia article titles.
 #' @param date_an Character string. Upper date limit for revision queries in
-#'   ISO 8601 format. Defaults to the current UTC time when \code{NULL}.
+#'   ISO 8601 format (default: current UTC time).
 #' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param color_by One of \code{"sciscore"} (colour bars by SciScore, default),
 #'   \code{"size"} (colour by current article size), or \code{"none"}
@@ -281,7 +281,7 @@
 #' @return A \code{plotly} htmlwidget.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' articles <- c("Zeitgeber", "Advanced sleep phase disorder",
 #'               "Sleep deprivation", "Circadian rhythm")
 #' plot_interactive_timeline(articles)
@@ -441,8 +441,8 @@ plot_interactive_timeline <- function(articles,
 #' Clicking an article node opens its Wikipedia page.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string. Upper date limit in ISO 8601 format.
-#'   Defaults to the current UTC time when \code{NULL}.
+#' @param date_an Character string. Upper date limit in ISO 8601 format
+#'   (default: current UTC time).
 #' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param top_n_dois Maximum number of publication nodes to display (default:
 #'   50).  The most widely cited DOIs are retained.
@@ -454,7 +454,7 @@ plot_interactive_timeline <- function(articles,
 #' @return A \code{visNetwork} htmlwidget.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' articles <- c("Zeitgeber", "Advanced sleep phase disorder",
 #'               "Sleep deprivation", "Circadian rhythm")
 #' plot_article_publication_network(articles)
@@ -556,8 +556,8 @@ plot_article_publication_network <- function(articles,
 #' Wikipedia article in a new tab.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string. Upper date limit in ISO 8601 format.
-#'   Defaults to the current UTC time when \code{NULL}.
+#' @param date_an Character string. Upper date limit in ISO 8601 format
+#'   (default: current UTC time).
 #' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param min_shared_dois Minimum number of shared DOIs required to draw an
 #'   edge (default: 1).  Increase this to focus on the most strongly connected
@@ -566,7 +566,7 @@ plot_article_publication_network <- function(articles,
 #'   article pairs share enough DOIs.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' articles <- c("Zeitgeber", "Advanced sleep phase disorder",
 #'               "Sleep deprivation", "Circadian rhythm",
 #'               "Non-24-hour sleep-wake disorder")
@@ -650,8 +650,8 @@ plot_article_cocitation_network <- function(articles,
 #' opens the corresponding Wikipedia article in a new browser tab.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string. Upper date limit in ISO 8601 format.
-#'   Defaults to the current UTC time when \code{NULL}.
+#' @param date_an Character string. Upper date limit in ISO 8601 format
+#'   (default: current UTC time).
 #' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param only_internal Logical.  If \code{TRUE} (default), only wikilinks
 #'   pointing to another article in \code{articles} are shown.
@@ -661,7 +661,7 @@ plot_article_cocitation_network <- function(articles,
 #'   qualifying links are found.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' articles <- c("Zeitgeber", "Advanced sleep phase disorder",
 #'               "Sleep deprivation", "Circadian rhythm")
 #' # Internal links only

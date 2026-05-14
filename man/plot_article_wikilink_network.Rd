@@ -15,8 +15,8 @@ plot_article_wikilink_network(
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string. Upper date limit in ISO 8601 format.
-Defaults to the current UTC time when \code{NULL}.}
+\item{date_an}{Character string. Upper date limit in ISO 8601 format
+(default: current UTC time).}
 
 \item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
@@ -46,7 +46,7 @@ Node size reflects in-degree (number of incoming links).  Clicking any node
 opens the corresponding Wikipedia article in a new browser tab.
 }
 \examples{
-\dontrun{
+\donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 # Internal links only

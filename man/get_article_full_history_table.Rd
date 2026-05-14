@@ -34,7 +34,7 @@ Queries the Wikipedia MediaWiki API and returns a data frame where
 each row is one revision of the given article, ordered chronologically.
 }
 \examples{
-\dontrun{
+\donttest{
 zeitgeber_history <- get_article_full_history_table("Zeitgeber")
 french_history    <- get_article_full_history_table("COVID-19", lang = "fr")
 }

@@ -18,7 +18,7 @@ A data frame with columns \code{art}, \code{revid},
 Summarise citation types across a Wikipedia revision table
 }
 \examples{
-\dontrun{
+\donttest{
 recent <- get_article_most_recent_table("Zeitgeber")
 get_citation_type(recent)
 }

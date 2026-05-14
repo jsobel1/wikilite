@@ -28,7 +28,7 @@ Displays either the per-year count or the cumulative count of article
 creation dates.
 }
 \examples{
-\dontrun{
+\donttest{
 initial <- get_category_articles_creation(
   c("Zeitgeber", "Advanced sleep phase disorder")
 )

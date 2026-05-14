@@ -30,11 +30,8 @@ Writes a Wikipedia revision table (as returned by
 Excel file.
 }
 \examples{
-\dontrun{
+\donttest{
 tmpwikitable <- get_article_initial_table("Zeitgeber")
-write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber")
-
-# Write to a specific directory
 write_wiki_history_to_xlsx(tmpwikitable, "Zeitgeber", dir = tempdir())
 }
 }

@@ -26,7 +26,7 @@ and its first appearance in the Wikipedia article.  Also flags preprints
 by DOI prefix (\code{10.1101/}).
 }
 \examples{
-\dontrun{
+\donttest{
 recent  <- get_article_most_recent_table("Zeitgeber")
 doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
 epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))

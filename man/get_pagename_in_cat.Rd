@@ -20,7 +20,7 @@ Wraps \code{WikipediR::pages_in_category} and filters out user and
 category pages.
 }
 \examples{
-\dontrun{
+\donttest{
 get_pagename_in_cat("Circadian rhythm")
 get_pagename_in_cat("Rythme_circadien", lang = "fr")
 }

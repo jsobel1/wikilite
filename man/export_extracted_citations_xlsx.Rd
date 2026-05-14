@@ -25,10 +25,13 @@ to \code{article_most_recent_table} and saves the results as individual
 \code{.xlsx} files.
 }
 \examples{
-\dontrun{
+\donttest{
 category_most_recent <- get_category_articles_most_recent(
   c("Zeitgeber", "Advanced sleep phase disorder")
 )
-export_extracted_citations_xlsx(category_most_recent, "sleep_articles")
+export_extracted_citations_xlsx(
+  category_most_recent,
+  file.path(tempdir(), "sleep_articles")
+)
 }
 }

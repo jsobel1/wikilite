@@ -14,8 +14,8 @@ plot_article_cocitation_network(
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string. Upper date limit in ISO 8601 format.
-Defaults to the current UTC time when \code{NULL}.}
+\item{date_an}{Character string. Upper date limit in ISO 8601 format
+(default: current UTC time).}
 
 \item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
@@ -38,7 +38,7 @@ Hovering over an edge lists the top shared DOIs.  Clicking a node opens the
 Wikipedia article in a new tab.
 }
 \examples{
-\dontrun{
+\donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm",
               "Non-24-hour sleep-wake disorder")

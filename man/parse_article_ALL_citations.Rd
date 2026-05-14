@@ -24,7 +24,7 @@ Extracts every CS1 citation, replaces hyperlinks, and returns a tidy long
 data frame where each row is one field of one citation.
 }
 \examples{
-\dontrun{
+\donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 parse_article_ALL_citations(art$`*`, article_name = "Zeitgeber")
 }

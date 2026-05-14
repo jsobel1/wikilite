@@ -25,7 +25,7 @@ Calls \code{\link{plot_top_source}} for every type listed in
 \code{source_types_list}.
 }
 \examples{
-\dontrun{
+\donttest{
 recent <- get_article_most_recent_table("Zeitgeber")
 df     <- get_parsed_citations(recent)
 get_pdfs_top20source(df)

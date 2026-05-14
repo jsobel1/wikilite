@@ -75,7 +75,7 @@
 #'   \code{size}, \code{comment}, and \code{*} (raw wikitext).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' zeitgeber_history <- get_article_full_history_table("Zeitgeber")
 #' french_history    <- get_article_full_history_table("COVID-19", lang = "fr")
 #' }
@@ -136,7 +136,7 @@ get_article_full_history_table <- function(article_name,
 #'   \code{\link{get_article_full_history_table}}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_article_initial_table("Zeitgeber")
 #' }
 get_article_initial_table <- function(article_name, lang = "en") {
@@ -167,7 +167,7 @@ get_article_initial_table <- function(article_name, lang = "en") {
 #'   and \code{length} elements.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_article_info_table("Zeitgeber")
 #' }
 get_article_info_table <- function(article_name,
@@ -203,7 +203,7 @@ get_article_info_table <- function(article_name,
 #'   \code{\link{get_article_full_history_table}}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_article_most_recent_table("Zeitgeber")
 #' get_article_most_recent_table("COVID-19", lang = "fr")
 #' }
@@ -253,7 +253,7 @@ get_article_most_recent_table <- function(article_name,
 #' @return A combined data frame, or \code{NULL} if all requests fail.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_category_articles_history(
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
@@ -300,7 +300,7 @@ get_category_articles_history <- function(list_art, lang = "en", workers = 1L) {
 #'   requests fail.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_category_articles_creation(
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
@@ -332,7 +332,7 @@ get_category_articles_creation <- function(list_art, lang = "en") {
 #'   all requests fail.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_category_articles_most_recent(
 #'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
 #' )
@@ -364,7 +364,7 @@ get_category_articles_most_recent <- function(list_art,
 #' @return Character vector of article titles, or \code{NULL} on error.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_pagename_in_cat("Circadian rhythm")
 #' get_pagename_in_cat("Rythme_circadien", lang = "fr")
 #' }
@@ -402,7 +402,7 @@ get_pagename_in_cat <- function(category, lang = "en") {
 #'   \code{article_full_history_table}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' res <- get_tables_initial_most_recent_full_info(
 #'   c("Zeitgeber", "Sleep deprivation")
 #' )
@@ -458,7 +458,7 @@ get_tables_initial_most_recent_full_info <- function(all_art, lang = "en") {
 #'   \code{parent_cat}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_subcat_table("Category:Biology")
 #' }
 get_subcat_table <- function(catname, replacement = "_", lang = "en") {
@@ -505,7 +505,7 @@ get_subcat_table <- function(catname, replacement = "_", lang = "en") {
 #'   \code{parent_cat}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_pages_in_cat_table("Category:Biology")
 #' }
 get_pages_in_cat_table <- function(catname, replacement = "_", lang = "en") {
@@ -550,7 +550,7 @@ get_pages_in_cat_table <- function(catname, replacement = "_", lang = "en") {
 #' @return A combined data frame of subcategory metadata.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_subcat_multiple(c("Category:Biology", "Category:Medicine"))
 #' }
 get_subcat_multiple <- function(catlist, replacement = "_", lang = "en") {
@@ -569,7 +569,7 @@ get_subcat_multiple <- function(catlist, replacement = "_", lang = "en") {
 #' @return A combined data frame of page metadata.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_page_in_cat_multiple(c("Category:Biology", "Category:Medicine"))
 #' }
 get_page_in_cat_multiple <- function(catlist, replacement = "_", lang = "en") {
@@ -590,7 +590,7 @@ get_page_in_cat_multiple <- function(catlist, replacement = "_", lang = "en") {
 #'   below \code{catname}.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_subcat_with_depth("Category:Biology", depth = 2)
 #' }
 get_subcat_with_depth <- function(catname, depth, replacement = "_", lang = "en") {
@@ -624,7 +624,7 @@ get_subcat_with_depth <- function(catname, depth, replacement = "_", lang = "en"
 #'   \code{date}, \code{art}, and one column per requested metric.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' dates <- paste0(2018:2023, "-01-01T00:00:00Z")
 #' probe_article_over_time("Zeitgeber", dates)
 #' }
@@ -667,7 +667,7 @@ probe_article_over_time <- function(article_name,
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' initial <- get_category_articles_creation(
 #'   c("Zeitgeber", "Advanced sleep phase disorder")
 #' )
@@ -724,7 +724,7 @@ plot_article_creation_per_year <- function(article_initial_table,
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' initial <- get_category_articles_creation(
 #'   c("Zeitgeber", "Advanced sleep phase disorder")
 #' )
@@ -784,7 +784,7 @@ plot_static_timeline <- function(article_initial_table_sel) {
 #' @return \code{NULL}, invisibly.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' initial <- get_article_initial_table("Zeitgeber")
 #' info    <- get_article_info_table("Zeitgeber")
 #' plot_navi_timeline(initial, info)
@@ -812,7 +812,7 @@ plot_navi_timeline <- function(article_initial_table_sel, article_info_table) {
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' page_view_plot("Zeitgeber", start = "2020010100", end = "2020050100")
 #' }
 page_view_plot <- function(article_name, ymax = NA,
@@ -868,7 +868,7 @@ page_view_plot <- function(article_name, ymax = NA,
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' page_edit_plot("Zeitgeber", start = "2019010100", end = "2021010100")
 #' }
 page_edit_plot <- function(article_name, ymax = NA,

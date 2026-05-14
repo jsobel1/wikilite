@@ -13,7 +13,7 @@ wiki_clear_cache()
 Deletes all cached API responses stored by \pkg{wikilite}.
 }
 \examples{
-\dontrun{
+\donttest{
 wiki_clear_cache()
 }
 }

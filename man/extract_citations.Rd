@@ -16,7 +16,7 @@ Character vector of matched CS1 templates.
 Extract all Citation Style 1 templates from wikitext
 }
 \examples{
-\dontrun{
+\donttest{
 art <- get_article_most_recent_table("Zeitgeber")
 extract_citations(art$`*`)
 }

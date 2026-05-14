@@ -20,7 +20,7 @@ Produces a \pkg{ggplot2} line chart of article size (bytes) over the full
 revision history.
 }
 \examples{
-\dontrun{
+\donttest{
 hist_df <- get_article_full_history_table("Zeitgeber")
 get_size_vs_time_plot(hist_df, "Zeitgeber")
 }

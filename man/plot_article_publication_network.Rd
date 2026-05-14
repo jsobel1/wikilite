@@ -16,8 +16,8 @@ plot_article_publication_network(
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string. Upper date limit in ISO 8601 format.
-Defaults to the current UTC time when \code{NULL}.}
+\item{date_an}{Character string. Upper date limit in ISO 8601 format
+(default: current UTC time).}
 
 \item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
@@ -48,7 +48,7 @@ Clicking a publication node opens its DOI page in a new tab.
 Clicking an article node opens its Wikipedia page.
 }
 \examples{
-\dontrun{
+\donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 plot_article_publication_network(articles)

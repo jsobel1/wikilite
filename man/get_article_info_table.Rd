@@ -23,7 +23,7 @@ Returns a named vector containing the page ID, title, and byte length of
 the current revision of the article.
 }
 \examples{
-\dontrun{
+\donttest{
 get_article_info_table("Zeitgeber")
 }
 }

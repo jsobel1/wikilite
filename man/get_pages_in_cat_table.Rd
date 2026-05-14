@@ -22,7 +22,7 @@ A data frame of page metadata with an additional column
 Retrieve pages in a Wikipedia category
 }
 \examples{
-\dontrun{
+\donttest{
 get_pages_in_cat_table("Category:Biology")
 }
 }

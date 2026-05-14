@@ -15,7 +15,7 @@ plot_interactive_timeline(
 \item{articles}{Character vector of English Wikipedia article titles.}
 
 \item{date_an}{Character string. Upper date limit for revision queries in
-ISO 8601 format. Defaults to the current UTC time when \code{NULL}.}
+ISO 8601 format (default: current UTC time).}
 
 \item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
@@ -34,7 +34,7 @@ edit lifetime.  Hover text includes creation date, first editor, initial
 and current byte size, and a clickable link to the Wikipedia page.
 }
 \examples{
-\dontrun{
+\donttest{
 articles <- c("Zeitgeber", "Advanced sleep phase disorder",
               "Sleep deprivation", "Circadian rhythm")
 plot_interactive_timeline(articles)

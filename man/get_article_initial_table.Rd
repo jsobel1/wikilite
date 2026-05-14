@@ -19,7 +19,7 @@ A single-row data frame with the same columns as
 Retrieve the first revision of a Wikipedia article
 }
 \examples{
-\dontrun{
+\donttest{
 get_article_initial_table("Zeitgeber")
 }
 }

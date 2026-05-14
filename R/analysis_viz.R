@@ -11,7 +11,7 @@
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' hist_df <- get_article_full_history_table("Zeitgeber")
 #' get_edits_vs_time_plot(hist_df, "Zeitgeber")
 #' }
@@ -44,7 +44,7 @@ get_edits_vs_time_plot <- function(art_history_full, art_name) {
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' hist_df <- get_article_full_history_table("Zeitgeber")
 #' get_size_vs_time_plot(hist_df, "Zeitgeber")
 #' }
@@ -98,13 +98,22 @@ get_closest_date <- function(date_in, date_vect) {
 #'   (numeric) and \code{is_preprint} (logical).
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' recent  <- get_article_most_recent_table("Zeitgeber")
 #' doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
 #' epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
 #' latency <- compute_citation_latency(doi_df, epmc_df)
 #' }
 compute_citation_latency <- function(doi_history_df, epmc_annotation_df) {
+  if (!is.data.frame(epmc_annotation_df) || nrow(epmc_annotation_df) == 0L ||
+      !all(c("doi", "firstPublicationDate") %in% names(epmc_annotation_df))) {
+    doi_history_df$firstPublicationDate <- NA_character_
+    doi_history_df$latency_days         <- NA_real_
+    doi_history_df$is_preprint          <- stringr::str_starts(
+      doi_history_df$citation_fetched, "10.1101/"
+    )
+    return(doi_history_df)
+  }
   joined <- dplyr::left_join(
     doi_history_df,
     dplyr::select(epmc_annotation_df,
@@ -141,9 +150,13 @@ compute_citation_latency <- function(doi_history_df, epmc_annotation_df) {
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
-#' plot_latency_distribution(latency_df)
-#' plot_latency_distribution(latency_df, stratify_by = "is_preprint")
+#' \donttest{
+#' recent  <- get_article_most_recent_table("Zeitgeber")
+#' doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+#' epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+#' latency <- compute_citation_latency(doi_df, epmc_df)
+#' plot_latency_distribution(latency)
+#' plot_latency_distribution(latency, stratify_by = "is_preprint")
 #' }
 plot_latency_distribution <- function(latency_df, stratify_by = NULL) {
   df <- latency_df[!is.na(latency_df$latency_days), ]
@@ -199,8 +212,12 @@ plot_latency_distribution <- function(latency_df, stratify_by = NULL) {
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
-#' get_segment_history_doi_plot(latency_df, "Zeitgeber")
+#' \donttest{
+#' recent  <- get_article_most_recent_table("Zeitgeber")
+#' doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+#' epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+#' latency <- compute_citation_latency(doi_df, epmc_df)
+#' get_segment_history_doi_plot(latency, "Zeitgeber")
 #' }
 get_segment_history_doi_plot <- function(df_doi, art_name) {
   df <- df_doi[!is.na(df_doi$latency_days), ]
@@ -245,8 +262,12 @@ get_segment_history_doi_plot <- function(df_doi, art_name) {
 #' @return A \code{ggplot2} object (invisibly).
 #' @export
 #' @examples
-#' \dontrun{
-#' get_dotplot_history(latency_df, "Zeitgeber")
+#' \donttest{
+#' recent  <- get_article_most_recent_table("Zeitgeber")
+#' doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+#' epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+#' latency <- compute_citation_latency(doi_df, epmc_df)
+#' get_dotplot_history(latency, "Zeitgeber")
 #' }
 get_dotplot_history <- function(df_doi, art_name) {
   df <- df_doi[!is.na(df_doi$latency_days), ]

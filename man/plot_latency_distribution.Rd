@@ -24,8 +24,12 @@ between paper publication and Wikipedia citation insertion.  Optionally
 stratifies by preprint status and annotates with a KS test p-value.
 }
 \examples{
-\dontrun{
-plot_latency_distribution(latency_df)
-plot_latency_distribution(latency_df, stratify_by = "is_preprint")
+\donttest{
+recent  <- get_article_most_recent_table("Zeitgeber")
+doi_df  <- get_regex_citations_in_wiki_table(recent, pkg.env$doi_regexp)
+epmc_df <- annotate_doi_list_europmc(unique(doi_df$citation_fetched))
+latency <- compute_citation_latency(doi_df, epmc_df)
+plot_latency_distribution(latency)
+plot_latency_distribution(latency, stratify_by = "is_preprint")
 }
 }
