@@ -9,7 +9,9 @@ export_doi_to_bib(doi_list, file_name = "file.bib")
 \arguments{
 \item{doi_list}{Character vector of DOIs.}
 
-\item{file_name}{Output file name (default: \code{"file.bib"}).}
+\item{file_name}{Full path for the output \code{.bib} file.  If only a
+base name is given (no directory), the file is written to the current
+working directory (see \code{getwd()}).  Default: \code{"file.bib"}.}
 }
 \value{
 Invisibly returns \code{NULL}. Called for its side effect of writing

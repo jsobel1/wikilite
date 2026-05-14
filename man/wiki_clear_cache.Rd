@@ -10,8 +10,7 @@ wiki_clear_cache()
 \code{NULL} invisibly.
 }
 \description{
-Deletes all cached API responses stored by \pkg{wikilite}.  Subsequent
-calls to API-backed functions will make fresh network requests.
+Deletes all cached API responses stored by \pkg{wikilite}.
 }
 \examples{
 \dontrun{

@@ -6,15 +6,18 @@
 \usage{
 plot_article_cocitation_network(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   min_shared_dois = 1L
 )
 }
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string. Upper date limit in ISO 8601 format
-(default: \code{"2024-01-01T00:00:00Z"}).}
+\item{date_an}{Character string. Upper date limit in ISO 8601 format.
+Defaults to the current UTC time when \code{NULL}.}
+
+\item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
 \item{min_shared_dois}{Minimum number of shared DOIs required to draw an
 edge (default: 1).  Increase this to focus on the most strongly connected

@@ -6,7 +6,8 @@
 \usage{
 plot_interactive_timeline(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   color_by = c("sciscore", "size", "none")
 )
 }
@@ -14,7 +15,9 @@ plot_interactive_timeline(
 \item{articles}{Character vector of English Wikipedia article titles.}
 
 \item{date_an}{Character string. Upper date limit for revision queries in
-ISO 8601 format (default: \code{"2024-01-01T00:00:00Z"}).}
+ISO 8601 format. Defaults to the current UTC time when \code{NULL}.}
+
+\item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
 \item{color_by}{One of \code{"sciscore"} (colour bars by SciScore, default),
 \code{"size"} (colour by current article size), or \code{"none"}

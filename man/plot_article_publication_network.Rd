@@ -6,7 +6,8 @@
 \usage{
 plot_article_publication_network(
   articles,
-  date_an = "2024-01-01T00:00:00Z",
+  date_an = NULL,
+  lang = "en",
   top_n_dois = 50L,
   min_wiki_count = 2L,
   annotate = FALSE
@@ -15,8 +16,10 @@ plot_article_publication_network(
 \arguments{
 \item{articles}{Character vector of English Wikipedia article titles.}
 
-\item{date_an}{Character string. Upper date limit in ISO 8601 format
-(default: \code{"2024-01-01T00:00:00Z"}).}
+\item{date_an}{Character string. Upper date limit in ISO 8601 format.
+Defaults to the current UTC time when \code{NULL}.}
+
+\item{lang}{Two-letter Wikipedia language code (default \code{"en"}).}
 
 \item{top_n_dois}{Maximum number of publication nodes to display (default:
 50).  The most widely cited DOIs are retained.}

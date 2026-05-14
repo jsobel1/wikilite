@@ -15,8 +15,7 @@ get_closest_date(date_in, date_vect)
 The element of \code{date_vect} closest in time to \code{date_in}.
 }
 \description{
-Utility used for aligning paper publication dates to Wikipedia revision
-snapshots.
+Utility used for aligning publication dates to Wikipedia revision snapshots.
 }
 \examples{
 dates <- as.Date(c("2020-01-01", "2020-06-01", "2021-01-01"))

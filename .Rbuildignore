@@ -1,4 +1,10 @@
 ^cran-comments\.md$
 ^\.git$
+^\.github$
 ^\.gitignore$
 ^README\.Rmd$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^vignettes/cache$
+^vignettes/.*\.xlsx$

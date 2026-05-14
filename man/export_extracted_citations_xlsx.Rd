@@ -10,7 +10,10 @@ export_extracted_citations_xlsx(article_most_recent_table, name_file_prefix)
 \item{article_most_recent_table}{A Wikipedia revision data frame (e.g. from
 \code{\link{get_category_articles_most_recent}}).}
 
-\item{name_file_prefix}{Character prefix used for all output file names.}
+\item{name_file_prefix}{Full path prefix used for all output file names.
+Each file is named \code{<name_file_prefix>_<regexp>_extracted_citations.xlsx}.
+If only a base name is given (no directory), files are written to the
+current working directory (see \code{getwd()}).}
 }
 \value{
 Invisibly returns \code{NULL}. Called for its side effect of writing
@@ -19,7 +22,7 @@ Invisibly returns \code{NULL}. Called for its side effect of writing
 \description{
 Applies every regular expression in \code{\link{pkg.env}}\code{$regexp_list}
 to \code{article_most_recent_table} and saves the results as individual
-\code{.xlsx} files in the working directory.
+\code{.xlsx} files.
 }
 \examples{
 \dontrun{

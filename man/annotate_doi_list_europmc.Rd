@@ -4,10 +4,14 @@
 \alias{annotate_doi_list_europmc}
 \title{Annotate a list of DOIs using EuropePMC}
 \usage{
-annotate_doi_list_europmc(doi_list)
+annotate_doi_list_europmc(doi_list, batch_size = 25L)
 }
 \arguments{
 \item{doi_list}{Character vector of DOIs.}
+
+\item{batch_size}{Integer.  Number of DOIs sent per batched OR query
+to the EuropePMC REST endpoint.  Defaults to \code{25L}, which keeps
+each query well under the API's URL-length limit.}
 }
 \value{
 A data frame with columns \code{id}, \code{source}, \code{pmid},

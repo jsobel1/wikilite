@@ -12,18 +12,16 @@ plot_latency_distribution(latency_df, stratify_by = NULL)
 and optionally \code{is_preprint}.}
 
 \item{stratify_by}{Character string or \code{NULL}.  Use
-\code{"is_preprint"} to compare preprints vs. journal articles with
-a two-colour density plot and a Kolmogorov-Smirnov p-value annotation;
-any other value or \code{NULL} plots the pooled distribution.}
+\code{"is_preprint"} to compare preprints vs. journal articles; any
+other value or \code{NULL} plots the pooled distribution.}
 }
 \value{
 A \code{ggplot2} object (invisibly).
 }
 \description{
-Produces a \pkg{ggplot2} density plot of the number of days between paper
-publication and Wikipedia citation insertion.  Optionally stratifies by
-preprint status (bioRxiv/medRxiv DOIs, prefix \code{10.1101/}) and
-annotates with a KS-test p-value.
+Produces a \pkg{ggplot2} density or violin plot of the number of days
+between paper publication and Wikipedia citation insertion.  Optionally
+stratifies by preprint status and annotates with a KS test p-value.
 }
 \examples{
 \dontrun{

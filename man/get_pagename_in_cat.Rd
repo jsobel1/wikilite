@@ -4,11 +4,13 @@
 \alias{get_pagename_in_cat}
 \title{Retrieve the names of pages belonging to a Wikipedia category}
 \usage{
-get_pagename_in_cat(category)
+get_pagename_in_cat(category, lang = "en")
 }
 \arguments{
 \item{category}{Character string — Wikipedia category name
 (e.g. \code{"Circadian rhythm"}).}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 Character vector of article titles, or \code{NULL} on error.
@@ -20,7 +22,6 @@ category pages.
 \examples{
 \dontrun{
 get_pagename_in_cat("Circadian rhythm")
-# Multiple categories:
-unique(unlist(sapply(c("Circadian rhythm", "Sleep"), get_pagename_in_cat)))
+get_pagename_in_cat("Rythme_circadien", lang = "fr")
 }
 }

@@ -4,20 +4,28 @@
 \alias{annotate_doi_list_cross_ref}
 \title{Annotate a list of DOIs using CrossRef}
 \usage{
-annotate_doi_list_cross_ref(doi_list)
+annotate_doi_list_cross_ref(doi_list, batch_size = 50L)
 }
 \arguments{
 \item{doi_list}{Character vector of DOIs.}
+
+\item{batch_size}{Integer.  Number of DOIs per \code{cr_works} request
+(default 50).}
 }
 \value{
-A data frame of CrossRef metadata merged with citation counts.
+A data frame with columns \code{doi}, \code{title},
+  \code{authorString}, \code{journalTitle}, \code{pubYear},
+  \code{pubType}, \code{publisher}, \code{issn}, \code{volume},
+  \code{issue}, \code{page}, and \code{citedByCount}.
 }
 \description{
-Queries the CrossRef API for each DOI and returns a data frame of
-bibliographic metadata merged with CrossRef citation counts.
+Queries the CrossRef \code{/works} API for each DOI and returns a tidy data
+frame of bibliographic metadata.  Column names are aligned with those
+returned by \code{\link{annotate_doi_list_europmc}} to allow easy
+\code{coalesce}-based merging.
 }
 \examples{
 \dontrun{
-annotate_doi_list_cross_ref(c("10.1038/nature12373"))
+annotate_doi_list_cross_ref(c("10.1038/nature16961"))
 }
 }

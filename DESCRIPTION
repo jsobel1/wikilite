@@ -8,15 +8,15 @@ Authors@R:
            email = "jsobel83@gmail.com",
            comment = c(ORCID = "0000-0002-5111-4070"))
 Description: A toolkit for mining Wikipedia article revision history and
-    citations via the public MediaWiki API. Retrieves full revision
+    citations via the public 'MediaWiki' API. Retrieves full revision
     histories and structured metadata, extracts and counts citations
-    (DOIs, ISBNs, PMIDs, URLs, and Citation Style 1 templates), annotates
-    DOIs through 'europepmc' and 'rcrossref', computes scientific-source
-    quality metrics (SciScore), identifies revert-based edit trends across
+    ('DOIs', 'ISBNs', 'PMIDs', 'URLs', and Citation Style 1 templates), annotates
+    'DOIs' through 'europepmc' and 'rcrossref', computes scientific-source
+    quality metrics ('SciScore'), identifies revert-based edit trends across
     all Wikipedia articles, and provides visualisations including interactive
     timelines and citation networks.
 License: GPL-3
-URL: https://jsobel1.github.io/wikilite,
+URL: https://jsobel1.github.io/wikilite/,
     https://github.com/jsobel1/wikilite,
     https://github.com/jsobel1/wikiliteApp
 BugReports: https://github.com/jsobel1/wikilite/issues
@@ -46,6 +46,7 @@ Suggests:
     furrr,
     knitr,
     rmarkdown,
+    shiny,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3

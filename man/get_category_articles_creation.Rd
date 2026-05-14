@@ -4,10 +4,12 @@
 \alias{get_category_articles_creation}
 \title{Retrieve the creation revision for multiple Wikipedia articles}
 \usage{
-get_category_articles_creation(list_art)
+get_category_articles_creation(list_art, lang = "en")
 }
 \arguments{
-\item{list_art}{Character vector of English Wikipedia article titles.}
+\item{list_art}{Character vector of Wikipedia article titles.}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A combined data frame of first revisions, or \code{NULL} if all

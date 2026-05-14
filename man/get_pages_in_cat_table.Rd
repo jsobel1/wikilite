@@ -4,13 +4,15 @@
 \alias{get_pages_in_cat_table}
 \title{Retrieve pages in a Wikipedia category}
 \usage{
-get_pages_in_cat_table(catname, replecement = "_")
+get_pages_in_cat_table(catname, replacement = "_", lang = "en")
 }
 \arguments{
 \item{catname}{Character string — category name, with or without the
 \code{"Category:"} prefix.}
 
-\item{replecement}{Character used to replace spaces (default: \code{"_"}).}
+\item{replacement}{Character used to replace spaces (default: \code{"_"}).}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A data frame of page metadata with an additional column

@@ -4,14 +4,16 @@
 \alias{get_subcat_table}
 \title{Retrieve subcategories of a Wikipedia category}
 \usage{
-get_subcat_table(catname, replecement = "_")
+get_subcat_table(catname, replacement = "_", lang = "en")
 }
 \arguments{
 \item{catname}{Character string — category name, with or without the
 \code{"Category:"} prefix.}
 
-\item{replecement}{Character used to replace spaces in the category name
+\item{replacement}{Character used to replace spaces in the category name
 for the API query (default: \code{"_"}).}
+
+\item{lang}{Two-letter language code (default: \code{"en"}).}
 }
 \value{
 A data frame of subcategory metadata with an additional column

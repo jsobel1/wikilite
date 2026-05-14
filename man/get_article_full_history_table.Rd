@@ -4,14 +4,25 @@
 \alias{get_article_full_history_table}
 \title{Retrieve the full revision history of a Wikipedia article}
 \usage{
-get_article_full_history_table(article_name, date_an = "2020-05-01T00:00:00Z")
+get_article_full_history_table(
+  article_name,
+  date_an = NULL,
+  lang = "en",
+  use_cache = TRUE
+)
 }
 \arguments{
-\item{article_name}{Character string giving the English Wikipedia article
-title (e.g. \code{"Zeitgeber"}).}
+\item{article_name}{Character string giving the Wikipedia article title
+(e.g. \code{"Zeitgeber"}).}
 
 \item{date_an}{Character string — upper date limit for revisions in ISO 8601
-format (default: \code{"2020-05-01T00:00:00Z"}).}
+format.  Default: current UTC time.}
+
+\item{lang}{Two-letter language code for the Wikipedia edition to query
+(default: \code{"en"} for English).}
+
+\item{use_cache}{Logical.  When \code{TRUE} (default), results are cached to
+disk and reused on repeated calls with the same arguments.}
 }
 \value{
 A data frame with columns \code{art}, \code{revid},
@@ -19,11 +30,12 @@ A data frame with columns \code{art}, \code{revid},
   \code{size}, \code{comment}, and \code{*} (raw wikitext).
 }
 \description{
-Queries the English Wikipedia MediaWiki API and returns a data frame where
+Queries the Wikipedia MediaWiki API and returns a data frame where
 each row is one revision of the given article, ordered chronologically.
 }
 \examples{
 \dontrun{
 zeitgeber_history <- get_article_full_history_table("Zeitgeber")
+french_history    <- get_article_full_history_table("COVID-19", lang = "fr")
 }
 }

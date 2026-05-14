@@ -273,7 +273,8 @@
 #'
 #' @param articles Character vector of English Wikipedia article titles.
 #' @param date_an Character string. Upper date limit for revision queries in
-#'   ISO 8601 format (default: \code{"2024-01-01T00:00:00Z"}).
+#'   ISO 8601 format. Defaults to the current UTC time when \code{NULL}.
+#' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param color_by One of \code{"sciscore"} (colour bars by SciScore, default),
 #'   \code{"size"} (colour by current article size), or \code{"none"}
 #'   (uniform colour).
@@ -440,8 +441,9 @@ plot_interactive_timeline <- function(articles,
 #' Clicking an article node opens its Wikipedia page.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string. Upper date limit in ISO 8601 format
-#'   (default: \code{"2024-01-01T00:00:00Z"}).
+#' @param date_an Character string. Upper date limit in ISO 8601 format.
+#'   Defaults to the current UTC time when \code{NULL}.
+#' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param top_n_dois Maximum number of publication nodes to display (default:
 #'   50).  The most widely cited DOIs are retained.
 #' @param min_wiki_count Minimum number of articles that must cite a DOI for it
@@ -554,8 +556,9 @@ plot_article_publication_network <- function(articles,
 #' Wikipedia article in a new tab.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string. Upper date limit in ISO 8601 format
-#'   (default: \code{"2024-01-01T00:00:00Z"}).
+#' @param date_an Character string. Upper date limit in ISO 8601 format.
+#'   Defaults to the current UTC time when \code{NULL}.
+#' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param min_shared_dois Minimum number of shared DOIs required to draw an
 #'   edge (default: 1).  Increase this to focus on the most strongly connected
 #'   pairs.
@@ -647,8 +650,9 @@ plot_article_cocitation_network <- function(articles,
 #' opens the corresponding Wikipedia article in a new browser tab.
 #'
 #' @param articles Character vector of English Wikipedia article titles.
-#' @param date_an Character string. Upper date limit in ISO 8601 format
-#'   (default: \code{"2024-01-01T00:00:00Z"}).
+#' @param date_an Character string. Upper date limit in ISO 8601 format.
+#'   Defaults to the current UTC time when \code{NULL}.
+#' @param lang Two-letter Wikipedia language code (default \code{"en"}).
 #' @param only_internal Logical.  If \code{TRUE} (default), only wikilinks
 #'   pointing to another article in \code{articles} are shown.
 #' @param top_n_links When \code{only_internal = FALSE}, the maximum number of
