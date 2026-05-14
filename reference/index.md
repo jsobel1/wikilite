@@ -118,27 +118,23 @@ journal articles.
 ## Annotate DOIs
 
 Enrich a list of DOIs with bibliographic metadata from external
-databases (EuropePMC, CrossRef, Altmetric).
+databases (EuropePMC, CrossRef).
 
 - [`annotate_doi_list_europmc()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md)
   : Annotate a list of DOIs using EuropePMC
 - [`annotate_doi_list_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md)
   : Annotate a list of DOIs using CrossRef
-- [`annotate_doi_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_altmetrics.md)
-  : Annotate a list of DOIs using Altmetric
 - [`annotate_doi_to_bibtex_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_to_bibtex_cross_ref.md)
   : Retrieve BibTeX entries for a list of DOIs via CrossRef
 
 ## Annotate ISBNs
 
-Look up book metadata from Google Books, Open Library, and Altmetric.
+Look up book metadata from Google Books and Open Library.
 
 - [`annotate_isbn_google()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_google.md)
   : Annotate a single ISBN using the Google Books API
 - [`annotate_isbn_openlib()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_openlib.md)
   : Annotate a single ISBN using the Open Library API
-- [`annotate_isbn_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_list_altmetrics.md)
-  : Annotate a list of ISBNs using Altmetric
 
 ## Citation latency
 

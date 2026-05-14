@@ -43,7 +43,6 @@ history and citations via the public MediaWiki API. Core capabilities:
 
   [`annotate_doi_list_europmc`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md),
   [`annotate_doi_list_cross_ref`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md),
-  [`annotate_doi_list_altmetrics`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_altmetrics.md),
   [`annotate_isbn_google`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_google.md),
   [`annotate_isbn_openlib`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_openlib.md).
 

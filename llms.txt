@@ -54,8 +54,8 @@ citation data.
 - **Extract every citation** type (DOIs, ISBNs, PMIDs, URLs, CS1
   templates) using battle-tested regular expressions or your own
   patterns.
-- **Annotate** extracted identifiers against EuropePMC, CrossRef,
-  Altmetric, Google Books, and Open Library.
+- **Annotate** extracted identifiers against EuropePMC, CrossRef, Google
+  Books, and Open Library.
 - Compute **SciScore** — a reproducible metric for how scientifically
   sourced an article is.
 - Identify **revert-tagged edits** to detect disputed or vandalism-prone
@@ -310,7 +310,6 @@ sort(scores, decreasing = TRUE)
 | `annotate_doi_list_europmc(doi_list)` | EuropePMC | title, authors, journal, year, open-access status, citation count |
 | `annotate_doi_list_cross_ref(doi_list)` | CrossRef | full bibliographic metadata + citation count |
 | `annotate_doi_to_bibtex_cross_ref(doi_list)` | CrossRef | list of BibTeX strings |
-| `annotate_doi_list_altmetrics(doi_list)` | Altmetric | social-media attention scores |
 | `get_top_cited_wiki_papers(doi_df)` | EuropePMC + CrossRef | top 40 most-cited DOIs across your article set |
 
 ``` r
@@ -327,10 +326,6 @@ cr <- annotate_doi_list_cross_ref(doi_list[1:10])
 # BibTeX entries
 bibtex <- annotate_doi_to_bibtex_cross_ref(doi_list[1:5])
 cat(bibtex[[1]])
-
-# Altmetric attention scores
-# Note: doi_list must be wrapped in list()
-alt <- annotate_doi_list_altmetrics(list(doi_list[1:5]))
 
 # Top 40 most-cited papers across all articles
 top40 <- get_top_cited_wiki_papers(doi_df)
@@ -352,9 +347,6 @@ gb[, c("title", "publisher", "publishedDate", "categories")]
 
 # Open Library
 ol <- annotate_isbn_openlib(isbn_list[1])
-
-# Altmetric scores for books
-alt_isbn <- annotate_isbn_list_altmetrics(list(isbn_list[1:3]))
 ```
 
 ------------------------------------------------------------------------
@@ -597,7 +589,6 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 | [`annotate_doi_list_europmc()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md) | EuropePMC metadata |
 | [`annotate_doi_list_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md) | CrossRef metadata + citation counts |
 | [`annotate_doi_to_bibtex_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_to_bibtex_cross_ref.md) | CrossRef BibTeX entries |
-| [`annotate_doi_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_altmetrics.md) | Altmetric attention scores |
 | [`get_top_cited_wiki_papers()`](https://jsobel1.github.io/wikilite/reference/get_top_cited_wiki_papers.md) | Top 40 most-cited DOIs with full annotation |
 
 ### ISBN annotation
@@ -606,7 +597,6 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 |----|----|
 | [`annotate_isbn_google()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_google.md) | Google Books metadata |
 | [`annotate_isbn_openlib()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_openlib.md) | Open Library metadata |
-| [`annotate_isbn_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_list_altmetrics.md) | Altmetric scores for books |
 
 ### Revert trend analysis
 
@@ -714,32 +704,31 @@ adds:
 
 ### Required (Imports)
 
-| Package           | Purpose                                         |
-|-------------------|-------------------------------------------------|
-| `dplyr` ≥ 1.0.0   | Data manipulation                               |
-| `europepmc`       | EuropePMC API                                   |
-| `ggplot2` ≥ 3.3.0 | Visualisation                                   |
-| `ggrepel`         | Non-overlapping labels on timelines             |
-| `httr`            | HTTP requests to MediaWiki API                  |
-| `jsonlite`        | JSON parsing                                    |
-| `lubridate`       | Date handling for page-view data                |
-| `openxlsx`        | Excel export (no Java required)                 |
-| `purrr`           | Functional programming for Altmetric annotation |
-| `rcrossref`       | CrossRef API                                    |
-| `reshape2`        | Long-to-wide reshaping for CrossRef results     |
-| `stringr`         | Regular expression matching                     |
-| `textclean`       | Multi-string substitution                       |
-| `WikipediR`       | Wikipedia category API and pageviews            |
+| Package           | Purpose                                     |
+|-------------------|---------------------------------------------|
+| `dplyr` ≥ 1.0.0   | Data manipulation                           |
+| `europepmc`       | EuropePMC API                               |
+| `ggplot2` ≥ 3.3.0 | Visualisation                               |
+| `ggrepel`         | Non-overlapping labels on timelines         |
+| `httr`            | HTTP requests to MediaWiki API              |
+| `jsonlite`        | JSON parsing                                |
+| `lubridate`       | Date handling for page-view data            |
+| `openxlsx`        | Excel export (no Java required)             |
+| `purrr`           | Functional programming helpers              |
+| `rcrossref`       | CrossRef API                                |
+| `reshape2`        | Long-to-wide reshaping for CrossRef results |
+| `stringr`         | Regular expression matching                 |
+| `textclean`       | Multi-string substitution                   |
+| `WikipediR`       | Wikipedia category API and pageviews        |
 
 ### Suggested (only needed for specific tasks)
 
-| Package | Purpose |
-|----|----|
-| `rAltmetric` | Altmetric attention scores (install from [GitHub](https://github.com/ropensci/rAltmetric)) |
-| `testthat` ≥ 3.0.0 | Running the test suite |
-| `knitr` / `rmarkdown` | Building vignettes |
-| `httptest2` | Offline HTTP fixture testing |
-| `covr` | Code coverage |
+| Package               | Purpose                      |
+|-----------------------|------------------------------|
+| `testthat` ≥ 3.0.0    | Running the test suite       |
+| `knitr` / `rmarkdown` | Building vignettes           |
+| `httptest2`           | Offline HTTP fixture testing |
+| `covr`                | Code coverage                |
 
 ------------------------------------------------------------------------
 
@@ -919,27 +908,23 @@ journal articles.
 ## Annotate DOIs
 
 Enrich a list of DOIs with bibliographic metadata from external
-databases (EuropePMC, CrossRef, Altmetric).
+databases (EuropePMC, CrossRef).
 
 - [`annotate_doi_list_europmc()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_europmc.md)
   : Annotate a list of DOIs using EuropePMC
 - [`annotate_doi_list_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_cross_ref.md)
   : Annotate a list of DOIs using CrossRef
-- [`annotate_doi_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_list_altmetrics.md)
-  : Annotate a list of DOIs using Altmetric
 - [`annotate_doi_to_bibtex_cross_ref()`](https://jsobel1.github.io/wikilite/reference/annotate_doi_to_bibtex_cross_ref.md)
   : Retrieve BibTeX entries for a list of DOIs via CrossRef
 
 ## Annotate ISBNs
 
-Look up book metadata from Google Books, Open Library, and Altmetric.
+Look up book metadata from Google Books and Open Library.
 
 - [`annotate_isbn_google()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_google.md)
   : Annotate a single ISBN using the Google Books API
 - [`annotate_isbn_openlib()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_openlib.md)
   : Annotate a single ISBN using the Open Library API
-- [`annotate_isbn_list_altmetrics()`](https://jsobel1.github.io/wikilite/reference/annotate_isbn_list_altmetrics.md)
-  : Annotate a list of ISBNs using Altmetric
 
 ## Citation latency
 

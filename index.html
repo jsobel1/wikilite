@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,7 +120,7 @@
 <li>
 <strong>Extract every citation</strong> type (DOIs, ISBNs, PMIDs, URLs, CS1 templates) using battle-tested regular expressions or your own patterns.</li>
 <li>
-<strong>Annotate</strong> extracted identifiers against EuropePMC, CrossRef, Altmetric, Google Books, and Open Library.</li>
+<strong>Annotate</strong> extracted identifiers against EuropePMC, CrossRef, Google Books, and Open Library.</li>
 <li>Compute <strong>SciScore</strong> — a reproducible metric for how scientifically sourced an article is.</li>
 <li>Identify <strong>revert-tagged edits</strong> to detect disputed or vandalism-prone articles.</li>
 <li>Generate <strong>ggplot2 visualisations</strong> — timelines, edit-activity charts, and citation distributions — with one line of code.</li>
@@ -414,11 +414,6 @@
 <td>list of BibTeX strings</td>
 </tr>
 <tr>
-<td><code>annotate_doi_list_altmetrics(doi_list)</code></td>
-<td>Altmetric</td>
-<td>social-media attention scores</td>
-</tr>
-<tr>
 <td><code>get_top_cited_wiki_papers(doi_df)</code></td>
 <td>EuropePMC + CrossRef</td>
 <td>top 40 most-cited DOIs across your article set</td>
@@ -439,10 +434,6 @@
 <span><span class="va">bibtex</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotate_doi_to_bibtex_cross_ref.html">annotate_doi_to_bibtex_cross_ref</a></span><span class="op">(</span><span class="va">doi_list</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">bibtex</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Altmetric attention scores</span></span>
-<span><span class="co"># Note: doi_list must be wrapped in list()</span></span>
-<span><span class="va">alt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotate_doi_list_altmetrics.html">annotate_doi_list_altmetrics</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">doi_list</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># Top 40 most-cited papers across all articles</span></span>
 <span><span class="va">top40</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_top_cited_wiki_papers.html">get_top_cited_wiki_papers</a></span><span class="op">(</span><span class="va">doi_df</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">top40</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"title"</span>, <span class="st">"journalTitle"</span>, <span class="st">"pubYear"</span>, <span class="st">"wiki_count"</span>, <span class="st">"count"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
@@ -460,10 +451,7 @@
 <span><span class="va">gb</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"title"</span>, <span class="st">"publisher"</span>, <span class="st">"publishedDate"</span>, <span class="st">"categories"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Open Library</span></span>
-<span><span class="va">ol</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotate_isbn_openlib.html">annotate_isbn_openlib</a></span><span class="op">(</span><span class="va">isbn_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Altmetric scores for books</span></span>
-<span><span class="va">alt_isbn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotate_isbn_list_altmetrics.html">annotate_isbn_list_altmetrics</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">isbn_list</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">ol</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/annotate_isbn_openlib.html">annotate_isbn_openlib</a></span><span class="op">(</span><span class="va">isbn_list</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 <div class="section level3">
@@ -826,10 +814,6 @@
 <td>CrossRef BibTeX entries</td>
 </tr>
 <tr>
-<td><code><a href="reference/annotate_doi_list_altmetrics.html">annotate_doi_list_altmetrics()</a></code></td>
-<td>Altmetric attention scores</td>
-</tr>
-<tr>
 <td><code><a href="reference/get_top_cited_wiki_papers.html">get_top_cited_wiki_papers()</a></code></td>
 <td>Top 40 most-cited DOIs with full annotation</td>
 </tr>
@@ -852,10 +836,6 @@
 <tr>
 <td><code><a href="reference/annotate_isbn_openlib.html">annotate_isbn_openlib()</a></code></td>
 <td>Open Library metadata</td>
-</tr>
-<tr>
-<td><code><a href="reference/annotate_isbn_list_altmetrics.html">annotate_isbn_list_altmetrics()</a></code></td>
-<td>Altmetric scores for books</td>
 </tr>
 </tbody>
 </table>
@@ -1164,7 +1144,7 @@
 </tr>
 <tr>
 <td><code>purrr</code></td>
-<td>Functional programming for Altmetric annotation</td>
+<td>Functional programming helpers</td>
 </tr>
 <tr>
 <td><code>rcrossref</code></td>
@@ -1193,19 +1173,11 @@
 <h3 id="suggested-only-needed-for-specific-tasks">Suggested (only needed for specific tasks)<a class="anchor" aria-label="anchor" href="#suggested-only-needed-for-specific-tasks"></a>
 </h3>
 <table class="table">
-<colgroup>
-<col width="50%">
-<col width="50%">
-</colgroup>
 <thead><tr>
 <th>Package</th>
 <th>Purpose</th>
 </tr></thead>
 <tbody>
-<tr>
-<td><code>rAltmetric</code></td>
-<td>Altmetric attention scores (install from <a href="https://github.com/ropensci/rAltmetric" class="external-link">GitHub</a>)</td>
-</tr>
 <tr>
 <td>
 <code>testthat</code> ≥ 3.0.0</td>
