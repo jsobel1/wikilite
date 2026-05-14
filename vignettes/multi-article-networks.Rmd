@@ -117,10 +117,13 @@ each DOI, making highly shared papers immediately visible.
 plot_article_publication_network(articles)
 
 # Show up to 80 top DOIs, require at least 3 citing articles
-plot_article_publication_network(
-  articles,
-  top_n_dois     = 80L,
-  min_wiki_count = 3L
+tryCatch(
+  plot_article_publication_network(
+    articles,
+    top_n_dois     = 80L,
+    min_wiki_count = 3L
+  ),
+  error = function(e) message("Note: ", conditionMessage(e))
 )
 
 # Enrich paper nodes with EuropePMC metadata (title, journal, year)

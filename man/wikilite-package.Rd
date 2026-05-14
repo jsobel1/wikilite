@@ -29,7 +29,6 @@ citations via the public MediaWiki API.  Core capabilities:
     journal citations).}
   \item{Annotation}{\code{\link{annotate_doi_list_europmc}},
     \code{\link{annotate_doi_list_cross_ref}},
-    \code{\link{annotate_doi_list_altmetrics}},
     \code{\link{annotate_isbn_google}},
     \code{\link{annotate_isbn_openlib}}.}
   \item{Revert trends}{\code{\link{get_revert_counts}} retrieves the

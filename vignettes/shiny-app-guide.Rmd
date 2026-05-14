@@ -20,7 +20,7 @@ stability, and vandalism patterns.  It is located at
 
 ## Launching the app
 
-```{r launch}
+```{r launch, purl=FALSE}
 # From R console, inside the project directory:
 shiny::runApp("history-flow-analysis/shiny_app")
 
@@ -31,7 +31,7 @@ shiny::runApp()
 
 **Required packages:**
 
-```{r install-deps}
+```{r install-deps, purl=FALSE}
 install.packages(c(
   "shiny", "dplyr", "tidyr", "ggplot2", "plotly",
   "echarts4r", "jsonlite", "scales", "htmltools",
