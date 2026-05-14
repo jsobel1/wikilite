@@ -19,7 +19,8 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: covr, codecov
+          extra-packages: any::covr, any::xml2
+          needs: coverage
 
       - name: Test coverage
         run: Rscript -e 'covr::codecov(quiet = FALSE)'
