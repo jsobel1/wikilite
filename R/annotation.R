@@ -219,51 +219,6 @@ annotate_doi_to_bibtex_cross_ref <- function(doi_list) {
 }
 
 
-#' Annotate a list of DOIs using Altmetric
-#'
-#' Retrieves Altmetric attention scores and social-media metrics for the
-#' supplied DOIs.
-#'
-#' @param doi_list A \emph{list} of DOI character strings (as expected by
-#'   \code{purrr::pmap_df}).
-#' @return A data frame of Altmetric scores and attention metrics.
-#' @export
-#' @examples
-#' \dontrun{
-#' art_test <- get_article_most_recent_table("Zeitgeber")
-#' dois <- unique(unlist(stringr::str_match_all(
-#'   art_test$`*`, "10\\.\\d{4,9}/[-._;()/:a-z0-9A-Z]+"
-#' )))
-#' annotate_doi_list_altmetrics(list(dois[1:3]))
-#' }
-annotate_doi_list_altmetrics <- function(doi_list) {
-  rAltmetric_pkg <- "rAltmetric"
-  if (!nzchar(system.file(package = rAltmetric_pkg))) {
-    stop("Package 'rAltmetric' is required. Install it with: ",
-         "remotes::install_github('ropensci/rAltmetric')", call. = FALSE)
-  }
-  altmetrics      <- getExportedValue(rAltmetric_pkg, "altmetrics")
-  altmetric_data  <- getExportedValue(rAltmetric_pkg, "altmetric_data")
-  alm <- function(x) {
-    tryCatch(
-      altmetric_data(altmetrics(doi = x)),
-      error = function(e) NULL
-    )
-  }
-  results <- purrr::pmap_df(doi_list, alm)
-  keep_cols <- intersect(
-    c("title", "doi", "pmid", "altmetric_jid", "issns", "journal",
-      "authors1", "type", "altmetric_id", "is_oa",
-      "cited_by_fbwalls_count", "cited_by_posts_count",
-      "cited_by_tweeters_count", "cited_by_videos_count",
-      "cited_by_feeds_count", "cited_by_accounts_count",
-      "score", "published_on", "added_on", "url"),
-    names(results)
-  )
-  dplyr::select(results, dplyr::all_of(keep_cols))
-}
-
-
 #' Annotate a single ISBN using the Google Books API
 #'
 #' @param isbn_nb ISBN-10 or ISBN-13 string; hyphens and spaces are removed
@@ -319,29 +274,3 @@ annotate_isbn_openlib <- function(isbn_nb) {
   tryCatch(as.data.frame(parsed), error = function(e) NULL)
 }
 
-
-#' Annotate a list of ISBNs using Altmetric
-#'
-#' @param isbn_list A \emph{list} of ISBN character strings.
-#' @return A data frame of Altmetric scores for the supplied ISBNs.
-#' @export
-#' @examples
-#' \dontrun{
-#' annotate_isbn_list_altmetrics(list(c("9780156031356")))
-#' }
-annotate_isbn_list_altmetrics <- function(isbn_list) {
-  rAltmetric_pkg <- "rAltmetric"
-  if (!nzchar(system.file(package = rAltmetric_pkg))) {
-    stop("Package 'rAltmetric' is required. Install it with: ",
-         "remotes::install_github('ropensci/rAltmetric')", call. = FALSE)
-  }
-  altmetrics      <- getExportedValue(rAltmetric_pkg, "altmetrics")
-  altmetric_data  <- getExportedValue(rAltmetric_pkg, "altmetric_data")
-  alm <- function(x) {
-    tryCatch(
-      altmetric_data(altmetrics(isbn = x)),
-      error = function(e) NULL
-    )
-  }
-  purrr::pmap_df(isbn_list, alm)
-}

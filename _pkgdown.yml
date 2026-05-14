@@ -124,19 +124,17 @@ reference:
   - title: "Annotate DOIs"
     desc: >
       Enrich a list of DOIs with bibliographic metadata from external
-      databases (EuropePMC, CrossRef, Altmetric).
+      databases (EuropePMC, CrossRef).
     contents:
       - annotate_doi_list_europmc
       - annotate_doi_list_cross_ref
-      - annotate_doi_list_altmetrics
       - annotate_doi_to_bibtex_cross_ref
 
   - title: "Annotate ISBNs"
-    desc: Look up book metadata from Google Books, Open Library, and Altmetric.
+    desc: Look up book metadata from Google Books and Open Library.
     contents:
       - annotate_isbn_google
       - annotate_isbn_openlib
-      - annotate_isbn_list_altmetrics
 
   - title: "Citation latency"
     desc: >

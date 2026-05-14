@@ -46,7 +46,7 @@ Wikipedia is the world's largest encyclopaedia and a primary reference point for
 
 - Pull the **complete edit history** of any English Wikipedia article with a single function call.
 - **Extract every citation** type (DOIs, ISBNs, PMIDs, URLs, CS1 templates) using battle-tested regular expressions or your own patterns.
-- **Annotate** extracted identifiers against EuropePMC, CrossRef, Altmetric, Google Books, and Open Library.
+- **Annotate** extracted identifiers against EuropePMC, CrossRef, Google Books, and Open Library.
 - Compute **SciScore** — a reproducible metric for how scientifically sourced an article is.
 - Identify **revert-tagged edits** to detect disputed or vandalism-prone articles.
 - Generate **ggplot2 visualisations** — timelines, edit-activity charts, and citation distributions — with one line of code.
@@ -282,7 +282,6 @@ sort(scores, decreasing = TRUE)
 | `annotate_doi_list_europmc(doi_list)` | EuropePMC | title, authors, journal, year, open-access status, citation count |
 | `annotate_doi_list_cross_ref(doi_list)` | CrossRef | full bibliographic metadata + citation count |
 | `annotate_doi_to_bibtex_cross_ref(doi_list)` | CrossRef | list of BibTeX strings |
-| `annotate_doi_list_altmetrics(doi_list)` | Altmetric | social-media attention scores |
 | `get_top_cited_wiki_papers(doi_df)` | EuropePMC + CrossRef | top 40 most-cited DOIs across your article set |
 
 ```r
@@ -298,10 +297,6 @@ cr <- annotate_doi_list_cross_ref(doi_list[1:10])
 # BibTeX entries
 bibtex <- annotate_doi_to_bibtex_cross_ref(doi_list[1:5])
 cat(bibtex[[1]])
-
-# Altmetric attention scores
-# Note: doi_list must be wrapped in list()
-alt <- annotate_doi_list_altmetrics(list(doi_list[1:5]))
 
 # Top 40 most-cited papers across all articles
 top40 <- get_top_cited_wiki_papers(doi_df)
@@ -322,9 +317,6 @@ gb[, c("title", "publisher", "publishedDate", "categories")]
 
 # Open Library
 ol <- annotate_isbn_openlib(isbn_list[1])
-
-# Altmetric scores for books
-alt_isbn <- annotate_isbn_list_altmetrics(list(isbn_list[1:3]))
 ```
 
 ---
@@ -549,7 +541,6 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 | `annotate_doi_list_europmc()` | EuropePMC metadata |
 | `annotate_doi_list_cross_ref()` | CrossRef metadata + citation counts |
 | `annotate_doi_to_bibtex_cross_ref()` | CrossRef BibTeX entries |
-| `annotate_doi_list_altmetrics()` | Altmetric attention scores |
 | `get_top_cited_wiki_papers()` | Top 40 most-cited DOIs with full annotation |
 
 ### ISBN annotation
@@ -558,7 +549,6 @@ export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
 |----------|-------------|
 | `annotate_isbn_google()` | Google Books metadata |
 | `annotate_isbn_openlib()` | Open Library metadata |
-| `annotate_isbn_list_altmetrics()` | Altmetric scores for books |
 
 ### Revert trend analysis
 
@@ -668,7 +658,7 @@ The **parsed citation data frame** (from `get_parsed_citations()`) adds:
 | `jsonlite` | JSON parsing |
 | `lubridate` | Date handling for page-view data |
 | `openxlsx` | Excel export (no Java required) |
-| `purrr` | Functional programming for Altmetric annotation |
+| `purrr` | Functional programming helpers |
 | `rcrossref` | CrossRef API |
 | `reshape2` | Long-to-wide reshaping for CrossRef results |
 | `stringr` | Regular expression matching |
@@ -679,7 +669,6 @@ The **parsed citation data frame** (from `get_parsed_citations()`) adds:
 
 | Package | Purpose |
 |---------|---------|
-| `rAltmetric` | Altmetric attention scores (archived on CRAN; install from a CRAN archive snapshot or a maintained GitHub mirror) |
 | `testthat` ≥ 3.0.0 | Running the test suite |
 | `knitr` / `rmarkdown` | Building vignettes |
 | `httptest2` | Offline HTTP fixture testing |

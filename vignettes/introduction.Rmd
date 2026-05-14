@@ -142,4 +142,4 @@ export_doi_to_bib(unique(dois$citation_fetched)[1:10], "references.bib")
 * **Citation Analysis** vignette — deep dive into CS1 template parsing,
   SciScore, and top-cited paper identification.
 * **Annotation Workflow** vignette — enrich extracted DOIs and ISBNs with
-  metadata from EuropePMC, CrossRef, Altmetric, Google Books, and Open Library.
+  metadata from EuropePMC, CrossRef, Google Books, and Open Library.

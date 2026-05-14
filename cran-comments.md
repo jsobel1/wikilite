@@ -7,7 +7,6 @@ auto-check on 2026-05-05. Changes since the initial submission:
   `https://jsobel1.github.io/wikilite/` (added trailing slash).
 * Technical terms (`MediaWiki`, `DOIs`, `ISBNs`, `PMIDs`, `URLs`, `SciScore`)
   in the Description field are now wrapped in single quotes per CRAN policy.
-* Removed dead `https://ropensci.r-universe.dev/rAltmetric` link from README.
 * Replaced GigaScience publisher URL with plain DOI text in the README to
   avoid spurious 403/Forbidden URL-checker false positives.
 * Added `.github`, `_pkgdown.yml`, `vignettes/cache`, and stray
@@ -17,11 +16,8 @@ auto-check on 2026-05-05. Changes since the initial submission:
   `R/progress_helpers.R` with ASCII hyphens.
 * Added `nb_cnt` to the `globalVariables()` declaration to silence the
   no-visible-binding NOTE in `get_revert_counts()`.
-* Replaced `requireNamespace("rAltmetric", ...)` calls with
-  `nzchar(system.file(package = ...))` so that R CMD check no longer flags
-  the optional `rAltmetric` dependency. (rAltmetric was archived on CRAN
-  in 2022; the two functions that use it issue an informative error
-  prompting `remotes::install_github('ropensci/rAltmetric')`.)
+* Removed `annotate_doi_list_altmetrics()` and `annotate_isbn_list_altmetrics()`
+  (which depended on the archived `rAltmetric` package) from the package.
 * Added `shiny` to Suggests; the progress helpers reference it through
   `requireNamespace()` for in-Shiny progress bar routing.
 * Regenerated all `man/*.Rd` files via roxygen2 7.3.3, fixing every
@@ -44,16 +40,13 @@ auto-check on 2026-05-05. Changes since the initial submission:
 
 ## Dependencies
 
-All hard dependencies (Imports) are on CRAN. The optional `rAltmetric`
-package is referenced indirectly (no `Suggests`) because it has been
-archived from CRAN; functions that use it raise an informative error and
-all tests that exercise those code paths are guarded by `skip_on_cran()`.
-The package requires R >= 4.1.0 for the native pipe operator (`|>`).
+All hard dependencies (Imports) are on CRAN. The package requires
+R >= 4.1.0 for the native pipe operator (`|>`).
 
 ## Network access
 
 All functions that query external APIs (MediaWiki, EuropePMC, CrossRef,
-Altmetric, Google Books, Open Library, Wikimedia pageviews) are guarded by
+Google Books, Open Library, Wikimedia pageviews) are guarded by
 `\dontrun{}` in examples and `skip_on_cran()` in tests. The package does
 not initiate any network connections during `R CMD check`.
 

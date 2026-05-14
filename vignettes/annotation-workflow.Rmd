@@ -24,14 +24,13 @@ knitr::opts_chunk$set(
 ## Overview
 
 Once you have extracted DOIs, ISBNs, or PMIDs from Wikipedia wikitext, the
-next step is to enrich them with bibliographic metadata, citation counts, and
-social-media attention scores.  **wikilite** provides four annotation pathways:
+next step is to enrich them with bibliographic metadata and citation counts.
+**wikilite** provides four annotation pathways:
 
 | Database | DOI | ISBN | Function |
 |----------|-----|------|----------|
 | EuropePMC | ✓ | — | `annotate_doi_list_europmc()` |
 | CrossRef | ✓ | — | `annotate_doi_list_cross_ref()`, `annotate_doi_to_bibtex_cross_ref()` |
-| Altmetric | ✓ | ✓ | `annotate_doi_list_altmetrics()`, `annotate_isbn_list_altmetrics()` |
 | Google Books | — | ✓ | `annotate_isbn_google()` |
 | Open Library | — | ✓ | `annotate_isbn_openlib()` |
 
@@ -96,24 +95,6 @@ Export to a `.bib` file:
 export_doi_to_bib(doi_list[1:10], file_name = "zeitgeber_refs.bib")
 ```
 
-## Altmetric scores for DOIs
-
-Altmetric tracks how often a paper is mentioned on social media, in news
-articles, policy documents, and patents.
-
-```{r altmetric-doi}
-# Note: doi_list must be passed as a list, not a character vector
-alt_results <- annotate_doi_list_altmetrics(list(doi_list[1:5]))
-
-# Key columns
-if (nrow(alt_results) > 0) {
-  cols <- intersect(c("title", "doi", "score",
-                      "cited_by_tweeters_count",
-                      "cited_by_posts_count"), names(alt_results))
-  head(alt_results[, cols])
-}
-```
-
 ## Identify the top-cited papers across multiple articles
 
 `get_top_cited_wiki_papers()` combines EuropePMC annotation and CrossRef
@@ -149,13 +130,6 @@ Open Library is an alternative book database.
 ```{r open-library}
 book_meta_ol <- annotate_isbn_openlib("9780156031356")
 str(book_meta_ol)
-```
-
-### Altmetric scores for ISBNs
-
-```{r altmetric-isbn}
-isbn_alt <- annotate_isbn_list_altmetrics(list(isbn_list[1:3]))
-head(isbn_alt)
 ```
 
 ## Revert-trend analysis

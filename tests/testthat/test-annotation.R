@@ -67,23 +67,3 @@ test_that("annotate_isbn_openlib returns NULL or data frame on invalid ISBN", {
   )
   expect_true(is.null(result) || is.data.frame(result))
 })
-
-# ── Altmetric ─────────────────────────────────────────────────────────────────
-
-test_that("annotate_doi_list_altmetrics returns a data frame", {
-  skip_on_cran()
-  result <- tryCatch(
-    annotate_doi_list_altmetrics(list("10.1038/nature12373")),
-    error = function(e) data.frame()
-  )
-  expect_s3_class(result, "data.frame")
-})
-
-test_that("annotate_isbn_list_altmetrics returns a data frame", {
-  skip_on_cran()
-  result <- tryCatch(
-    annotate_isbn_list_altmetrics(list("9780156031356")),
-    error = function(e) data.frame()
-  )
-  expect_s3_class(result, "data.frame")
-})
