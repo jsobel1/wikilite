@@ -1,6 +1,6 @@
 Package: wikilite
 Title: Retrieve, Parse, and Analyse Wikipedia Article History and Citations
-Version: 0.1.0
+Version: 0.2.1
 Authors@R:
     person(given = "Jonathan",
            family = "Sobel",
