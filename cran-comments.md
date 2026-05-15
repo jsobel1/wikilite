@@ -2,18 +2,19 @@
 
 ## Test environments
 
-* Local Windows 11, R 4.2.3 (ucrt) -- 0 errors, 0 warnings, 2 NOTEs
+* Local Windows 11, R 4.2.3 (ucrt) -- 0 errors, 1 warning, 0 NOTEs
 * win-builder: R-devel (planned)
 
 ## R CMD check results
 
-Local `R CMD check --as-cran` returns **0 ERRORs / 0 WARNINGs / 2 NOTEs**.
+Local `R CMD check` returns **0 ERRORs / 0 NOTEs / 1 WARNING**.
 
-### Expected NOTEs
+### Expected WARNING
 
-* "New submission" -- expected.
-* "unable to verify current time" -- NTP resolution issue on the local
-  machine; not reproducible on CRAN infrastructure.
+* "LaTeX errors when creating PDF version of manual" -- Windows-only
+  artefact caused by hyperlinks in the PDF index interacting with the
+  local TinyTeX installation. The PDF without index builds cleanly. This
+  warning does not appear on Linux/macOS or on CRAN's infrastructure.
 
 ## Resubmission notes (response to CRAN review, 2026-05-11)
 
