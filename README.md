@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/wikilite)](https://CRAN.R-project.org/package=wikilite)
-[![R-CMD-check](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
@@ -684,7 +684,7 @@ For pull requests:
 
 1. Fork the repository and create a descriptive branch.
 2. Add or update tests in `tests/testthat/` — all network-dependent tests must include `skip_on_cran()`.
-3. Wrap any new API-calling examples in `\dontrun{}`.
+3. Wrap any new API-calling examples in `\donttest{}`.
 4. Run `devtools::check(args = "--as-cran")` and ensure **0 errors, 0 warnings**.
 5. Update `NEWS.md` with a brief description of your change.
 
