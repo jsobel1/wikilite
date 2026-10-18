@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jsobel1/wikilite/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jsobel1/wikilite/blob/v0.2.1/DESCRIPTION)
 
 Sobel J (2026). *wikilite: Retrieve, Parse, and Analyse Wikipedia
 Article History and Citations*. R package version 0.2.1,
