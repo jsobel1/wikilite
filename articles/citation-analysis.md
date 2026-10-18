@@ -65,11 +65,11 @@ all_results <- extract_citations_regexp(recent)
 # Each element is a data frame with art, revid, citation_fetched
 sapply(all_results, nrow)
 #>           doi_regexp          isbn_regexp           url_regexp 
-#>                  314                   52                  199 
+#>                  310                   52                  198 
 #> wikihyperlink_regexp         tweet_regexp          news_regexp 
-#>                  604                    0                   19 
+#>                  619                    0                   19 
 #>      magazine_regexp       journal_regexp           web_regexp 
-#>                    0                  320                   73 
+#>                    0                  318                   72 
 #>       article_regexp        report_regexp press_release_regexp 
 #>                    0                    1                    1 
 #>         court_regexp        patent_regexp    conference_regexp 
@@ -79,9 +79,9 @@ sapply(all_results, nrow)
 #>      av_media_regexp       episode_regexp       podcast_regexp 
 #>                    0                    0                    0 
 #>          book_regexp          pmid_regexp   ref_in_text_regexp 
-#>                   32                  594                  301 
+#>                   32                  596                  299 
 #>           ref_regexp          cite_regexp      template_regexp 
-#>                  444                  447                    0
+#>                  441                  444                    0
 ```
 
 ## Count individual elements per article
@@ -106,8 +106,8 @@ count_table
 #>                             art n_doi n_isbn n_url n_ref n_hyperlinks sci_score
 #> 1                     Zeitgeber    13      0     3    16           33 1.0000000
 #> 2 Advanced sleep phase disorder    19      0     3    20           52 0.9500000
-#> 3             Sleep deprivation   138     40   152   243          247 0.5791667
-#> 4              Circadian rhythm   144     12    41   165          272 0.8546512
+#> 3             Sleep deprivation   138     40   151   242          257 0.5815900
+#> 4              Circadian rhythm   140     12    41   163          277 0.8529412
 ```
 
 ## Parse Citation Style 1 templates
@@ -213,9 +213,9 @@ head(cite_types)
 #> 1                     Zeitgeber 1330736183   journal   15
 #> 2 Advanced sleep phase disorder 1352025268   journal   19
 #> 3 Advanced sleep phase disorder 1352025268       web    1
-#> 4             Sleep deprivation 1353923899      book   21
-#> 5             Sleep deprivation 1353923899   journal  139
-#> 6             Sleep deprivation 1353923899      news   14
+#> 4             Sleep deprivation 1380296915      book   21
+#> 5             Sleep deprivation 1380296915   journal  139
+#> 6             Sleep deprivation 1380296915      news   14
 
 # Distribution of journal / web / news / book citations
 plot_distribution_source_type(cite_types)
@@ -268,7 +268,7 @@ sort(scores, decreasing = TRUE)
 #>                     Zeitgeber Advanced sleep phase disorder 
 #>                     1.0000000                     0.9500000 
 #>              Circadian rhythm             Sleep deprivation 
-#>                     0.8546512                     0.5791667
+#>                     0.8529412                     0.5815900
 ```
 
 ## Identify the most-cited scientific papers

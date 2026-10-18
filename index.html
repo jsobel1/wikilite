@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>wikilite — Wikipedia History &amp; Citation Mining • wikilite</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -1210,7 +1210,7 @@
 <ol style="list-style-type: decimal">
 <li>Fork the repository and create a descriptive branch.</li>
 <li>Add or update tests in <code>tests/testthat/</code> — all network-dependent tests must include <code>skip_on_cran()</code>.</li>
-<li>Wrap any new API-calling examples in <code>\dontrun{}</code>.</li>
+<li>Wrap any new API-calling examples in <code>\donttest{}</code>.</li>
 <li>Run <code>devtools::check(args = "--as-cran")</code> and ensure <strong>0 errors, 0 warnings</strong>.</li>
 <li>Update <code>NEWS.md</code> with a brief description of your change.</li>
 </ol>
@@ -1302,7 +1302,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=wikilite" class="external-link"><img src="https://www.r-pkg.org/badges/version/wikilite" alt="CRAN status"></a></li>
-<li><a href="https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yml" class="external-link"><img src="https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://www.gnu.org/licenses/gpl-3.0" class="external-link"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
 </ul>
@@ -1317,7 +1317,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

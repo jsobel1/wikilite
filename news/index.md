@@ -19,9 +19,8 @@
 - `DESCRIPTION` now cites the methods paper in the standard CRAN format:
   Benjakob, Aviram and Sobel (2022) <doi:10.1093/gigascience/giab095>.
 - Example wrappers changed from `\dontrun{}` to `\donttest{}` for every
-  network-dependent example. The two Altmetric helpers retain
-  `\dontrun{}` because they require the optional, non-CRAN `rAltmetric`
-  package.
+  network-dependent example. The two Altmetric helpers (and the archived
+  `rAltmetric` dependency) were removed, so no `\dontrun{}` remains.
 - Documented previously-undocumented arguments `batch_size` (on
   `annotate_doi_list_europmc`) and `lang` (on the four interactive-viz
   functions).

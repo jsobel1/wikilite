@@ -742,7 +742,7 @@ For pull requests:
 1.  Fork the repository and create a descriptive branch.
 2.  Add or update tests in `tests/testthat/` — all network-dependent
     tests must include `skip_on_cran()`.
-3.  Wrap any new API-calling examples in `\dontrun{}`.
+3.  Wrap any new API-calling examples in `\donttest{}`.
 4.  Run `devtools::check(args = "--as-cran")` and ensure **0 errors, 0
     warnings**.
 5.  Update `NEWS.md` with a brief description of your change.
