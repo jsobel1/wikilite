@@ -10,10 +10,8 @@
 #'   columns \code{art}, \code{revid}, \code{parentid}, \code{user},
 #'   \code{userid}, \code{timestamp}, \code{size}, \code{comment}, and
 #'   \code{*} (raw wikitext).
-#' @param file_name Full path prefix for the output file.  The file will be
-#'   saved as \code{<file_name>_wiki_table.xlsx}.  If only a base name is
-#'   given (no directory), the file is written to the current working
-#'   directory (see \code{getwd()}).
+#' @param file_name Path prefix for the output file (no default).  The file
+#'   will be saved as \code{<file_name>_wiki_table.xlsx}.
 #' @param dir Optional directory path.  When non-\code{NULL}, \code{file_name}
 #'   is interpreted as a base name and the file is written inside \code{dir}.
 #' @return Invisibly returns \code{NULL}. Called for its side effect of writing
@@ -52,10 +50,9 @@ write_wiki_history_to_xlsx <- function(wiki_hist, file_name, dir = NULL) {
 #'
 #' @param article_most_recent_table A Wikipedia revision data frame (e.g. from
 #'   \code{\link{get_category_articles_most_recent}}).
-#' @param name_file_prefix Full path prefix used for all output file names.
-#'   Each file is named \code{<name_file_prefix>_<regexp>_extracted_citations.xlsx}.
-#'   If only a base name is given (no directory), files are written to the
-#'   current working directory (see \code{getwd()}).
+#' @param name_file_prefix Path prefix used for all output file names (no
+#'   default).  Each file is named
+#'   \code{<name_file_prefix>_<regexp>_extracted_citations.xlsx}.
 #' @return Invisibly returns \code{NULL}. Called for its side effect of writing
 #'   files.
 #' @export
@@ -98,9 +95,7 @@ export_extracted_citations_xlsx <- function(article_most_recent_table,
 #' to a BibTeX file.
 #'
 #' @param doi_list Character vector of DOIs.
-#' @param file_name Full path for the output \code{.bib} file.  If only a
-#'   base name is given (no directory), the file is written to the current
-#'   working directory (see \code{getwd()}).  Default: \code{"file.bib"}.
+#' @param file_name Path of the output \code{.bib} file (no default).
 #' @return Invisibly returns \code{NULL}. Called for its side effect of writing
 #'   a file.
 #' @export
@@ -118,7 +113,7 @@ export_extracted_citations_xlsx <- function(article_most_recent_table,
 #'   file.path(tempdir(), "output.bib")
 #' )
 #' }
-export_doi_to_bib <- function(doi_list, file_name = "file.bib") {
+export_doi_to_bib <- function(doi_list, file_name) {
   dfa <- annotate_doi_to_bibtex_cross_ref(doi_list)
   lapply(dfa, function(x) {
     write.table(x, file_name, append = TRUE, sep = "\n\n",

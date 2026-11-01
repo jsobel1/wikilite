@@ -23,8 +23,6 @@ Calls \code{\link{get_article_full_history_table}} for each element of
 }
 \examples{
 \donttest{
-get_category_articles_history(
-  c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
-)
+get_category_articles_history("Zeitgeber")
 }
 }

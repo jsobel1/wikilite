@@ -1,3 +1,11 @@
+# wikilite 0.2.2
+
+* CRAN resubmission: DESCRIPTION reworded (no leading "A toolkit for"; single
+  quotes only around software/API names).
+* `export_doi_to_bib()` no longer has a default `file_name`; all examples,
+  vignettes and tests now write only to `tempdir()`.
+* Tests redirect the disk cache and graphics device to `tempdir()`.
+
 # wikilite 0.2.0
 
 ## Breaking change

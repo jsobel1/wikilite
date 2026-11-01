@@ -455,12 +455,10 @@ plot_interactive_timeline <- function(articles,
 #' @export
 #' @examples
 #' \donttest{
-#' articles <- c("Zeitgeber", "Advanced sleep phase disorder",
-#'               "Sleep deprivation", "Circadian rhythm")
-#' plot_article_publication_network(articles)
+#' plot_article_publication_network(c("Zeitgeber", "Advanced sleep phase disorder"),
+#'                                  min_wiki_count = 1)
 #'
-#' # With EuropePMC annotation for paper titles
-#' plot_article_publication_network(articles, annotate = TRUE)
+#' # Add annotate = TRUE to fetch paper titles from Europe PMC (slower)
 #' }
 plot_article_publication_network <- function(articles,
                                               date_an        = NULL,

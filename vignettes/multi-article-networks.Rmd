@@ -217,8 +217,8 @@ latency <- compute_citation_latency(doi_df, epmc_df)
 plot_latency_distribution(latency, stratify_by = "is_preprint")
 
 # 6. Export
-openxlsx::write.xlsx(latency, "circadian_latency.xlsx")
-export_doi_to_bib(unique(doi_df$citation_fetched), "circadian_refs.bib")
+openxlsx::write.xlsx(latency, file.path(tempdir(), "circadian_latency.xlsx"))
+export_doi_to_bib(unique(doi_df$citation_fetched), file.path(tempdir(), "circadian_refs.bib"))
 ```
 
 ## 8. Multilingual analysis

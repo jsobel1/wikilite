@@ -463,15 +463,15 @@ Input articles are shown as blue boxes; external targets as grey ellipses.
 
 ```r
 # Revision table → Excel
-write_wiki_history_to_xlsx(recent, file_name = "zeitgeber")
+write_wiki_history_to_xlsx(recent, file_name = file.path(tempdir(), "zeitgeber"))
 # → writes "zeitgeber_wiki_table.xlsx"
 
 # All regex match results → one xlsx file per pattern
-export_extracted_citations_xlsx(recent_all, name_file_prefix = "sleep_articles")
+export_extracted_citations_xlsx(recent_all, name_file_prefix = file.path(tempdir(), "sleep_articles"))
 # → writes "sleep_articles_doi_regexp_extracted_citations.xlsx", etc.
 
 # DOIs → BibTeX file
-export_doi_to_bib(doi_list[1:20], file_name = "references.bib")
+export_doi_to_bib(doi_list[1:20], file_name = file.path(tempdir(), "references.bib"))
 ```
 
 ---

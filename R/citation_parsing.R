@@ -665,6 +665,11 @@ get_top_cited_wiki_papers <- function(df_doi_revid_art) {
   colnames(wikicount) <- c("citation", "wiki_count")
 
   top_annotated <- annotate_doi_list_europmc(top_dois)
+  if (is.null(top_annotated) || !"doi" %in% colnames(top_annotated) ||
+      nrow(top_annotated) == 0) {
+    message("Europe PMC annotation unavailable; returning Wikipedia counts only.")
+    return(dplyr::rename(wikicount, doi = "citation"))
+  }
   top_annotated <- dplyr::inner_join(
     top_annotated, wikicount,
     by = c("doi" = "citation")

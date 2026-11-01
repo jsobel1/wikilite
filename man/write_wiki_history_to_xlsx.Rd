@@ -12,10 +12,8 @@ columns \code{art}, \code{revid}, \code{parentid}, \code{user},
 \code{userid}, \code{timestamp}, \code{size}, \code{comment}, and
 \code{*} (raw wikitext).}
 
-\item{file_name}{Full path prefix for the output file.  The file will be
-saved as \code{<file_name>_wiki_table.xlsx}.  If only a base name is
-given (no directory), the file is written to the current working
-directory (see \code{getwd()}).}
+\item{file_name}{Path prefix for the output file (no default).  The file
+will be saved as \code{<file_name>_wiki_table.xlsx}.}
 
 \item{dir}{Optional directory path.  When non-\code{NULL}, \code{file_name}
 is interpreted as a base name and the file is written inside \code{dir}.}

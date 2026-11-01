@@ -254,9 +254,7 @@ get_article_most_recent_table <- function(article_name,
 #' @export
 #' @examples
 #' \donttest{
-#' get_category_articles_history(
-#'   c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
-#' )
+#' get_category_articles_history("Zeitgeber")
 #' }
 get_category_articles_history <- function(list_art, lang = "en", workers = 1L) {
   if (length(list_art) == 0L) return(NULL)
@@ -403,9 +401,7 @@ get_pagename_in_cat <- function(category, lang = "en") {
 #' @export
 #' @examples
 #' \donttest{
-#' res <- get_tables_initial_most_recent_full_info(
-#'   c("Zeitgeber", "Sleep deprivation")
-#' )
+#' res <- get_tables_initial_most_recent_full_info("Zeitgeber")
 #' }
 get_tables_initial_most_recent_full_info <- function(all_art, lang = "en") {
   article_initial_table      <- NULL
@@ -591,7 +587,7 @@ get_page_in_cat_multiple <- function(catlist, replacement = "_", lang = "en") {
 #' @export
 #' @examples
 #' \donttest{
-#' get_subcat_with_depth("Category:Biology", depth = 2)
+#' get_subcat_with_depth("Category:Chronobiology", depth = 1)
 #' }
 get_subcat_with_depth <- function(catname, depth, replacement = "_", lang = "en") {
   table_out <- get_subcat_table(catname, lang = lang)

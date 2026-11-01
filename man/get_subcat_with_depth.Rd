@@ -24,6 +24,6 @@ Recursively retrieve subcategories up to a given depth
 }
 \examples{
 \donttest{
-get_subcat_with_depth("Category:Biology", depth = 2)
+get_subcat_with_depth("Category:Chronobiology", depth = 1)
 }
 }

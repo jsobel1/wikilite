@@ -4,14 +4,12 @@
 \alias{export_doi_to_bib}
 \title{Annotate a DOI list and export as a BibTeX file}
 \usage{
-export_doi_to_bib(doi_list, file_name = "file.bib")
+export_doi_to_bib(doi_list, file_name)
 }
 \arguments{
 \item{doi_list}{Character vector of DOIs.}
 
-\item{file_name}{Full path for the output \code{.bib} file.  If only a
-base name is given (no directory), the file is written to the current
-working directory (see \code{getwd()}).  Default: \code{"file.bib"}.}
+\item{file_name}{Path of the output \code{.bib} file (no default).}
 }
 \value{
 Invisibly returns \code{NULL}. Called for its side effect of writing

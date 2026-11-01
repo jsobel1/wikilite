@@ -1,4 +1,17 @@
-# CRAN submission comments -- wikilite 0.2.1
+# CRAN submission comments -- wikilite 0.2.2
+
+## Resubmission
+
+This is a resubmission addressing the review of 28/10/2026 (L. Hochhauser):
+
+* Description no longer starts with "A toolkit for"; single quotes are now
+  used only around software/API names ('MediaWiki', 'europepmc',
+  'rcrossref'), not around DOIs, ISBNs, PMIDs, URLs or SciScore.
+* No function writes to a default path: the default `file_name = "file.bib"`
+  of `export_doi_to_bib()` was removed. All examples, vignettes and tests
+  write only to `tempdir()`; tests also redirect the cache
+  (`R_USER_CACHE_DIR`) and the default graphics device to `tempdir()`.
+  The optional disk cache uses `tools::R_user_dir("wikilite", "cache")`.
 
 ## Test environments
 
@@ -63,11 +76,13 @@ R >= 4.1.0 for the native pipe operator (`|>`).
 
 ## Network access
 
-All functions that query external APIs (MediaWiki, EuropePMC, CrossRef,
+Examples that query external APIs (MediaWiki, Europe PMC, CrossRef,
 Google Books, Open Library, Wikimedia pageviews) are wrapped in
-`\donttest{}` in examples (so they are not run on CRAN itself) and
-`skip_on_cran()` in tests. The package does not initiate any network
-connections during `R CMD check` on CRAN.
+`\donttest{}` and have been shortened (single article, one-minute
+windows, depth-1 category traversal) to keep `--run-donttest` run times
+low. Every network call fails gracefully with an informative message
+when a resource is unavailable (tested during a Europe PMC outage).
+Tests that need the network use `skip_on_cran()` / `skip_if_offline()`.
 
 ## Vignettes
 

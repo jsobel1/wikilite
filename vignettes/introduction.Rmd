@@ -128,13 +128,13 @@ page_edit_plot("Zeitgeber", start = "2020010100", end = "2021010100")
 
 ```{r export}
 # Revision table → Excel
-write_wiki_history_to_xlsx(recent, "zeitgeber")
+write_wiki_history_to_xlsx(recent, file.path(tempdir(), "zeitgeber"))
 
 # All regex matches → one xlsx file per pattern
-export_extracted_citations_xlsx(sleep_recent, "sleep_articles")
+export_extracted_citations_xlsx(sleep_recent, file.path(tempdir(), "sleep_articles"))
 
 # DOIs → BibTeX
-export_doi_to_bib(unique(dois$citation_fetched)[1:10], "references.bib")
+export_doi_to_bib(unique(dois$citation_fetched)[1:10], file.path(tempdir(), "references.bib"))
 ```
 
 ## Next steps

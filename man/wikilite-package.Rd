@@ -58,4 +58,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Jonathan Sobel \email{jsobel83@gmail.com} (\href{https://orcid.org/0000-0002-5111-4070}{ORCID})
 
+Authors:
+\itemize{
+  \item Jonathan Sobel \email{jsobel83@gmail.com} (\href{https://orcid.org/0000-0002-5111-4070}{ORCID})
+}
+
 }

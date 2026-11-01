@@ -177,10 +177,10 @@ length(unique(doi_history$citation_fetched))
 
 ```{r export}
 # Save the parsed citation table to Excel
-openxlsx::write.xlsx(parsed, "sleep_articles_parsed_citations.xlsx")
+openxlsx::write.xlsx(parsed, file.path(tempdir(), "sleep_articles_parsed_citations.xlsx"))
 
 # Export the full doi count table
-openxlsx::write.xlsx(count_table, "sleep_articles_counts.xlsx")
+openxlsx::write.xlsx(count_table, file.path(tempdir(), "sleep_articles_counts.xlsx"))
 
 # Export all regex matches to separate xlsx files
 export_extracted_citations_xlsx(recent, "sleep_articles")

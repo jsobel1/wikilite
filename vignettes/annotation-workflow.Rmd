@@ -92,7 +92,7 @@ cat(bibtex_entries[[1]])
 Export to a `.bib` file:
 
 ```{r bib-export}
-export_doi_to_bib(doi_list[1:10], file_name = "zeitgeber_refs.bib")
+export_doi_to_bib(doi_list[1:10], file_name = file.path(tempdir(), "zeitgeber_refs.bib"))
 ```
 
 ## Identify the top-cited papers across multiple articles
@@ -172,7 +172,7 @@ annotated <- annotate_doi_list_europmc(doi_list)
 top_papers <- get_top_cited_wiki_papers(doi_df)
 
 # 6. Export
-openxlsx::write.xlsx(annotated,   "circadian_doi_annotated.xlsx")
-openxlsx::write.xlsx(top_papers,  "circadian_top_papers.xlsx")
-export_doi_to_bib(annotated$doi,  "circadian_refs.bib")
+openxlsx::write.xlsx(annotated,   file.path(tempdir(), "circadian_doi_annotated.xlsx"))
+openxlsx::write.xlsx(top_papers,  file.path(tempdir(), "circadian_top_papers.xlsx"))
+export_doi_to_bib(annotated$doi,  file.path(tempdir(), "circadian_refs.bib"))
 ```
