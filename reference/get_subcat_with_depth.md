@@ -35,6 +35,6 @@ A data frame of all unique subcategories up to `depth` levels below
 
 ``` r
 # \donttest{
-get_subcat_with_depth("Category:Biology", depth = 2)
+get_subcat_with_depth("Category:Chronobiology", depth = 1)
 # }
 ```

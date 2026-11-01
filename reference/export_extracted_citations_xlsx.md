@@ -20,10 +20,8 @@ export_extracted_citations_xlsx(article_most_recent_table, name_file_prefix)
 
 - name_file_prefix:
 
-  Full path prefix used for all output file names. Each file is named
-  `<name_file_prefix>_<regexp>_extracted_citations.xlsx`. If only a base
-  name is given (no directory), files are written to the current working
-  directory (see [`getwd()`](https://rdrr.io/r/base/getwd.html)).
+  Path prefix used for all output file names (no default). Each file is
+  named `<name_file_prefix>_<regexp>_extracted_citations.xlsx`.
 
 ## Value
 

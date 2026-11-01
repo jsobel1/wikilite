@@ -23,7 +23,7 @@ Clicking an article node opens its Wikipedia page."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@ Clicking an article node opens its Wikipedia page."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Build an interactive article-publication bipartite network</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jsobel1/wikilite/blob/v0.2.1/R/interactive_viz.R" class="external-link"><code>R/interactive_viz.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jsobel1/wikilite/blob/master/R/interactive_viz.R" class="external-link"><code>R/interactive_viz.R</code></a></small>
       <div class="d-none name"><code>plot_article_publication_network.Rd</code></div>
     </div>
 
@@ -130,12 +130,10 @@ slow for large DOI lists).  Default: <code>FALSE</code>.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># \donttest{</span></span>
-<span><span class="va">articles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Zeitgeber"</span>, <span class="st">"Advanced sleep phase disorder"</span>,</span>
-<span>              <span class="st">"Sleep deprivation"</span>, <span class="st">"Circadian rhythm"</span><span class="op">)</span></span>
-<span><span class="fu">plot_article_publication_network</span><span class="op">(</span><span class="va">articles</span><span class="op">)</span></span>
+<span><span class="fu">plot_article_publication_network</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Zeitgeber"</span>, <span class="st">"Advanced sleep phase disorder"</span><span class="op">)</span>,</span>
+<span>                                 min_wiki_count <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># With EuropePMC annotation for paper titles</span></span>
-<span><span class="fu">plot_article_publication_network</span><span class="op">(</span><span class="va">articles</span>, annotate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># Add annotate = TRUE to fetch paper titles from Europe PMC (slower)</span></span>
 <span><span class="co"># }</span></span></code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

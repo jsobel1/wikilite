@@ -11,7 +11,7 @@ Excel file."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ Excel file."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Write an article revision table to an xlsx file</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jsobel1/wikilite/blob/v0.2.1/R/export.R" class="external-link"><code>R/export.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jsobel1/wikilite/blob/master/R/export.R" class="external-link"><code>R/export.R</code></a></small>
       <div class="d-none name"><code>write_wiki_history_to_xlsx.Rd</code></div>
     </div>
 
@@ -77,10 +77,8 @@ columns <code>art</code>, <code>revid</code>, <code>parentid</code>, <code>user<
 
 
 <dt id="arg-file-name">file_name<a class="anchor" aria-label="anchor" href="#arg-file-name"></a></dt>
-<dd><p>Full path prefix for the output file.  The file will be
-saved as <code>&lt;file_name&gt;_wiki_table.xlsx</code>.  If only a base name is
-given (no directory), the file is written to the current working
-directory (see <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code>).</p></dd>
+<dd><p>Path prefix for the output file (no default).  The file
+will be saved as <code>&lt;file_name&gt;_wiki_table.xlsx</code>.</p></dd>
 
 
 <dt id="arg-dir">dir<a class="anchor" aria-label="anchor" href="#arg-dir"></a></dt>

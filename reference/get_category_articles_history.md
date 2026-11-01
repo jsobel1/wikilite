@@ -33,8 +33,6 @@ A combined data frame, or `NULL` if all requests fail.
 
 ``` r
 # \donttest{
-get_category_articles_history(
-  c("Zeitgeber", "Advanced sleep phase disorder", "Sleep deprivation")
-)
+get_category_articles_history("Zeitgeber")
 # }
 ```

@@ -11,7 +11,7 @@ to article_most_recent_table and saves the results as individual
 
     <a class="navbar-brand me-2" href="../index.html">wikilite</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ to article_most_recent_table and saves the results as individual
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Export all built-in regex matches to separate xlsx files</h1>
-      <small class="dont-index">Source: <a href="https://github.com/jsobel1/wikilite/blob/v0.2.1/R/export.R" class="external-link"><code>R/export.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/jsobel1/wikilite/blob/master/R/export.R" class="external-link"><code>R/export.R</code></a></small>
       <div class="d-none name"><code>export_extracted_citations_xlsx.Rd</code></div>
     </div>
 
@@ -75,10 +75,9 @@ to <code>article_most_recent_table</code> and saves the results as individual
 
 
 <dt id="arg-name-file-prefix">name_file_prefix<a class="anchor" aria-label="anchor" href="#arg-name-file-prefix"></a></dt>
-<dd><p>Full path prefix used for all output file names.
-Each file is named <code>&lt;name_file_prefix&gt;_&lt;regexp&gt;_extracted_citations.xlsx</code>.
-If only a base name is given (no directory), files are written to the
-current working directory (see <code><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd()</a></code>).</p></dd>
+<dd><p>Path prefix used for all output file names (no
+default).  Each file is named
+<code>&lt;name_file_prefix&gt;_&lt;regexp&gt;_extracted_citations.xlsx</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

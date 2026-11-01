@@ -35,8 +35,6 @@ A named list with elements `article_initial_table`,
 
 ``` r
 # \donttest{
-res <- get_tables_initial_most_recent_full_info(
-  c("Zeitgeber", "Sleep deprivation")
-)
+res <- get_tables_initial_most_recent_full_info("Zeitgeber")
 # }
 ```

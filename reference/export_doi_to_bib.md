@@ -6,7 +6,7 @@ a BibTeX file.
 ## Usage
 
 ``` r
-export_doi_to_bib(doi_list, file_name = "file.bib")
+export_doi_to_bib(doi_list, file_name)
 ```
 
 ## Arguments
@@ -17,10 +17,7 @@ export_doi_to_bib(doi_list, file_name = "file.bib")
 
 - file_name:
 
-  Full path for the output `.bib` file. If only a base name is given (no
-  directory), the file is written to the current working directory (see
-  [`getwd()`](https://rdrr.io/r/base/getwd.html)). Default:
-  `"file.bib"`.
+  Path of the output `.bib` file (no default).
 
 ## Value
 

@@ -8,16 +8,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jsobel1/wikilite/blob/v0.2.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jsobel1/wikilite/blob/master/DESCRIPTION)
 
 Sobel J (2026). *wikilite: Retrieve, Parse, and Analyse Wikipedia
-Article History and Citations*. R package version 0.2.1,
+Article History and Citations*. R package version 0.2.2,
 <https://jsobel1.github.io/wikilite/>.
 
     @Manual{,
       title = {wikilite: Retrieve, Parse, and Analyse Wikipedia Article History and Citations},
       author = {Jonathan Sobel},
       year = {2026},
-      note = {R package version 0.2.1},
+      note = {R package version 0.2.2},
       url = {https://jsobel1.github.io/wikilite/},
     }

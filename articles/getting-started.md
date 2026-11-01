@@ -167,7 +167,7 @@ doi_list <- unique(doi_df$citation_fetched)
 epmc_df  <- annotate_doi_list_europmc(doi_list[1:10])
 
 # BibTeX export via CrossRef
-export_doi_to_bib(doi_list[1:5], file_name = "my_refs.bib")
+export_doi_to_bib(doi_list[1:5], file_name = file.path(tempdir(), "my_refs.bib"))
 #>   |                                                                              |                                                                      |   0%  |                                                                              |==============                                                        |  20%  |                                                                              |============================                                          |  40%  |                                                                              |==========================================                            |  60%  |                                                                              |========================================================              |  80%  |                                                                              |======================================================================| 100%
 
 # Top cited papers
@@ -274,9 +274,8 @@ wiki_clear_cache()
 ``` r
 
 # Write revision table to Excel
-write_wiki_history_to_xlsx(art, "zeitgeber",
-                            dir = tempdir())
+write_wiki_history_to_xlsx(art, file.path(tempdir(), "zeitgeber"))
 
 # Export all regex matches to separate Excel files
-export_extracted_citations_xlsx(recent, "circadian_articles")
+export_extracted_citations_xlsx(recent, file.path(tempdir(), "circadian_articles"))
 ```

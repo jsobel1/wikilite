@@ -80,3 +80,8 @@ Useful links:
 
 **Maintainer**: Jonathan Sobel <jsobel83@gmail.com>
 ([ORCID](https://orcid.org/0000-0002-5111-4070))
+
+Authors:
+
+- Jonathan Sobel <jsobel83@gmail.com>
+  ([ORCID](https://orcid.org/0000-0002-5111-4070))

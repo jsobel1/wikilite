@@ -20,10 +20,8 @@ write_wiki_history_to_xlsx(wiki_hist, file_name, dir = NULL)
 
 - file_name:
 
-  Full path prefix for the output file. The file will be saved as
-  `<file_name>_wiki_table.xlsx`. If only a base name is given (no
-  directory), the file is written to the current working directory (see
-  [`getwd()`](https://rdrr.io/r/base/getwd.html)).
+  Path prefix for the output file (no default). The file will be saved
+  as `<file_name>_wiki_table.xlsx`.
 
 - dir:
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## wikilite 0.2.2
+
+- CRAN resubmission: DESCRIPTION reworded (no leading “A toolkit for”;
+  single quotes only around software/API names).
+- [`export_doi_to_bib()`](https://jsobel1.github.io/wikilite/reference/export_doi_to_bib.md)
+  no longer has a default `file_name`; all examples, vignettes and tests
+  now write only to [`tempdir()`](https://rdrr.io/r/base/tempfile.html).
+- Tests redirect the disk cache and graphics device to
+  [`tempdir()`](https://rdrr.io/r/base/tempfile.html).
+
 ## wikilite 0.2.0
 
 ### Breaking change

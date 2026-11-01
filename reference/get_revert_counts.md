@@ -49,10 +49,10 @@ Rows are ordered descending. Articles with zero counts are excluded.
 
 ``` r
 # \donttest{
-# Count revert edits for a one-hour window on 12 December 2018
-get_revert_counts("20181212010000", "20181212000000")
+# Count revert edits for a one-minute window on 12 December 2018
+get_revert_counts("20181212000100", "20181212000000")
 
 # Count ALL edits for the same window
-get_revert_counts("20181212010000", "20181212000000", rev_eds = FALSE)
+get_revert_counts("20181212000100", "20181212000000", rev_eds = FALSE)
 # }
 ```
