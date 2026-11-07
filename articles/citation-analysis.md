@@ -65,7 +65,7 @@ all_results <- extract_citations_regexp(recent)
 # Each element is a data frame with art, revid, citation_fetched
 sapply(all_results, nrow)
 #>           doi_regexp          isbn_regexp           url_regexp 
-#>                  310                   52                  198 
+#>                  310                   52                  199 
 #> wikihyperlink_regexp         tweet_regexp          news_regexp 
 #>                  620                    0                   19 
 #>      magazine_regexp       journal_regexp           web_regexp 
@@ -106,7 +106,7 @@ count_table
 #>                             art n_doi n_isbn n_url n_ref n_hyperlinks sci_score
 #> 1                     Zeitgeber    13      0     3    16           33 1.0000000
 #> 2 Advanced sleep phase disorder    19      0     3    20           52 0.9500000
-#> 3             Sleep deprivation   138     40   151   242          258 0.5815900
+#> 3             Sleep deprivation   138     40   152   242          258 0.5815900
 #> 4              Circadian rhythm   140     12    41   163          277 0.8529412
 ```
 
@@ -213,9 +213,9 @@ head(cite_types)
 #> 1                     Zeitgeber 1330736183   journal   15
 #> 2 Advanced sleep phase disorder 1352025268   journal   19
 #> 3 Advanced sleep phase disorder 1352025268       web    1
-#> 4             Sleep deprivation 1381871606      book   21
-#> 5             Sleep deprivation 1381871606   journal  139
-#> 6             Sleep deprivation 1381871606      news   14
+#> 4             Sleep deprivation 1384107120      book   21
+#> 5             Sleep deprivation 1384107120   journal  139
+#> 6             Sleep deprivation 1384107120      news   14
 
 # Distribution of journal / web / news / book citations
 plot_distribution_source_type(cite_types)

@@ -71,12 +71,12 @@ citation data.
 
 ``` r
 
-# Stable release from CRAN
-install.packages("wikilite")
-
-# Development version from GitHub
+# From GitHub (the package has been submitted to CRAN)
 # install.packages("remotes")
 remotes::install_github("jsobel1/wikilite")
+
+# From CRAN, once the submission is accepted:
+# install.packages("wikilite")
 ```
 
 **System requirements:** R ≥ 4.1.0 (for the native pipe operator `|>`).
