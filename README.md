@@ -1,7 +1,6 @@
 # wikilite
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/wikilite)](https://CRAN.R-project.org/package=wikilite)
 [![R-CMD-check](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/jsobel1/wikilite/actions/workflows/R-CMD-check.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
@@ -57,12 +56,12 @@ Wikipedia is the world's largest encyclopaedia and a primary reference point for
 ## Installation
 
 ```r
-# Stable release from CRAN
-install.packages("wikilite")
-
-# Development version from GitHub
+# From GitHub (the package has been submitted to CRAN)
 # install.packages("remotes")
 remotes::install_github("jsobel1/wikilite")
+
+# From CRAN, once the submission is accepted:
+# install.packages("wikilite")
 ```
 
 **System requirements:** R ≥ 4.1.0 (for the native pipe operator `|>`). No Java or compiled-code dependencies.
